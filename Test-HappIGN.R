@@ -94,7 +94,7 @@ tm_shape(prescriptions[[2]])+
    tm_dots("libelle",  legend.show = FALSE, size = 0.1)
 
 
-#-------------------------------------------------------------------
+#------------------------------------------------------------------
 
 prescriptions_2 <- get_apicarto_gpu("DU_93014", ressource = c("prescription-surf", "prescription-lin"))
 
