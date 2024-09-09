@@ -16,32 +16,61 @@ partition <- doc |>
   filter(grid_title == "NANCY") |> 
   pull(partition)
 
-Forets <- rbind(get_apicarto_gpu(partition, ressource = "prescription-surf", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "prescription-lin", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "prescription-pct", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "info-surf", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "info-lin", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "info-pct", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "acte-sup", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "generateur-sup-s", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "generateur-sup-l", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "generateur-sup-p", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "assiette-sup-s", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "assiette-sup-l", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0), 
-                get_apicarto_gpu(partition, ressource = "assiette-sup-p", 
-                                 categorie = c("A1", "A7", "A8"), dTolerance = 0))
+# Modifier Fusion pour ne garder que les colonnes communes à tous
+
+Fusion <- function(a, b, c, d, e, f, g, h, i, j, k, l, m) {
+  
+  dfs <- list(a, b, c, d, e, f, g, h, i, j, k, l, m)
+  for (j in seq_along(dfs)) {
+    if (is.null(dfs[[j]])) {
+      dfs[[j]] <- data.frame()
+    } else if ("txt" %in% colnames(dfs[[j]])) {
+      dfs[[j]] <- dfs[[j]][, !colnames(dfs[[j]]) %in% "txt"]
+    }
+  }
+  result <- do.call(rbind, dfs)
+  
+  return(result)
+}
+
+A <- get_apicarto_gpu(partition, ressource = "prescription-surf", 
+                      categorie = c("A1", "A7", "A8"), dTolerance = 0)
+B <- get_apicarto_gpu(partition, ressource = "prescription-lin", 
+                      categorie = c("A1", "A7", "A8"), dTolerance = 0)
+C <- get_apicarto_gpu(partition, ressource = "prescription-pct", 
+                      categorie = c("A1", "A7", "A8"), dTolerance = 0)
+D <- get_apicarto_gpu(partition, ressource = "info-surf", 
+                      categorie = c("A1", "A7", "A8"), dTolerance = 0)
+E <- get_apicarto_gpu(partition, ressource = "info-lin", 
+                      categorie = c("A1", "A7", "A8"), dTolerance = 0)
+Test <- Fusion(A, B, C, D, E, A, B, C, D, E, A, B, C)
+
+Forets <- Fusion(get_apicarto_gpu(partition, ressource = "prescription-surf", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "prescription-lin", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "prescription-pct", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "info-surf", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "info-lin", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "info-pct", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "acte-sup", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "generateur-sup-s", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "generateur-sup-l", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "generateur-sup-p", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "assiette-sup-s", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "assiette-sup-l", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0), 
+                 get_apicarto_gpu(partition, ressource = "assiette-sup-p", 
+                                  categorie = c("A1", "A7", "A8"), dTolerance = 0))
 
 # Littoral <- get_apicarto_gpu(partition, ressource = "document", 
 #                           categorie = c("EL9"), 
