@@ -29,14 +29,33 @@ Quand RNU : penser au SUP et au SCOT !
 reste : arbres remarquables, recherche sur les autres données utiles pour l'écriture de documents d'aménagement, en dehors des enjeux patrimoiniaux
 
 
---------------------------------------------------------------------------------NINON-----------------------------------------------------------------------------
-code <- c("01","05","07","18","19","25","31")
-libelle <- c("Espace boisé",
-             "Emplacement réservé",
-             "Patrimoine bâti,paysager ou éléments de paysages à protéger",
+--------------------------------------------------------------------------------
+NINON-----------------------------------------------------------------------------
+code_prescription <- c("01","07","18","19","25","31", "34", "35", "43")
+libelle_prescription <- c("Espace boisé",
+             "Patrimoine bâti, paysager ou éléments de paysages à protéger",
              "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
              "Secteur protégé en raison de la richesse du sol et du sous-sol",
              "Eléments de continuité écologique et trame verte et bleue",
              "Espaces remarquables du littoral"
+             "Espaces, paysage et milieux caractéristiques du patrimoine naturel et
+culturel montagnard à préserver"
+             "Terres nécessaires au maintien et au développement des activités
+agricoles, pastorales et forestières à préserver"
+             "Réalisation d’espaces libres, plantations, aires de jeux et de loisir"
+             )
+
+code_info <- c("03", "08", "16", "21", "22", "37", "40")
+libelle_info <- c("Zone de préemption dans un espace naturel et sensible",
+                  "Périmètre forestier : interdiction ou réglementation des plantations
+(code rural et de la pêche maritime), plantations à réaliser et semis
+d'essence forestière",
+                  "Site archéologique",
+                  "Projet de plan de prévention des risques",
+                  "Protection des rives des plans d'eau en zone de montagne",
+                  "Bois ou forêts relevant du régime forestier",
+                  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial"
+                  )
+                  
              )
 
