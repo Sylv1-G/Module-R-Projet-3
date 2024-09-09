@@ -25,3 +25,15 @@ Quand RNU : penser au SUP et au SCOT !
 - Louise : écriture du code pour les sites archéologiques
 reste : arbres remarquables, recherche sur les autres données utiles pour l'écriture de documents d'aménagement, en dehors des enjeux patrimoiniaux
 
+
+--------------------------------------------------------------------------------NINON-----------------------------------------------------------------------------
+code <- c("01","05","07","18","19","25","31")
+libelle <- c("Espace boisé",
+             "Emplacement réservé",
+             "Patrimoine bâti,paysager ou éléments de paysages à protéger",
+             "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+             "Secteur protégé en raison de la richesse du sol et du sous-sol",
+             "Eléments de continuité écologique et trame verte et bleue",
+             "Espaces remarquables du littoral"
+             )
+
