@@ -6,6 +6,9 @@ https://cnig.gouv.fr/ressources-dematerialisation-documents-d-urbanisme-a2732.ht
 Lien code alphanumérique SUP : 
 https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_sup_codes_alpha-numerique_maj_20_06_24_2_cle5b12c4.pdf?arg=177836384&cle=d45a3272d7cdbd4f794a17e20e04a63590fc6a8b&file=pdf%2Ftableau_sup_codes_alpha-numerique_maj_20_06_24_2_cle5b12c4.pdf
 
+Lien code SUP
+https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf?arg=177836385&cle=0ef0d333b5d4e35418b5f3b71d2d3849a002c26f&file=pdf%2Ftableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf
+
 # Brouillon 
 
 Document urbanisme :
