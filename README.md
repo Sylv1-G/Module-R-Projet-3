@@ -1,5 +1,8 @@
 # Module-R-Projet-3
 
+Lien des standard des différents documents d'urbanisme :
+https://cnig.gouv.fr/ressources-dematerialisation-documents-d-urbanisme-a2732.html
+
 # Brouillon 
 
 Document urbanisme :
