@@ -138,6 +138,8 @@ commune.to.partition <- function(x){
 
 commune <- "56031"
 
+partition <- "DU_56031"
+
 ressource <- "prescription-surf"
 
 libelle.prescription <- function(commune){
@@ -153,7 +155,9 @@ libelle.prescription <- function(commune){
       prescription_type <- filter(prescription_type,
                                   typepsc %in% code_prescription)
       prescription_libelle <- unique(prescription_type$libelle)
-      
+    }
+    else {
+      prescription_libelle <- c()
     }
     return(prescription_libelle)
   }
@@ -163,6 +167,7 @@ libelle.prescription <- function(commune){
   libelle_lin <- prescription.libelle.filtre(partition, "prescription-lin")
   libelle_pct <- prescription.libelle.filtre(partition, "prescription-pct")
 
+  
   libelle <- c(libelle_surf, libelle_lin, libelle_pct)
   
   return(libelle)
@@ -170,7 +175,7 @@ libelle.prescription <- function(commune){
 }
 
 
-ressource <- "info-surf" 
+ressource <- "info-lin" 
 
 libelle.info <- function(commune){
   
@@ -188,21 +193,19 @@ libelle.info <- function(commune){
                                   typeinf %in% code_info)
       info_libelle <- unique(info_type$libelle)
       return(info_libelle)
+    }else {
+      info_libelle <- c()
     }
     
   }
 
   
-  libelle_surf <- info.libelle.filtre(partition,"info-surf")
+  info_surf <- info.libelle.filtre(partition,"info-surf")
   
-  libelle_lin <- info.libelle.filtre(partition,"info-lin")
+  info_lin <- info.libelle.filtre(partition,"info-lin")
   
-  libelle_pct <- info.libelle.filtre(partition,"info-pct")
+  info_pct <- info.libelle.filtre(partition,"info-pct")
   
-  if (!is.null(info_surf)){
-    
-    
-  }
   
   
   libelle <- c(info_surf, info_lin, info_pct)
