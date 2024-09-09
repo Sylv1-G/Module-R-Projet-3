@@ -53,6 +53,7 @@ commune.to.partition <- function(commune){
   print(is_rnu$is_rnu)
   
   com <- get_apicarto_cadastre(commune, "commune")
+  
   doc <- get_apicarto_gpu(com, "document", dTolerance = 10)
   
   partition <- doc |> 
@@ -64,9 +65,22 @@ commune.to.partition <- function(commune){
   
 }
 
-commune.to.partition("29112")
+
+commune.to.partition("23004")
 
 # ressource = "prescription-surf", "prescription-lin","prescription-pct"
+
+commune <- "29112"
+
+code_prescription <- c("01","05","07","18","19","25","31")
+libelle_prescription <- c(
+  "Espace boisé",
+  "Emplacement réservé",
+  "Patrimoine bâti,paysager ou éléments de paysages à protéger",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Secteur protégé en raison de la richesse du sol et du sous-sol",
+  "Eléments de continuité écologique et trame verte et bleue",
+  "Espaces remarquables du littoral")
 
 libelle.prescription <- function(commune){
   
@@ -80,10 +94,7 @@ libelle.prescription <- function(commune){
   
   prescription_pct <- get_apicarto_gpu(partition, ressource ="prescription-pct")
   libelle_pct <- unique(prescription_pct$libelle)
-  
-  print(libelle_surf)
-  print(libelle_lin)
-  print(libelle_pct)
+
   libelle <- c(libelle_surf, libelle_lin, libelle_pct)
   
   return(libelle)
@@ -91,11 +102,43 @@ libelle.prescription <- function(commune){
 }
 
 
-libelle_sur <- libelle.prescription("29112")
+
+prescription.geometrie <- function(commune, libelle){
+  
+  print(libelle)
+  
+  partition <- commune.to.partition(commune)
+  
+  prescriptions_2 <- get_apicarto_gpu(partition, ressource = c("prescription-surf","prescription-pct","prescription-lin"))
+  
+  # Chercher le libelle demander dans la fonction dans la colonne "libelle" de chaque DataFrame
+  resultats <- lapply(
+    prescriptions_2,
+    function(df) df[grepl(libelle,df$libelle), ])
+  
+  # filtrer uniquement le Df non vide
+  resultats_non_vides <- Filter(function(x) nrow(x) > 0, resultats)
+  
+  # transformation de la liste en  df
+  resultats_df <- as.data.frame(resultats_non_vides)
+  resultats_sf <- st_as_sf(resultats_df)  # transformation en sf, je pense que c'est du WGS84
+  
+  return(resultats_sf)
+}
 
 
-libelle_lin <- test.function("29112","prescription-lin")
-libelle_pct <- test.function("29112","prescription-pct")
+
+libelle <- libelle.prescription("29112")
+libelle
+
+EBC <- prescription.geometrie("29112",libelle[[3]])
+
+qtm(EBC)
+
+
+
+
+
 
 
 
@@ -154,13 +197,9 @@ tm_shape(prescriptions[[2]])+
 
 #-------------------------------------------------------------------
 
-prescriptions_2 <- get_apicarto_gpu("DU_05023", ressource = c("generateur-sup-s",
-                                                              "generateur-sup-l",
-                                                              "generateur-sup-p",
-                                                              "assiette-sup-s",
-                                                              "assiette-sup-l",
-                                                              "assiette-sup-p"))
+prescriptions_2 <- get_apicarto_gpu("DU_56031", ressource = c("assiette-sup-s"))
 
+prescriptions_2 <- get_apicarto_gpu("130002926_SUP_95_A2", ressource = c("generateur-sup-s", "generateur-sup-l", "generateur-sup-p","acte-sup","assiette-sup-s", "assiette-sup-l", "assiette-sup-p"))
 
 ebc <- prescriptions_2[prescriptions_2$libelle == "EBC",]
 
@@ -168,4 +207,7 @@ align_arbre <- prescriptions_2[prescriptions_2$libelle == "Alignement d'arbre", 
 
 com <- get_apicarto_cadastre("93014", "commune")
 
-qtm(align_arbre)
+qtm(prescriptions_2)
+
+
+
