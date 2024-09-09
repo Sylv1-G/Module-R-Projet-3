@@ -46,6 +46,7 @@ rm(list=ls())
 
 # X peut être un code INSEE ou une géométrie (par exemple des parcelles)
 # Problèmes à régler : croiser avec les PLUi, dTolerance à mettre à 100 pour certaines communes
+
 commune.to.partition <- function(x){
 
   if (inherits(x, c("sf", "sfc"))) {
