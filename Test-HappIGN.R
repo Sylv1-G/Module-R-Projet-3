@@ -37,6 +37,32 @@ rm(list=ls())
 
 # Importation des données ----
 
+code_prescription <- c("01","07","18","19","25","31", "34", "35", "43")
+libelle_prescription <- c(
+  "Espace boisé",
+  "Patrimoine bâti, paysager ou éléments de paysages à protéger",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Secteur protégé en raison de la richesse du sol et du sous-sol",
+  "Eléments de continuité écologique et trame verte et bleue",
+  "Espaces remarquables du littoral",
+  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
+  "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
+  "Réalisation d’espaces libres, plantations, aires de jeux et de loisir")
+
+prescription_interet <- data.frame(code_prescription = code_prescription, libelle_prescription = libelle_prescription)
+
+code_info <- c("03", "08", "16", "21", "22", "37", "40")
+libelle_info <- c(
+  "Zone de préemption dans un espace naturel et sensible",
+  "Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière",
+  "Site archéologique",
+  "Projet de plan de prévention des risques",
+  "Protection des rives des plans d'eau en zone de montagne",
+  "Bois ou forêts relevant du régime forestier",
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial")
+
+
+info_interet <- data.frame(code_info = code_info, libelle_info = libelle_info)
 
 # Exploration des données ----
 
@@ -54,7 +80,9 @@ commune.to.partition <- function(commune){
   
   com <- get_apicarto_cadastre(commune, "commune")
   
-  doc <- get_apicarto_gpu(com, "document", dTolerance = 10)
+  qtm(com)
+  
+  doc <- get_apicarto_gpu(com, "document", dTolerance = 100)
   
   partition <- doc |> 
     filter(grid_title == nom_com) |> 
@@ -66,34 +94,36 @@ commune.to.partition <- function(commune){
 }
 
 
-commune.to.partition("23004")
+commune.to.partition("56031")
 
 # ressource = "prescription-surf", "prescription-lin","prescription-pct"
 
-commune <- "29112"
+commune <- "56031"
 
-code_prescription <- c("01","05","07","18","19","25","31")
-libelle_prescription <- c(
-  "Espace boisé",
-  "Emplacement réservé",
-  "Patrimoine bâti,paysager ou éléments de paysages à protéger",
-  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
-  "Secteur protégé en raison de la richesse du sol et du sous-sol",
-  "Eléments de continuité écologique et trame verte et bleue",
-  "Espaces remarquables du littoral")
+ressource <- "prescription-surf"
 
 libelle.prescription <- function(commune){
   
   partition <- commune.to.partition(commune)
   
-  prescription_surf <- get_apicarto_gpu(partition, ressource ="prescription-surf")
-  libelle_surf <- unique(prescription_surf$libelle)
+  prescription.libelle.filtre <- function(partition, ressource){
+    # récupère toutes les préscriptions surfacique
+    prescription_type <- get_apicarto_gpu(partition,  
+                                          ressource = ressource)
+    # filtre les préscriptions "jugé" interresante pour de la gf
+    if (!is.null(prescription_type)){
+      prescription_type <- filter(prescription_type,
+                                  typepsc %in% code_prescription)
+      prescription_libelle <- unique(prescription_type$libelle)
+      
+    }
+    return(prescription_libelle)
+  }
+    
   
-  prescription_lin <- get_apicarto_gpu(partition, ressource ="prescription-lin")
-  libelle_lin <- unique(prescription_lin$libelle)
-  
-  prescription_pct <- get_apicarto_gpu(partition, ressource ="prescription-pct")
-  libelle_pct <- unique(prescription_pct$libelle)
+  libelle_surf <- prescription.libelle.filtre(partition, "prescription-surf")
+  libelle_lin <- prescription.libelle.filtre(partition, "prescription-lin")
+  libelle_pct <- prescription.libelle.filtre(partition, "prescription-pct")
 
   libelle <- c(libelle_surf, libelle_lin, libelle_pct)
   
@@ -101,6 +131,47 @@ libelle.prescription <- function(commune){
   
 }
 
+
+ressource <- "info-surf" 
+
+libelle.info <- function(commune){
+  
+  partition <- commune.to.partition(commune)
+  
+  info.libelle.filtre <- function(partition, ressource){
+    
+    # récupère toutes les préscriptions surfacique
+
+    info_type <- get_apicarto_gpu(partition,  
+                                          ressource = ressource)
+    # filtre les préscriptions "jugé" interresante pour de la gf
+    if (!is.null(info_type)){
+      info_type <- filter(info_type,
+                                  typeinf %in% code_info)
+      info_libelle <- unique(info_type$libelle)
+      return(info_libelle)
+    }
+    
+  }
+
+  
+  libelle_surf <- info.libelle.filtre(partition,"info-surf")
+  
+  libelle_lin <- info.libelle.filtre(partition,"info-lin")
+  
+  libelle_pct <- info.libelle.filtre(partition,"info-pct")
+  
+  if (!is.null(info_surf)){
+    
+    
+  }
+  
+  
+  libelle <- c(info_surf, info_lin, info_pct)
+  
+  return(libelle)
+  
+}
 
 
 prescription.geometrie <- function(commune, libelle){
@@ -128,8 +199,10 @@ prescription.geometrie <- function(commune, libelle){
 
 
 
-libelle <- libelle.prescription("29112")
-libelle
+prescription <- libelle.prescription("29112")
+prescription
+
+info <- libelle.info("56031")
 
 EBC <- prescription.geometrie("29112",libelle[[3]])
 
@@ -197,9 +270,12 @@ tm_shape(prescriptions[[2]])+
 
 #-------------------------------------------------------------------
 
-prescriptions_2 <- get_apicarto_gpu("DU_56031", ressource = c("assiette-sup-s"))
+prescriptions_2 <- get_apicarto_gpu("DU_56031", ressource = c("info-surf"))
 
 prescriptions_2 <- get_apicarto_gpu("130002926_SUP_95_A2", ressource = c("generateur-sup-s", "generateur-sup-l", "generateur-sup-p","acte-sup","assiette-sup-s", "assiette-sup-l", "assiette-sup-p"))
+
+prescriptions_2 <- get_apicarto_gpu(grepl("_95_", liste), ressource = c("generateur-sup-s", "generateur-sup-l", "generateur-sup-p","acte-sup","assiette-sup-s", "assiette-sup-l", "assiette-sup-p"))
+
 
 ebc <- prescriptions_2[prescriptions_2$libelle == "EBC",]
 
