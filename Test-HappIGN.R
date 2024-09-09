@@ -44,27 +44,74 @@ rm(list=ls())
 # Analyse ----
 
 
-# idée amélio récupérerer les communes présente a partir d'un cadastre ou autre shp 
-commune.to.partition <- function(commune){
+# X peut être un code INSEE ou une géométrie (par exemple des parcelles)
+# Problèmes à régler : croiser avec les PLUi, dTolerance à mettre à 100 pour certaines communes
+commune.to.partition <- function(x){
+
+  if (inherits(x, c("sf", "sfc"))) {
+    communes <- get_apicarto_gpu(x,"municipality")
+    commune <- communes$insee
+  } else if(inherits(x,"character")){
+    commune <- x
+  } else {
+    stop("x must be of class character, sf or sfc.")
+  }
   
+  # is_rnu
   is_rnu <- get_apicarto_gpu(commune, ressource = "municipality")
-  nom_com <- is_rnu$name
-  print("présence de RNU :")
-  print(is_rnu$is_rnu)
   
-  com <- get_apicarto_cadastre(commune, "commune")
+  is_rnu_TRUE <- filter(is_rnu, is_rnu == TRUE)
+  is_rnu_FALSE <- filter(is_rnu, is_rnu == FALSE)
   
-  doc <- get_apicarto_gpu(com, "document", dTolerance = 10)
+  cat("Communes avec is_rnu == TRUE :\n")
+  print(is_rnu_TRUE$name)
   
-  partition <- doc |> 
-    filter(grid_title == nom_com) |> 
-    pull(partition)
+  cat("\nCommunes avec is_rnu == FALSE :\n")
+  print(is_rnu_FALSE$name)
   
-  return(partition)
+  nom_com <- is_rnu_FALSE$name
+
   
   
+  # Téléchargements des documments d'urbanisme et de leur partition
+  partitions <- c()
+  
+  for (i in 1:nrow(is_rnu_FALSE)) {
+    
+    row <- is_rnu_FALSE[i,]
+    
+    # Téléchargement du cadastre des communes sans rnu
+    com <- get_apicarto_cadastre(row$insee, "commune")
+    
+    if (is.null(com)) {
+      next
+    }
+    
+    doc <- get_apicarto_gpu(com, "document", dTolerance = 100)
+    
+    if (is.null(doc)) {
+      next
+    }
+    
+    partitions_to_add <- doc |>
+      filter(grid_name == row$name) |>
+      pull(partition)
+    
+    if (length(partitions_to_add) == 0) {
+      partitions_to_add <- doc |>
+        filter(du_type == "PLUi") |>
+        pull(partition)
+    }
+    
+    partitions <- c(partitions, partitions_to_add)
+  }
+  
+  return(unique(partitions))
 }
 
+
+res <- mapedit::drawFeatures()
+commune.to.partition(res)
 
 commune.to.partition("23004")
 
