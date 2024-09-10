@@ -91,3 +91,5 @@ res <- mapedit::drawFeatures()
 resultats <- insee.to.partition(get_code_insee(res))
 
 resultats <- insee.to.partition("56031")
+
+# 
