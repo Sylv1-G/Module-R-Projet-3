@@ -6,10 +6,6 @@ librarian::shelf(happign,dplyr,sf)
 library(tmap); tmap_mode("view"); tmap_options(check.and.fix = TRUE)
 
 
-#> tmap mode set to plotting
-
-# Repertoir de travail -----
-
 # Répertoire de travail relatif à la source du fichier 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
@@ -23,23 +19,23 @@ rm(list=ls())
 get_code_insee <- function(shp){
   if (inherits(shp, c("sf", "sfc"))) {
     communes <- get_apicarto_gpu(shp,"municipality")
-    commune <- communes$insee
+    code_insee <- communes$insee
   } else {
     stop("x must be of class sf or sfc.")
   }
   
-  return(commune)
+  return(code_insee)
 }
 
 # Function to get partitions from insee codes
-commune.to.partition <- function(commune){
+insee.to.partition <- function(code_insee){
   
-  if(!inherits(commune,"character")){
+  if(!inherits(code_insee,"character")){
     stop("x must be of class character")
   }
   
   # Is there rnu 
-  is_rnu <- get_apicarto_gpu(commune, ressource = "municipality")
+  is_rnu <- get_apicarto_gpu(code_insee, ressource = "municipality")
   
   is_rnu_TRUE <- filter(is_rnu, is_rnu == TRUE)
   is_rnu_FALSE <- filter(is_rnu, is_rnu == FALSE)
@@ -93,6 +89,6 @@ commune.to.partition <- function(commune){
 # TESTS
 res <- mapedit::drawFeatures()
 
-resultats <- commune.to.partition(get_code_insee(res))
+resultats <- insee.to.partition(get_code_insee(res))
 
-resultats <- commune.to.partition("56031")
+resultats <- insee.to.partition("56031")
