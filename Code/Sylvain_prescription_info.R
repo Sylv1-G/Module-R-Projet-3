@@ -176,14 +176,11 @@ libelle.prescription <- function(partition){
   
 }
 
-info.libelle.filtre <- function(partition, ressource){
+info.libelle.filtre <- function(df){
   
-  # récupère les informations 
-  info_type <- get_apicarto_gpu(partition,  
-                                ressource = ressource)
-  # filtre les informations "jugé" interresante pour de la gf
-  if (!is.null(info_type)){
-    info_type <- filter(info_type,
+
+  if (!is.null(df)){
+    df <- filter(info_type,
                         typeinf %in% code_info)
     info_libelle <- unique(info_type$libelle)
   }else {
@@ -208,6 +205,7 @@ libelle.info <- function(partition){
 partition <- partition[1]
 libelle <- prescription_libelle[1]
 
+partition <- res
 
 prescription.geometrie <- function(partition){
   
@@ -223,6 +221,8 @@ prescription.geometrie <- function(partition){
   
   prescription <- rbind(prescription_surf, prescription_lin, prescription_pct)
   
+  prescription <- filter(prescription, typepsc %in% code_prescription)
+  
   return(prescription)
   
 }
@@ -231,7 +231,7 @@ partition <- res
 
 info.geometrie <- function(partition){
   
-  info_surf3 <- get_apicarto_gpu(partition,
+  info_surf <- get_apicarto_gpu(partition,
                                          ressource = c("info-surf"))
   
   info_lin <- get_apicarto_gpu(partition,
@@ -240,7 +240,9 @@ info.geometrie <- function(partition){
   info_pct <- get_apicarto_gpu(partition,
                                        ressource = c("info-pct"))
   
-  prescription <- rbind(info_surf, info_lin, info_pct)
+  info <- rbind(info_surf, info_lin, info_pct)
+  
+  info <- filter(info, typeinf %in% code_info)
   
   return(prescription)
   
