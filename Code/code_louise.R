@@ -13,10 +13,10 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 # Nettoyage de l'environement R ----
 rm(list=ls())
 
-
+insee <- c("87186", "87120", "87051", "19036", "87147", "87193", "87194", "19095", "19209", "19262", "19269", "19131")
 
 # Function to get insee code from a shape
-get_code_insee <- function(shp){
+get.code.insee <- function(shp){
   if (inherits(shp, c("sf", "sfc"))) {
     communes <- get_apicarto_gpu(shp,"municipality")
     code_insee <- communes$insee
