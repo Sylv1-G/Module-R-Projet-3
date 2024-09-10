@@ -112,14 +112,19 @@ get.sup <- function(x){
   # Recuperation des SUP
   wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
   SUP_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
-  SUP_l <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_l")
   
   SUP_s <- st_transform(SUP_s, 2154)
-  SUP_l <- st_transform(SUP_l, 2154)
   
   # Selection des SUP utiles : prendre les codes de cyril
-  SUP_s <- SUP_s[SUP_s$suptype == "a7",]
-  SUP_l <- SUP_l[SUP_l$suptype == "el7",]
+  SUP_s <- SUP_s[
+    SUP_s$suptype == "a7"|   # forêts de protection
+    SUP_s$suptype == "el9"|   # passage sur le littoral
+    SUP_s$suptype == "a4"|   # passage dans le lit et berges d'un cours d'eau
+    SUP_s$suptype == "a9"|   # zones agricoles protégées
+    SUP_s$suptype == "a10"|   # zone de protection du parteau de Saclay
+    SUP_s$suptype == "ac1"|   # monuments historiques
+    SUP_s$suptype == "ac4"|   # patrimoine architectural
+    SUP_s$suptype == "ac2",]   # sites inscrits et classes
   
   # Separation des geometries valides et invalides
   # Toutes les geometries lineaires sont valides
@@ -131,14 +136,13 @@ get.sup <- function(x){
   point <- st_transform(point, 2154)
 
   SUP_s_point <- valid_SUP_s[st_intersection(valid_SUP_s$the_geom,point),]
-  SUP_l_point <- SUP_l[st_intersection(SUP_l$the_geom,point),]
   
   SUP_commune <- grep(x, invalid_SUP_s$partition) 
   
   departement <- substring(x,1,2)
   SUP_departement <- grep("_'departement'_", invalid_SUP_s$partition)
 
-  return(list(SUP_s_point, SUP_l_point, SUP_commune, SUP_departement))
+  return(list(SUP_s_point, SUP_commune, SUP_departement))
 }
 
 
