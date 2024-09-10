@@ -90,6 +90,10 @@ res <- mapedit::drawFeatures()
 
 resultats <- insee.to.partition(get_code_insee(res))
 
+<<<<<<< HEAD
 resultats <- insee.to.partition("56031")
 
 # 
+=======
+resultats <- commune.to.partition("56031")
+>>>>>>> 577faa6430164cb50230fe254ecaf007955104ed
