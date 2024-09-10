@@ -103,7 +103,7 @@ View(SUP_MH[MH_region,])
 
 # Fonction propre pour rechercher les SUP ----
 
-get.sup <- function(x){
+get.assiettes.sup <- function(){
   # Ouverture des packages
   library(librarian)
   shelf(sf, httr,happign,dplyr,tmap)
@@ -111,26 +111,63 @@ get.sup <- function(x){
   
   # Recuperation des SUP
   wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
-  SUP_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
+  SUP_ass_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
   
-  SUP_s <- st_transform(SUP_s, 2154)
+  SUP_ass_s <- st_transform(SUP_s, 2154)
   
-  # Selection des SUP utiles : prendre les codes de cyril
-  SUP_s <- SUP_s[
-    SUP_s$suptype == "a7"|   # forêts de protection
+  # Selection des SUP utiles
+  SUP_ass_s <- SUP_ass_s[
+    SUP_s$suptype == "a7"|   # forets de protection
     SUP_s$suptype == "el9"|   # passage sur le littoral
     SUP_s$suptype == "a4"|   # passage dans le lit et berges d'un cours d'eau
-    SUP_s$suptype == "a9"|   # zones agricoles protégées
+    SUP_s$suptype == "a9"|   # zones agricoles protegees
     SUP_s$suptype == "a10"|   # zone de protection du parteau de Saclay
     SUP_s$suptype == "ac1"|   # monuments historiques
     SUP_s$suptype == "ac4"|   # patrimoine architectural
     SUP_s$suptype == "ac2",]   # sites inscrits et classes
   
+  return(SUP_ass_s)
+}
+
+get.generateurs.sup <- function(){
+  # Ouverture des packages
+  library(librarian)
+  shelf(sf, httr,happign,dplyr,tmap)
+  library(tmap);ttm()
+  
+  # Recuperation des SUP
+  wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
+  SUP_gen_s <- st_read(wfs_url, layer = "wfs_sup:generateur_sup_s")
+  SUP_gen_l <- st_read(wfs_url, layer = "wfs_sup:generateur_sup_l")
+  SUP_gen_p <- st_read(wfs_url, layer = "wfs_sup:generateur_sup_p")
+
+  # Selection des SUP utiles
+  SUP_gen_s <- SUP_gen_s[
+    SUP_gen_s$suptype == "a7"|   # forêts de protection
+      SUP_gen_s$suptype == "a4"|   # passage dans le lit et berges d'un cours d'eau
+      SUP_gen_s$suptype == "a9"|   # zones agricoles protégées
+      SUP_gen_s$suptype == "a10"|   # zone de protection du parteau de Saclay
+      SUP_gen_s$suptype == "ac1"|   # monuments historiques
+      SUP_gen_s$suptype == "ac4"|   # patrimoine architectural
+      SUP_gen_s$suptype == "ac2",]   # sites inscrits et classes
+  
+  SUP_gen_p <- SUP_s[
+      SUP_gen_s$suptype == "ac1"]  # monuments historiques
+
+  SUP_gen_s <- SUP_gen_s[
+      SUP_gen_s$suptype == "a4"|   # passage dans le lit et berges d'un cours d'eau
+      SUP_s$suptype == "el9"]   # passage sur le littoral
+  
+  return(list(SUP_gen_s, SUP_gen_p, SUP_gen_s))
+}
+  
+get.sup.point(x){
+  
   # Separation des geometries valides et invalides
   # Toutes les geometries lineaires sont valides
   valid_SUP_s <- SUP_s[st_is_valid(SUP_s$the_geom) == T, ]
   invalid_SUP_s <- SUP_s[!st_is_valid(SUP_s$the_geom) == T,]
-
+  
   # Recherche des SUP dans la commune consideree
   point <- get_apicarto_cadastre(x, type = "commune")
   point <- st_transform(point, 2154)
@@ -146,3 +183,30 @@ get.sup <- function(x){
 }
 
 
+# code pour avoir plus de 5000 entites
+
+url_wfs <- wfs_url
+layer_name <- "wfs_sup:assiette_sup_s"
+start_index <- 0
+page_size <- 5000
+all_data <- list()
+
+repeat {
+  # Request with pagination (startIndex controls the offset)
+  data <- st_read(url_wfs, layer = layer_name, options = paste0("startIndex=", start_index, "&maxFeatures=", page_size))
+  
+  # Break the loop if no more data is returned (i.e., the last batch was smaller than the page size)
+  if (nrow(data) == 0 || nrow(data) < page_size)) break
+  
+  # Store the data in a list
+  all_data[[length(all_data) + 1]] <- data
+  
+  # Update startIndex for the next page
+  start_index <- start_index + page_size
+}
+
+# Combine all pages into one sf object
+final_data <- do.call(rbind, all_data)
+
+# Check how many rows were retrieved
+nrow(final_data)
