@@ -39,10 +39,10 @@ insee.to.partition <- function(code_insee){
   is_rnu_TRUE <- filter(is_rnu, is_rnu == TRUE)
   is_rnu_FALSE <- filter(is_rnu, is_rnu == FALSE)
   
-  cat("Communes avec rnu :\n")
+  cat("\nLes communes avec rnu sont:\n")
   print(is_rnu_TRUE$name)
   
-  cat("\nCommunes sans rnu :\n")
+  cat("\nLes communes sans rnu sont:\n")
   print(is_rnu_FALSE$name)
   
   # Téléchargements des documments d'urbanisme et de leur partition
@@ -52,14 +52,7 @@ insee.to.partition <- function(code_insee){
     
     row <- is_rnu_FALSE[i,]
     
-    # Telechargement du cadastre des communes sans rnu
-    com <- get_apicarto_cadastre(row$insee, "commune")
-    
-    if (is.null(com)) {
-      next
-    }
-    
-    doc <- get_apicarto_gpu(com, "document", dTolerance = 100)
+    doc <- get_apicarto_gpu(row, "document", dTolerance = 10)
     
     if (is.null(doc)) {
       next
@@ -88,12 +81,6 @@ insee.to.partition <- function(code_insee){
 # TESTS
 res <- mapedit::drawFeatures()
 
-resultats <- insee.to.partition(get_code_insee(res))
+resultats <- insee.to.partition(get.code.insee(res))
 
-<<<<<<< HEAD
 resultats <- insee.to.partition("56031")
-
-# 
-=======
-resultats <- commune.to.partition("56031")
->>>>>>> 577faa6430164cb50230fe254ecaf007955104ed
