@@ -1,7 +1,7 @@
 
 
 
-librarian::shelf(happign,dplyr,sf,tmaptools,OpenStreetMap)
+librarian::shelf(happign,dplyr,sf,tmaptools)
 
 library(tmap); tmap_mode("view"); tmap_options(check.and.fix = TRUE)
 
@@ -107,37 +107,7 @@ prescriptions <- get_apicarto_gpu(
 
 shp <- get_apicarto_cadastre("05023", type = "commune")
 
-#affichage_prescription <- function(shp, list_urba){
-  
-  # Forcer le mode "plot" pour des cartes statiques
-  tmap_mode("plot")
-  
-  geometry_type <- st_geometry_type(list_urba[[1]])
-  
-  polygones <- list_urba[[1]][geometry_type == "MULTIPOLYGON", ]
-  points <- list_urba[[1]][geometry_type == "MULTIPOINT", ]
-  
-  bbox <- st_bbox(st_union(st_geometry(shp), st_geometry(list_urba[[1]])))
-  
-  osm_basemap <- read_osm(bbox, type = "osm", zoom = NULL) 
-  
-  tm_shape(osm_basemap) +  # Ajouter le fond de carte OpenStreetMap
-    tm_rgb() + 
-  tm_shape(polygones) +
-    tm_fill(col = "libelle", palette = "Set1", legend.show = TRUE) +  
-    tm_borders() +
-    tm_shape(points) +
-    tm_dots(col = "libelle", palette = "Dark2", size = 0.1, legend.show = TRUE)  +
-    tm_layout(
-      legend.position = c("right", "bottom"),  # Position de la légende en mode statique
-      legend.outside = TRUE,  # Légende en dehors du panneau principal
-      legend.bg.color = "white",  # Couleur de fond de la légende
-      legend.text.size = 0.7,  # Taille du texte dans la légende
-      legend.title.size = 0.8  # Taille du titre de la légende
-    ) +
-    tm_shape(shp) +
-    tm_borders(col = "black", lwd = 2) 
-}
+# Afficage des prescriptions (ATTENTION BUG si les dataframe sont vides !!)
 
 affichage_prescription <- function(shp, list_urba){
   
