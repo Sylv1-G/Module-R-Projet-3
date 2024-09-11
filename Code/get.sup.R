@@ -10,6 +10,8 @@ col_utiles_gen = c("gid","suptype","partition","fichier","nomgen","typegen",
                    "nomsuplitt","geometry")
 col_utiles_ass = c("gid","suptype","partition","fichier","nomass","typeass",
                    "nomsuplitt","geometry")
+noms_def <- c("gid","suptype","partition","fichier","nom","type",
+              "nomsuplitt","geometry")
 
 get.sup.gen <- function(x){
   
@@ -37,6 +39,9 @@ get.sup.gen <- function(x){
     generateur_sup_l[ ,col_utiles_gen],
     generateur_sup_p[ ,col_utiles_gen]
   )
+  
+  colnames(generateur) <- c("gid","suptype","partition","fichier","nomass",
+                            "typeass","nomsuplitt","geometry")
   
   return(generateur)
   
@@ -68,6 +73,10 @@ get.sup.ass <- function(x){
     assiette_sup_l[ ,col_utiles_ass],
     assiette_sup_p[ ,col_utiles_ass]
   )
+  
+  colnames(assiette) <- c("gid","suptype","partition","fichier","nomass",
+                          "typeass","nomsuplitt","geometry")
+
   
   return(assiette)
   
