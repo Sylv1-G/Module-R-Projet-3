@@ -47,38 +47,39 @@ Les zones de servide d'utilité publique (SUP)
 
 Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans des tableaux contenant chacun une des informations suivantes : prescriptions, informations, générateurs et assiettes. Ces 4 tableaux ont été regroupés dans une liste NomDeLaListe. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
 
-Pour cela, une fonction export_list_to_gpkg a été crée. Elle prend en entrée la liste des 4 tableaux de données, une liste contenant les noms des couches du futur fichier gpkg créé, ainsi qu'un chemin d'accès à ce futur fichier. 
+Pour cela, une fonction export_list_to_gpkg a été crée. Elle prend en entrée la liste des 4 tableaux de données, une liste contenant les noms des fichiers de la future couche gpkg créée, ainsi qu'un chemin d'accès à cette future couche. 
 
 ```{r}
-# Installation des packages ----
+# Packages installation ----
 
 library(librarian)
 shelf(sf)
 
 gpkg_path <- file.path("C:/Users/cyril/Downloads/FIF/ProjetRSIG/Module-R-Projet-3/Code/test.gpkg")
 
-# Exporter en GPKG une liste de data frames ----
+# Export a list of data frames to GPKG ----
 
-layer_names <- c("prescriptions", "infos", "generateur", "assiette")
+layer_names <- c("prescriptions", "infos", "generateurs", "assiettes")
 
 export_list_to_gpkg <- function(tes_all_gpu, layer_names, gpkg_path) {
   
-  # Vérifier que le nombre de noms de couches correspond au nombre de data frames
+  # Check that the number of layer names matches the number of data frames
   if (length(tes_all_gpu) != length(layer_names)) {
     stop("Le nombre de noms de couches doit correspondre au nombre de data frames.")
   }
   
-  # Boucle sur chaque élément de la liste avec les noms de couches
+  # Loop on each item in the list with layer names
   for (i in seq_along(tes_all_gpu)) {
     df <- tes_all_gpu[[i]]
     layer_name <- layer_names[i]
-    
-    # Appel de la fonction export_to_gpkg pour chaque data frame avec le nom de la couche
     st_write(df, gpkg_path, layer_name)
   }
 }
 ```
 
+Cette fonction va parcourir la liste contenant les 4 tableaux. Elle attribue un nom à chaque tableau (prescriptions, infos, générateurs ou assiettes) et convertit ses données en fichier gpkg. Chaque fichier ainsi créé sera ajouté à une unique couche gpkg.
+
+Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée contiendra 4 fichiers que l'on pourra afficher sur un logiciel de SIG.
  
 # Résultats
 
