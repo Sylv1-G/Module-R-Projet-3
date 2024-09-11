@@ -16,16 +16,16 @@ export_to_gpkg <- function(layer, gpkg_path, layer_name = NULL){
   if (is.null(layer_name)){
     layer_name <- deparse(substitute(layer))
   }
-  st_write(layer, gpkg_path, layer = layer_name, append = FALSE)
+  st_write(layer, gpkg_path, layer = layer_name)
 }
 
 # Exporter en GPKG une lidte de data frames ----
 
-prescriptions <- get_apicarto_gpu("DU_05023", ressource = c("prescription-surf", 
-                                                            "prescription-lin", 
-                                                            "prescription-pct"))
+p1 <- get_apicarto_gpu("DU_05023", ressource = "prescription-surf")
+p2 <- get_apicarto_gpu("DU_05023", ressource = "prescription-lin")
+p3 <- get_apicarto_gpu("DU_05023", ressource = "prescription-pct")
 
-# dataframes_list <- prescriptions
+dataframes_list <- list(p1, p2, p3)
 
 export_list_to_gpkg <- function(dataframes_list, gpkg_path) {
   
@@ -33,6 +33,6 @@ export_list_to_gpkg <- function(dataframes_list, gpkg_path) {
   for (df in dataframes_list) {
     
     # Appel de la fonction export_to_gpkg pour chaque data frame
-    export_to_gpkg(layer = df, gpkg_path)
+    export_to_gpkg(layer = df, gpkg_path, layer_name = layer_name)
   }
 }
