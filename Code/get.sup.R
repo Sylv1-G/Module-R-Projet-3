@@ -1,5 +1,6 @@
 library(librarian)
-shelf(happign,mapedit,tmap)
+shelf(happign,mapedit,tmap,dplyr)
+tmap_mode("view")
 tmap_options(check.and.fix = T)
 
 x <- mapedit::drawFeatures()
@@ -40,8 +41,7 @@ get.sup.gen <- function(x){
     generateur_sup_p[ ,col_utiles_gen]
   )
   
-  colnames(generateur) <- c("gid","suptype","partition","fichier","nomass",
-                            "typeass","nomsuplitt","geometry")
+  colnames(generateur) <- noms_def
   
   return(generateur)
   
@@ -74,8 +74,7 @@ get.sup.ass <- function(x){
     assiette_sup_p[ ,col_utiles_ass]
   )
   
-  colnames(assiette) <- c("gid","suptype","partition","fichier","nomass",
-                          "typeass","nomsuplitt","geometry")
+  colnames(assiette) <- noms_def
 
   
   return(assiette)
