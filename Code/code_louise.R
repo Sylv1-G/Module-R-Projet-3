@@ -146,24 +146,31 @@ affichage_prescription <- function(shp, list_urba){
   geometry_type <- st_geometry_type(list_urba[[1]])
   
   polygones <- list_urba[[1]][geometry_type == "MULTIPOLYGON", ]
+  lignes <- list_urba[[1]][geometry_type == "MULTILINESTRING", ]
   points <- list_urba[[1]][geometry_type == "MULTIPOINT", ]
   
-  tm_shape(shp) +
-    tm_borders(col = "black", lwd = 2) + 
-    tm_shape(polygones,
+  
+  tm_shape(polygones,
              group = "Polygones") +
-    tm_fill(col = "libelle", 
-            palette = "Set1",
+    tm_fill(col = "libelle",
+            alpha = 0.9,
+            palette = "Spectral",
             title = "Prescriptions polygones", 
             legend.show = TRUE) +  
     tm_borders() +
+    tm_shape(lignes, group = "Lignes") +
+    tm_lines(col = "libelle", 
+             palette = "Accent", 
+             title.col = "Prescriptions lignes") +
     tm_shape(points, 
              group = "Points") +
     tm_symbols(col = "libelle", 
-               palette = "Dark2", 
-               shape = 16, 
+               palette = "Paired", 
+               shape = 21, 
                size = 0.2,
                title.col = "Prescirptions points")  +
+    tm_shape(shp) +
+    tm_borders(col = "black", lwd = 2) + 
     tm_view(
       view.legend.position = c("right", "bottom"),
     )
