@@ -1,64 +1,20 @@
-# Module-R-Projet-3
+# Projet "gpuachercher"
+Notre projet a pour but d'automatiser la récupération de données ayant trait aux enjeux patrimoniaux en un endroit donné.
 
-Lien des standard des différents documents d'urbanisme :
-https://cnig.gouv.fr/ressources-dematerialisation-documents-d-urbanisme-a2732.html
+## Noms des élèves
+Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel
 
-Lien code alphanumérique SUP : 
-https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_sup_codes_alpha-numerique_maj_20_06_24_2_cle5b12c4.pdf?arg=177836384&cle=d45a3272d7cdbd4f794a17e20e04a63590fc6a8b&file=pdf%2Ftableau_sup_codes_alpha-numerique_maj_20_06_24_2_cle5b12c4.pdf
+## Contexte
+Lors de la rédaction d'un document d'aménagement forestier, il est nécessaire d'indiquer des éléments de contexte de la forêt, 
+parmi lesquels les enjeux patrimoniaux. 
+Ceux-ci peuvent être de diverses natures : monuments historiques, éléments paysagers, forêts classées, etc. 
+Ces informations peuvent être trouvées sur le géoportail de l'urbanisme, plateforme qui rassemble elle-même les données de tous les documents d'urbanisme (PLU, PLUi, CC, PSMV, SCOT, RNU) auxquels s'ajoutent les Servitudes d'Utilité Publique (SUP). 
 
-Lien code SUP
-https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf?arg=177836385&cle=0ef0d333b5d4e35418b5f3b71d2d3849a002c26f&file=pdf%2Ftableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf
+## Objectifs
+Notre projet a donc pour but de récupérer grâce à une unique fonction toutes les données relatives aux enjeux patrimoniaux à partir 
+du géoportail de l'urbanisme, pour un endroit donné, une parcelle cadastrale ou une commune par exemple. 
+Il doit être possible à l'utilisateur de sélectionner au sein de ses données celles qu'il pense les plus utiles. 
 
-# Brouillon 
-
-Document urbanisme :
-- Perimètre forestier
-- Site archéologique
-- Emprise ou localisation des immeubles batis ou non batis classés ou inscrits au titre de monuments historiques
-
-  Prescriptions (traitement environnemental et paysagé) :
-  - Espace boisées classés
-  - élément...particulier protégé
-  - arbre remarquable
-  - 
-
-Quand RNU : penser au SUP et au SCOT !
-
-# Repartition des tâches vendredi 6/09 après-midi 
-- Adèle : écriture du code indiquant pour une zone les documents d'urbanisme disponibles
-- Sylvain : écriture du code pour les forêts classées
-- Cyril : écriture du code pour les monuments historiques
-- Louise : écriture du code pour les sites archéologiques
-reste : arbres remarquables, recherche sur les autres données utiles pour l'écriture de documents d'aménagement, en dehors des enjeux patrimoiniaux
-
-
---------------------------------------------------------------------------------
-NINON-----------------------------------------------------------------------------
-code_prescription <- c("01","07","18","19","25","31", "34", "35", "43")
-libelle_prescription <- c("Espace boisé",
-             "Patrimoine bâti, paysager ou éléments de paysages à protéger",
-             "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
-             "Secteur protégé en raison de la richesse du sol et du sous-sol",
-             "Eléments de continuité écologique et trame verte et bleue",
-             "Espaces remarquables du littoral"
-             "Espaces, paysage et milieux caractéristiques du patrimoine naturel et
-culturel montagnard à préserver"
-             "Terres nécessaires au maintien et au développement des activités
-agricoles, pastorales et forestières à préserver"
-             "Réalisation d’espaces libres, plantations, aires de jeux et de loisir"
-             )
-
-code_info <- c("03", "08", "16", "21", "22", "37", "40")
-libelle_info <- c("Zone de préemption dans un espace naturel et sensible",
-                  "Périmètre forestier : interdiction ou réglementation des plantations
-(code rural et de la pêche maritime), plantations à réaliser et semis
-d'essence forestière",
-                  "Site archéologique",
-                  "Projet de plan de prévention des risques",
-                  "Protection des rives des plans d'eau en zone de montagne",
-                  "Bois ou forêts relevant du régime forestier",
-                  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial"
-                  )
-                  
-             )
-
+## Explication du nom du projet 
+Le nom du projet combine l'abréviation de géoportail de l'urbanisme : "gpu", et un jeu de mot : "Je n'ai plus à chercher". 
+Ne plus avoir chercher sur le site du géoportail de l'urbanisme ou sur l'atlas du patrimoine est en effet le but du projet. 
