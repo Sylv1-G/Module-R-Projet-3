@@ -27,9 +27,9 @@ rm(list=ls())
 
 # Importation des données ----
 
-code_prescription <- c("01", "07", "18", "19", "25", "31", "34", "35",
+code_prescription_general <- c("01", "07", "18", "19", "25", "31", "34", "35",
                        "43", "46", "99")
-libelle_prescription <- c(
+libelle_prescription_general <- c(
   "Espace boisé classé",
   "Patrimoine bâti, paysager ou éléments de paysages à protéger",
   "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
@@ -63,8 +63,8 @@ libelle_prescription_ecologique <- c(
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir")
 
 
-code_info <- c("03", "08", "16", "21", "22","25", "37", "40")
-libelle_info <- c(
+code_info_general <- c("03", "08", "16", "21", "22","25", "37", "40")
+libelle_info_general <- c(
   "Zone de préemption dans un espace naturel et sensible",
   "Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière",
   "Site archéologique",
@@ -86,10 +86,10 @@ libelle_info_ecologique <- c(
   "Protection des rives des plans d'eau en zone de montagne")
                   
 
-code_sup <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
+code_sup_general <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
                 "ac1","ac4","ac2","pm1","el2","pm2","pm4","pm5",
                 "pm6","pm7","pm8","pm9")
-libelle_sup <- c(
+libelle_sup_general <- c(
   "Serviture de protection des bois et forêts relevant du régime forestier à Mayotte",
   "Servitude relative aux forêts dites de protection",
   "Servitures résultant de la mise en défens des terrains et pâturages en montagnes et dunes du Pas-de-Calais",
@@ -139,12 +139,32 @@ col_utiles_ass <- c("gid","suptype","partition","fichier","nomass","typeass",
 noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
               "nomsuplitt","geometry")
 
-layer_names <- c("prescriptions", "infos", "generateur", "assiette")
+dico <- list(code_prescription_general = code_prescription_general,
+             libelle_prescription_general = libelle_prescription_general,
+             code_prescription_patrimonial = code_prescription_patrimonial,
+             libelle_prescription_patrimonial = libelle_prescription_patrimonial,
+             code_prescription_ecologique = code_prescription_ecologique,
+             libelle_prescription_ecologique = libelle_prescription_ecologique,
+             code_info_general = code_info_general,
+             libelle_info_general = libelle_info_general,
+             code_info_patrimonial = code_info_patrimonial,
+             libelle_info_patrimonial = libelle_info_patrimonial,
+             code_info_ecologique = code_info_ecologique,
+             libelle_info_ecologique = libelle_info_ecologique,
+             code_sup_general = code_sup_general,
+             libelle_sup_general = libelle_sup_general,
+             code_sup_patrimonial = code_sup_patrimonial,
+             libelle_sup_patrimonial = libelle_sup_patrimonial,
+             code_sup_ecologique = code_sup_ecologique,
+             libelle_sup_ecologique = libelle_sup_ecologique,
+             col_utiles_ass =  col_utiles_ass,
+             col_utiles_gen = col_utiles_gen,
+             noms_def = noms_def)
 
 # Fonctions de récupération des données ----
 
 
-get.gpu.prescription <- function(x){
+get.gpu.prescription <- function(x, dico){
   
   prescription_surf <- get_apicarto_gpu(x,
                                         ressource = c("prescription-surf"))
@@ -159,14 +179,14 @@ get.gpu.prescription <- function(x){
   prescription <- rbind(prescription_surf, prescription_lin, prescription_pct)
   
   if (!is.null(prescription)){
-    prescription <- filter(prescription, typepsc %in% code_prescription)
+    prescription <- filter(prescription, typepsc %in% dico[["code_prescription"]])
     
   }
   return(prescription)
   
 }
 
-get.gpu.info <- function(x){
+get.gpu.info <- function(x, dico){
   
   info_surf <- get_apicarto_gpu(x,
                                 ressource = c("info-surf"))
@@ -180,7 +200,7 @@ get.gpu.info <- function(x){
   info <- rbind(info_surf, info_lin, info_pct)
   
   if (!is.null(info)){
-    info <- filter(info, typeinf %in% code_info)
+    info <- filter(info, typeinf %in% dico[["code_info"]])
     
   }
   
@@ -188,70 +208,70 @@ get.gpu.info <- function(x){
   
 }
 
-get.sup.gen <- function(x){
+get.sup.gen <- function(x, dico){
   
   # Recuperation de toutes les informations utiles
   
   generateur_sup_s <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-s",
                                        dTolerance = 10,
-                                       categorie = code_sup)
+                                       categorie = dico[["code_sup"]])
   
   
   generateur_sup_l <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-l",
                                        dTolerance = 10,
-                                       categorie = code_sup)
+                                       categorie = dico[["code_sup"]])
   
   generateur_sup_p <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-p",
                                        dTolerance = 10,
-                                       categorie = code_sup)  # aucune donnee
+                                       categorie = dico[["code_sup"]])  # aucune donnee
   
   # Rassemblement des donnees 
   generateur <- rbind(
-    generateur_sup_s[ ,col_utiles_gen],
-    generateur_sup_l[ ,col_utiles_gen],
-    generateur_sup_p[ ,col_utiles_gen]
+    generateur_sup_s[ ,dico[["col_utiles_gen"]]],
+    generateur_sup_l[ ,dico[["col_utiles_gen"]]],
+    generateur_sup_p[ ,dico[["col_utiles_gen"]]]
   )
   
   
   if(!is.null(generateur)){
-    colnames(generateur) <- noms_def
+    colnames(generateur) <- dico[["noms_def"]]
   }
   
   return(generateur)
   
 }
 
-get.sup.ass <- function(x){
+get.sup.ass <- function(x, dico){
   
   # Recuperation de toutes les informations utiles
   
   assiette_sup_s <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-s",
                                      dTolerance = 10,
-                                     categorie = code_sup)
+                                     categorie = dico[["code_sup"]])
   
   
   assiette_sup_l <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-l",
                                      dTolerance = 10,
-                                     categorie = code_sup)
+                                     categorie = dico[["code_sup"]])
   
   assiette_sup_p <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-p",
                                      dTolerance = 10,
-                                     categorie = code_sup)
+                                     categorie = dico[["code_sup"]])
   
   assiette <- rbind(
-    assiette_sup_s[ ,col_utiles_ass],
-    assiette_sup_l[ ,col_utiles_ass],
-    assiette_sup_p[ ,col_utiles_ass]
+    assiette_sup_s[ ,dico[["col_utiles_ass"]]],
+    assiette_sup_l[ ,dico[["col_utiles_ass"]]],
+    assiette_sup_p[ ,dico[["col_utiles_ass"]]]
   )
   
   if(!is.null(assiette)){
-    colnames(assiette) <- noms_def
+    colnames(assiette) <- dico[["noms_def"]]
   }
   
   return(assiette)
@@ -259,18 +279,21 @@ get.sup.ass <- function(x){
 }
 
 
-get.gpu.all <- function(x){
+get.gpu.all <- function(x, dico){
   
-  prescription <- get.gpu.prescription(x)
+  prescription <- get.gpu.prescription(x, dico)
   cat("\nprescription ok\n")
-  info <- get.gpu.info(x)
+  info <- get.gpu.info(x, dico)
   cat("\ninfo ok\n")
-  sup_gen <- get.sup.gen(x)
+  sup_gen <- get.sup.gen(x, dico)
   cat("\nSUP generateur ok\n")
-  sup_ass <- get.sup.ass(x)
+  sup_ass <- get.sup.ass(x, dico)
   cat("\nSUP assiette ok\n")
   
-  all_gpu <- list(prescription,info,sup_gen,sup_ass)
+  all_gpu <- list("prescriptions" = prescription,
+                  "informations" = info,
+                  "generateurs_sup" = sup_gen,
+                  "assiettes_sup" = sup_ass)
   
   return(all_gpu)
 }
@@ -282,7 +305,7 @@ get.gpu.all <- function(x){
 
 # Fonctions de post-filtrage des données ----
 
-# fonction qui donne les differents libelles des documents d'urbanisme
+# Fonction qui donne les differents libelles des documents d'urbanisme
 libelle.urba <- function(df){
   if (!is.null(df)){
     info_df <- unique(df$libelle)
@@ -292,23 +315,28 @@ libelle.urba <- function(df){
   return(info_df)
 }
 
-# fonction qui renvoie une liste des libelles voulus
+# Fonction qui renvoie une liste des libelles voulus
 select.libelle.urba <- function(df){
+  
   info_df <- libelle.urba(df)
+  
   cat("\nles libelles présents sont: \n\n")
   print (info_df)
+  
   cat("\nVeuillez entrer une liste des numéros de ligne des libelles voulus séparés par des virgules \n(ex : 1,2,3) :")
   entree <- readline(prompt = "")
+  
   #  Diviser la chaîne en éléments en utilisant la virgule comme séparateur
   elements <- strsplit(entree, split = ",")[[1]] 
-  # Convertir les éléments en nombre si nécessaire
   numeros <- as.numeric(elements)
   liste_libelle <- info_df[numeros]
+  
+  cat("\nVous avez choisi les libelles suivant:\n")
   print(liste_libelle)
   return(liste_libelle)
 }
 
-
+# Fonction qui filtre un dataframe.
 filtre.libelle.urba <- function(df){
   liste_libelle <- select.libelle.urba(df)
   
@@ -318,6 +346,29 @@ filtre.libelle.urba <- function(df){
   return(df_filter)
 }
 
+# Fonction pour filtrer tous les dataframe.
+post.filter <- function(all_gpu){
+  
+  all_gpu_filtered <- list()
+  names_all_gpu <- names(all_gpu)
+  
+  for (i in seq_along(all_gpu)){
+    
+    df <- all_gpu[[i]]
+    name_df <- names_all_gpu[i]
+    
+    if (is.null(df)){
+      all_gpu_filtered <- c(all_gpu_filtered, 
+                            list(df))
+    } else {
+      cat(paste("\n Dans", name_df))
+      all_gpu_filtered <- c(all_gpu_filtered, 
+                            list(filtre.libelle.urba(df)))
+    }
+  }
+  
+  return(all_gpu_filtered)
+}
 
 # exemple <- filtre.libelle.urba(prescription)
 
@@ -327,21 +378,22 @@ filtre.libelle.urba <- function(df){
 
 export_list_to_gpkg <- function(gpu_all, gpkg_path) {
   
-  # Check that the number of layer names matches the number of data frames
-  if (length(gpu_all) != length(layer_names)) {
-    stop("Le nombre de noms de couches doit correspondre au nombre de data frames.")
-  }
+  layer_names <- c("prescriptions", 
+                   "infos", 
+                   "generateur", 
+                   "assiette")
   
   # Loop on each item in the list with layer names
   for (i in seq_along(gpu_all)) {
     df <- gpu_all[[i]]
     layer_name <- layer_names[i]
-    st_write(df, gpkg_path, layer_name)
+    st_write(df, gpkg_path, layer_name, append = T)
   }
 }
 
 # Fonction finale ----
 final.function <- function(shp, 
+                           dico,
                            filter = "General", 
                            post_filter = FALSE, 
                            working_dir = NULL, 
@@ -360,28 +412,33 @@ final.function <- function(shp,
   shp_2154_buffer <- st_buffer(shp_2154, dist = buffer)
   
   # Recuperation des donnees dans les documents d'urbanismes
-  if(filter == "Patrimoine"){
-    code_prescription <- code_prescription_patrimonial
-    code_info <- code_info_patrimonial
-    code_sup <- code_sup_patrimonial
+  if (filter == "General"){
+    old_names <- c("code_prescription_general", "code_info_general", "code_sup_general")
+  } else if(filter == "Patrimoine"){
+    old_names <- c("code_prescription_patrimonial", "code_info_patrimonial", "code_sup_patrimonial")
   } else if (filter == "Ecologique"){
-    code_prescription <- code_prescription_ecologique
-    code_info <- code_info_ecologique
-    code_sup <- code_sup_ecologique
+    old_names <- c("code_prescription_ecologique", "code_info_ecologique", "code_sup_ecologique")
   }
+  new_names <- c("code_prescription", "code_info", "code_sup")
+  names(dico)[names(dico) %in% old_names] <- new_names
   
-  gpu_all <- get.gpu.all(shp)
+  gpu_all <- get.gpu.all(shp, dico)
   
   # Filtrage des donnees a posteriori
   if (post_filter == TRUE){
-    gpu_all <- filtre.libelle.urba(gpu_all)
+    gpu_all <- post.filter(gpu_all)
   }
   
   # Transformation du systeme de projection de gpu_all
   gpu_all_2154 <- list()
   
-  for (dt in gpu_all) {
-    gpu_all_2154 <- c(gpu_all_2154, list(st_transform(dt, 2154)))
+  for (df in gpu_all) {
+    if (is.null(df)){
+      gpu_all_2154 <- c(gpu_all_2154, 
+                        df)
+    } else{
+      gpu_all_2154 <- c(gpu_all_2154, list(st_transform(df, 2154)))
+    }
   }
   
   # Exportation sous format geopackage 'gpkg'
@@ -389,14 +446,15 @@ final.function <- function(shp,
     setwd (working_dir) 
   }
   
-  gpkg_path <- file.path(getwd(),"gpuachercher_2.gpkg")
+  gpkg_path <- file.path(getwd(),"gpuachercher.gpkg")
   
   export_list_to_gpkg(gpu_all_2154, gpkg_path)
   
   return(gpu_all_2154)
-
 }
+
+# TEST ----
 
 shp <- mapedit::drawFeatures()
 
-gpu_all <- final.function(shp, filter = "Patrimoine", post_filter = T)
+gpu_all <- final.function(shp, dico, filter = "Patrimoine", post_filter = F)
