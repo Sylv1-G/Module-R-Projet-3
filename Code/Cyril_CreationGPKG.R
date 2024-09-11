@@ -21,24 +21,18 @@ export_to_gpkg <- function(layer, gpkg_path, layer_name = NULL){
 
 # Exporter en GPKG une lidte de data frames ----
 
-p1 <- get_apicarto_gpu("DU_05023", ressource = "prescription-surf")
-p2 <- get_apicarto_gpu("DU_05023", ressource = "prescription-lin")
-p3 <- get_apicarto_gpu("DU_05023", ressource = "prescription-pct")
+layer_names <- c("prescriptions", "infos", "generateur", "assiette")
 
-layer_names <- c("p1", "p2", "p3")
-
-dataframes_list <- list(p1, p2, p3)
-
-export_list_to_gpkg <- function(dataframes_list, layer_names, gpkg_path) {
+export_list_to_gpkg <- function(tes_all_gpu, layer_names, gpkg_path) {
   
   # Vérifier que le nombre de noms de couches correspond au nombre de data frames
-  if (length(dataframes_list) != length(layer_names)) {
+  if (length(tes_all_gpu) != length(layer_names)) {
     stop("Le nombre de noms de couches doit correspondre au nombre de data frames.")
   }
   
   # Boucle sur chaque élément de la liste avec les noms de couches
-  for (i in seq_along(dataframes_list)) {
-    df <- dataframes_list[[i]]
+  for (i in seq_along(tes_all_gpu)) {
+    df <- tes_all_gpu[[i]]
     layer_name <- layer_names[i]
     
     # Appel de la fonction export_to_gpkg pour chaque data frame avec le nom de la couche
