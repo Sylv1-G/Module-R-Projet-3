@@ -1,14 +1,33 @@
 # **Rapport du projet enjeux patrimoniaux**
 
+# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel # Date : 13/09/2024
+
 # Introduction
 
 ## Présentation globale du projet 
+
+Afin de gérer un massif forestier et d'écrire les documents d'aménagement, il
+est nécessaire de s'intéresser au contexte de ce massif, dont aux enjeux 
+patrimoniaux qui y sont présents. 
+Ces informations (telles que les monuments historiques, les sites inscrits et 
+classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme 
+(PLU, PLUi, CC, PSMV) ainsi que dans les SUP (servitudes d'utilité 
+publique) et les SCOT (Schémas de Cohérence Territoriale), et sont regroupées 
+sur le géoportail de l'urbanisme. 
+
 ## Justification du besoin des données relatives aux enjeux patrimoniaux
+
+Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier 
+car il en découle des contraintes voire des interdictions.
+Par exemple, l'existance d'une SUP dans un massif forestier peut entrainer 
+l'interdiction de l'engagement ou de la poursuite de travaux. 
+(source : https://www.geoportail-urbanisme.gouv.fr/info-general/ 
+Il est de même avec la présence d'une presciption du Plan Local d'Urbanisme (PLU). 
+
 ## Description des documents d'aménagements (et SUP)
 ## Problématique 
 
 
-Afin de gérer un massif forestier et d'écrire 
 
 
 Les enjeux patrimoniaux sont utiles pour l'aménagement forestier. Ces informations (telles que les monuments historiques, les sites inscrits et classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme. Parmi eux, le plan local d'urbanisme (PLU) est le principal document de planification à l’échelle
@@ -27,14 +46,14 @@ Les zones de servide d'utilité publique (SUP)
 # Résultats
 
 ## Liste finale des données utiles dans les documents d'aménagement
-## Les différentes fonctions réalisées selon la source de donnée
+## Les différentes fonctions réalisées selon la source de données
 ## Fonction finale et choix de l'utilisateur
 ## Les dyfonctionnement de la récupération par flux WFS
 ## Affichage des données récupérées
 
 # Discussion-Conclusion
 
-## Autres données utiles récupérables par le geoportail, non relatives aux enjeux patrimoniaux
+## Autres données utiles récupérables par le geoportail, non relatives aux enjeux patrimoniaux (enjeux ecologiques => code de sylvain, mais aussi autres : ex richesse du sol, + possibilité de meilleur tri avec les sous codes)
 ## Possibilité de meilleur affichage des données récupérées
 ## Conclusion
 
