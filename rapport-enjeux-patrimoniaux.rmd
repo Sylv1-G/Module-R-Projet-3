@@ -1,6 +1,16 @@
 # **Rapport du projet enjeux patrimoniaux**
 
-# Introducton
+# Introduction
+
+## Présentation globale du projet 
+## Justification du besoin des données relatives aux enjeux patrimoniaux
+## Description des documents d'aménagements (et SUP)
+## Problématique 
+
+
+Afin de gérer un massif forestier et d'écrire 
+
+
 Les enjeux patrimoniaux sont utiles pour l'aménagement forestier. Ces informations (telles que les monuments historiques, les sites inscrits et classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme. Parmi eux, le plan local d'urbanisme (PLU) est le principal document de planification à l’échelle
 communale ou intercommunale. Les schémas de cohérence territoriale (SCOT) assurent la cohérence des PLU à l'échelle intercommunale ou régionale. En cas d'absence de PLU, c'est le règlement national d'urbanisme (RNU) qui s'applique. Certaines communes ne disposant pas de PLU établissent une carte communale (CC) pour fixer les règles d'urbanisme. Les enjeux patrimoniaux peuvent aussi être décrits dans des plans de sauvegarde et de mise en valeur (PSMV) de sites historiques et architecturaux.
 
@@ -9,13 +19,24 @@ Les zones de servide d'utilité publique (SUP)
 
 # Matériel et Méthode
 
-
+## Utilisation du géoportail de l'urbanisme et tri des données utiles
+## Packages R : happign, mapedit, sf (terra ?)
+## Autre methode : flux WFS du geoportail de l'urbanisme
+## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation 
+ 
 # Résultats
 
-
+## Liste finale des données utiles dans les documents d'aménagement
+## Les différentes fonctions réalisées selon la source de donnée
+## Fonction finale et choix de l'utilisateur
+## Les dyfonctionnement de la récupération par flux WFS
+## Affichage des données récupérées
 
 # Discussion-Conclusion
 
+## Autres données utiles récupérables par le geoportail, non relatives aux enjeux patrimoniaux
+## Possibilité de meilleur affichage des données récupérées
+## Conclusion
 
 # Bibliographie
 # Module-R-Projet-3
