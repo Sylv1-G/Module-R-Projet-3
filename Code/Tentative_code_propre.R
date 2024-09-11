@@ -11,12 +11,12 @@
 # permet de lancer la ligne de code suivante
 #install.packages("rstudioapi","librarian")
 
-# instalation des packages non instalé et chargement des packages
+# installation des packages non installés et chargement des packages
 librarian::shelf(happign,dplyr,sf,tidyverse,tmap)
 # parametrage de tmap
 tmap_mode("view"); tmap_options(check.and.fix = TRUE)
 
-# Repertoir de travail -----
+# Repertoire de travail -----
 
 # Répertoire de travail relatif a la source du fichier 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -86,7 +86,7 @@ libelle_info_ecologique <- c(
   "Protection des rives des plans d'eau en zone de montagne")
                   
 
-sup_utiles <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
+code_sup <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
                 "ac1","ac4","ac2","pm1","el2","pm2","pm4","pm5",
                 "pm6","pm7","pm8","pm9")
 libelle_sup <- c(
@@ -113,7 +113,7 @@ libelle_sup <- c(
   "Servitudes relatives à la création, la continuité,la pérennité et l’entretien des équipements de défense des forêts contre les incendies (DFCI)",
   "Servitudes relatives aux zones de danger")
 
-sup_patrimonial <- c("a10","ac1","ac4","ac2")
+code_sup_patrimonial <- c("a10","ac1","ac4","ac2")
 
 libelle_sup_patrimonial <- c(
   "Zones de protection naturelle, agricole et forestière du plateau de Saclay",
@@ -121,8 +121,8 @@ libelle_sup_patrimonial <- c(
    "Sites patrimoniaux remarquables, zones de protection et de valorisation du patrimoine architectural, urbain et paysager",
    "Servitudes relatives aux sites inscrits et classés")
 
-sup_ecologique <- c("a8","a4","as1","ac3","el10","a10")
-libelle_ecologique <- c(
+code_sup_ecologique <- c("a8","a4","as1","ac3","el10","a10")
+libelle_sup_ecologique <- c(
   "Servitures résultant de la mise en défens des terrains et pâturages en montagnes et dunes du Pas-de-Calais",
    "Servitudes de passage dans le lit ou sur les berges d'un cours d'eau",
    "Servitudes résultant de l'instauration de périmètres de protection autour des captaux d'eaux et des sources minérales naturelles",
@@ -139,7 +139,9 @@ col_utiles_ass <- c("gid","suptype","partition","fichier","nomass","typeass",
 noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
               "nomsuplitt","geometry")
 
-# fonction ----
+layer_names <- c("prescriptions", "infos", "generateur", "assiette")
+
+# Fonctions de récupération des données ----
 
 
 get.gpu.prescription <- function(x){
@@ -193,18 +195,18 @@ get.sup.gen <- function(x){
   generateur_sup_s <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-s",
                                        dTolerance = 10,
-                                       categorie = sup_utiles)
+                                       categorie = code_sup)
   
   
   generateur_sup_l <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-l",
                                        dTolerance = 10,
-                                       categorie = sup_utiles)
+                                       categorie = code_sup)
   
   generateur_sup_p <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-p",
                                        dTolerance = 10,
-                                       categorie = sup_utiles)  # aucune donnee
+                                       categorie = code_sup)  # aucune donnee
   
   # Rassemblement des donnees 
   generateur <- rbind(
@@ -229,18 +231,18 @@ get.sup.ass <- function(x){
   assiette_sup_s <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-s",
                                      dTolerance = 10,
-                                     categorie = sup_utiles)
+                                     categorie = code_sup)
   
   
   assiette_sup_l <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-l",
                                      dTolerance = 10,
-                                     categorie = sup_utiles)
+                                     categorie = code_sup)
   
   assiette_sup_p <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-p",
                                      dTolerance = 10,
-                                     categorie = sup_utiles)
+                                     categorie = code_sup)
   
   assiette <- rbind(
     assiette_sup_s[ ,col_utiles_ass],
@@ -260,20 +262,141 @@ get.sup.ass <- function(x){
 get.gpu.all <- function(x){
   
   prescription <- get.gpu.prescription(x)
-  print("prescription ok")
+  cat("\nprescription ok\n")
   info <- get.gpu.info(x)
-  print("info ok")
+  cat("\ninfo ok\n")
   sup_gen <- get.sup.gen(x)
-  print("SUP generateur ok")
+  cat("\nSUP generateur ok\n")
   sup_ass <- get.sup.ass(x)
-  print("SUP assiette ok")
+  cat("\nSUP assiette ok\n")
   
   all_gpu <- list(prescription,info,sup_gen,sup_ass)
   
   return(all_gpu)
 }
 
-zonne <- mapedit::drawFeatures()
-x <- zonne
+# zonne <- mapedit::drawFeatures()
+# x <- zonne
+# 
+# tes_all_gpu <- get.gpu.all(zonne)
 
-tes_all_gpu <- get.gpu.all(zonne)
+# Fonctions de post-filtrage des données ----
+
+# fonction qui donne les differents libelles des documents d'urbanisme
+libelle.urba <- function(df){
+  if (!is.null(df)){
+    info_df <- unique(df$libelle)
+  }else {
+    info_df <- c()
+  }
+  return(info_df)
+}
+
+# fonction qui renvoie une liste des libelles voulus
+select.libelle.urba <- function(df){
+  info_df <- libelle.urba(df)
+  cat("\nles libelles présents sont: \n\n")
+  print (info_df)
+  cat("\nVeuillez entrer une liste des numéros de ligne des libelles voulus séparés par des virgules \n(ex : 1,2,3) :")
+  entree <- readline(prompt = "")
+  #  Diviser la chaîne en éléments en utilisant la virgule comme séparateur
+  elements <- strsplit(entree, split = ",")[[1]] 
+  # Convertir les éléments en nombre si nécessaire
+  numeros <- as.numeric(elements)
+  liste_libelle <- info_df[numeros]
+  print(liste_libelle)
+  return(liste_libelle)
+}
+
+
+filtre.libelle.urba <- function(df){
+  liste_libelle <- select.libelle.urba(df)
+  
+  df_filter <- dplyr::filter(df,
+                             libelle %in% liste_libelle)
+  
+  return(df_filter)
+}
+
+
+# exemple <- filtre.libelle.urba(prescription)
+
+# Fonction d'exportation sous forme de geopackage ----
+
+# Export a list of data frames to GPKG 
+
+export_list_to_gpkg <- function(gpu_all, gpkg_path) {
+  
+  # Check that the number of layer names matches the number of data frames
+  if (length(gpu_all) != length(layer_names)) {
+    stop("Le nombre de noms de couches doit correspondre au nombre de data frames.")
+  }
+  
+  # Loop on each item in the list with layer names
+  for (i in seq_along(gpu_all)) {
+    df <- gpu_all[[i]]
+    layer_name <- layer_names[i]
+    st_write(df, gpkg_path, layer_name)
+  }
+}
+
+# Fonction finale ----
+final.function <- function(shp, 
+                           filter = "General", 
+                           post_filter = FALSE, 
+                           working_dir = NULL, 
+                           preview = FALSE,
+                           buffer = 300){
+  
+  # shp doit etre une geometrie de type sf ou sfc 
+  if (!inherits(shp, c("sf", "sfc"))) {
+    stop("x must be of class sf or sfc.")
+  }
+  
+  # Transformation du systeme de projection de shp
+  shp_2154 <- st_transform(shp, 2154)
+  
+  # Ajout d'un buffer 
+  shp_2154_buffer <- st_buffer(shp_2154, dist = buffer)
+  
+  # Recuperation des donnees dans les documents d'urbanismes
+  if(filter == "Patrimoine"){
+    code_prescription <- code_prescription_patrimonial
+    code_info <- code_info_patrimonial
+    code_sup <- code_sup_patrimonial
+  } else if (filter == "Ecologique"){
+    code_prescription <- code_prescription_ecologique
+    code_info <- code_info_ecologique
+    code_sup <- code_sup_ecologique
+  }
+  
+  gpu_all <- get.gpu.all(shp)
+  
+  # Filtrage des donnees a posteriori
+  if (post_filter == TRUE){
+    gpu_all <- filtre.libelle.urba(gpu_all)
+  }
+  
+  # Transformation du systeme de projection de gpu_all
+  gpu_all_2154 <- list()
+  
+  for (dt in gpu_all) {
+    gpu_all_2154 <- c(gpu_all_2154, list(st_transform(dt, 2154)))
+  }
+  
+  # Exportation sous format geopackage 'gpkg'
+  if(!is.null(working_dir)){
+    setwd (working_dir) 
+  }
+  
+  gpkg_path <- file.path(getwd(),"gpuachercher_2.gpkg")
+  
+  export_list_to_gpkg(gpu_all_2154, gpkg_path)
+  
+  return(gpu_all_2154)
+
+}
+
+shp <- mapedit::drawFeatures()
+
+gpu_all <- final.function(shp, filter = "Patrimoine", post_filter = T)
