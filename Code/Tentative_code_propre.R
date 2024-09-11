@@ -28,7 +28,7 @@ rm(list=ls())
 # Importation des données ----
 
 code_prescription <- c("01","07","18","19","25","31", "34", "35", "43")
-libelle_prescription <- c("Espace boisé",
+libelle_prescription <- c("Espace boisé classé",
                           "Patrimoine bâti, paysager ou éléments de paysages à protéger",
                           "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
                           "Secteur protégé en raison de la richesse du sol et du sous-sol",
@@ -37,6 +37,17 @@ libelle_prescription <- c("Espace boisé",
                           "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
                           "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
                           "Réalisation d’espaces libres, plantations, aires de jeux et de loisir")
+
+code_prescription <- c("01","07","18", "34", "35", "43")
+libelle_prescription <- c("Espace boisé classé",
+                          "Patrimoine bâti, paysager ou éléments de paysages à protéger",
+                          "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+                          "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
+                          "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
+                          "Réalisation d’espaces libres, plantations, aires de jeux et de loisir")
+
+
+
 
 
 code_info <- c("03", "08", "16", "21", "22", "37", "40")
@@ -176,11 +187,11 @@ get.sup.ass <- function(x){
 get.gpu.all <- function(x){
   
   prescription <- get.gpu.prescription(x)
-  print("1")
+  print("prescription ok")
   info <- get.gpu.info(x)
-  print("2")
+  print("info ok")
   sup_gen <- get.sup.gen(x)
-  print("3")
+  print("")
   sup_ass <- get.sup.ass(x)
   print("4")
   
