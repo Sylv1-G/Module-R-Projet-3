@@ -42,8 +42,14 @@ Les zones de servide d'utilité publique (SUP)
 ## Packages R : happign, mapedit, sf (terra ?)
 ## Autre methode : flux WFS du geoportail de l'urbanisme
 ## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
+ 
+# Résultats
 
-### Export des données sous la forme d'un fichier GPKG
+## Liste finale des données utiles dans les documents d'aménagement
+## Les différentes fonctions réalisées selon la source de données
+## Fonction finale et choix de l'utilisateur
+## Les dyfonctionnement de la récupération par flux WFS
+## Affichage des données récupérées
 
 Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans des tableaux contenant chacun une des informations suivantes : prescriptions, informations, générateurs et assiettes. Ces 4 tableaux ont été regroupés dans une liste NomDeLaListe. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
 
@@ -80,14 +86,6 @@ export_list_to_gpkg <- function(tes_all_gpu, layer_names, gpkg_path) {
 Cette fonction va parcourir la liste contenant les 4 tableaux. Elle attribue un nom à chaque tableau (prescriptions, infos, générateurs ou assiettes) et convertit ses données en fichier gpkg. Chaque fichier ainsi créé sera ajouté à une unique couche gpkg.
 
 Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée contiendra 4 fichiers que l'on pourra afficher sur un logiciel de SIG.
- 
-# Résultats
-
-## Liste finale des données utiles dans les documents d'aménagement
-## Les différentes fonctions réalisées selon la source de données
-## Fonction finale et choix de l'utilisateur
-## Les dyfonctionnement de la récupération par flux WFS
-## Affichage des données récupérées
 
 # Discussion-Conclusion
 
