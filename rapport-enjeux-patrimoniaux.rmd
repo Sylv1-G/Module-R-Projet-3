@@ -608,9 +608,6 @@ tmap_mode("view"); tmap_options(check.and.fix = TRUE)
 
 # Repertoire de travail -----
 
-# Repertoire de travail relatif a la source du fichier 
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
 # Nettoyage de l'environnement R ----
 rm(list=ls())
 
