@@ -43,7 +43,18 @@ Les zones de servide d'utilité publique (SUP)
 # Matériel et Méthode
 
 ## Utilisation du géoportail de l'urbanisme et tri des données utiles
-## Packages R : happign, mapedit, sf (terra ?)
+## Packages R : happign, tmap, sf, dplyr 
+Un certain nombre de packages ont été utilisés pour réaliser notre projet:
+
+happign, un package permettant de facilité l’accès au service web et API de l’IGN nous a permis de récupérer un grand nombre de données du Géoportail de l’urbanisme (GPU).
+
+tmap, un package permettant d’éditer des données spatiales nous a quant à lui permis de visualiser nos résultats ainsi que de récupérer des emprises pour tester nos fonctions.
+
+sf, qui est un package permettant de manipuler, importer et exporter des donnée spatiale
+
+dplyr, permettant de manipuler des tableau de données dans R
+
+
 ## Autre methode : flux WFS du geoportail de l'urbanisme
 ## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
  

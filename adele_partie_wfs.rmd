@@ -1,0 +1,104 @@
+# Matériel et Méthode
+
+## Autre methode : flux WFS du geoportail de l'urbanisme
+
+En dehors du package happign, il est également possible de récupérer directement
+les flux WFS mis à disposition par le géoportail de l'urbanisme.  
+Cette méthode a été explorée pour les SUP pour deux raisons.
+La première raison est la complexité des partitions des SUP. En effet, 
+contrairement aux partitions des documents d'urbanisme qui sont une combinaison 
+de l'abrévation du document et du code INSEE des communes (par exemple, les 
+partitions des PLU sont sous la forme DU_INSEE), les partitions des SUP 
+prennent en compte la date de décision de la SUP et le type de SUP, deux 
+informations qu'on ne peut obtenir sans connaitre la SUP au préalable. 
+La deuxième raison est que, contrairement aux PLUi par exemple, il est impossible de 
+récupérer les partitions des SUP grâce à la fonction happign::get_apicarto_gpu.  
+La méthode utilisant directement les flux WFS s'appliquerait uniquement dans le 
+cas où l'on ne souhaite travailler qu'avec des codes INSEE et non avec un vecteur
+de surface correspondant à notre zone d'étude.  
+Pour mettre en place cette méthode, il est nécessaire de se procurer le lien du 
+service de téléchargement de flux WFS du géoportail de l'urbanisme :
+https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabilities. 
+Ensuite, il faut récupérer les couches relatives aux SUP : celles des générateurs 
+et celles de leurs assiettes, chacune déclinée en vecteurs surfaciques, linéaires
+et ponctuels. Puis il faut manipuler les tableaux de données afin de faire 
+l'intersection avec notre zone d'étude et trier les informations ayant trait aux
+enjeux patrimoniaux. 
+
+
+# Résultats
+
+## Les dyfonctionnement de la récupération par flux WFS
+
+En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
+permettant de récupérer les SUP d'une zone d'étude est écrite : 
+
+```{r librairies, eval=FALSE, include=FALSE}
+library(librarian)
+shelf(sf, httr,happign,dplyr,tmap)
+library(tmap);ttm()
+```
+
+```{r setup, eval=F, include=T}
+knitr::opts_chunk$set(echo = F)
+x <- mapedit::drawFeatures()
+
+# x est un code INSEE
+# Exemple : 05023, Briançon
+
+get.sup <- function(x){
+  # Ouverture des packages
+  library(librarian)
+  shelf(sf, httr,happign,dplyr,tmap)
+  library(tmap);ttm()
+  
+  # Recuperation des SUP
+  wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
+  SUP_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
+  SUP_s <- st_transform(SUP_s, 2154)
+  
+  # Selection des SUP utiles 
+  SUP_s <- SUP_s[
+    SUP_s$suptype == "ac1"|   # monuments historiques
+    SUP_s$suptype == "ac4"|   # patrimoine architectural
+    SUP_s$suptype == "ac2",]   # sites inscrits et classes
+  
+  # Separation des geometries valides et invalides
+  valid_SUP_s <- SUP_s[st_is_valid(SUP_s$the_geom) == T, ]
+  invalid_SUP_s <- SUP_s[!st_is_valid(SUP_s$the_geom) == T,]
+
+  # Recherche des SUP dans la commune consideree
+  point <- get_apicarto_cadastre(x, type = "commune")
+  point <- st_transform(point, 2154)
+
+  SUP_s_point <- valid_SUP_s[st_intersection(valid_SUP_s$the_geom,point),]
+  
+  # Si la geometrie est invalide, on cherche le code INSEE dans les SUP
+  SUP_commune <- grep(x, invalid_SUP_s$partition) 
+  
+  departement <- substring(x,1,2)
+  SUP_departement <- grep("_'departement'_", invalid_SUP_s$partition)
+
+  return(list(SUP_s_point, SUP_commune, SUP_departement))
+  
+}
+
+resultat <- get.sup(x)
+qtm(resultat[[1]])
+```
+
+Cela fonctionne malgré quelques problèmes rencontrés.  
+Le premier est que la fonction recherche des intersections afin de savoir s'il 
+y a des SUP dans la zone d'étude, ce qui présupose que les géometries sont 
+valides. Or les géometries des assiettes des SUP ne sont pas toutes valides. Il 
+faut donc séparer les SUP à géometries valides et invalides. Pour les géometries 
+invalides, au lieu de rechercher une intersection, la fonction recherche le code 
+INSEE de la commune dans les partitions des SUP, voire le code département. 
+Cette recherche est donc laborieuse puisque si la fonction renvoie toutes les 
+SUP du département, il faut ensuite les afficher toutes et chercher visuellement 
+celles dans la zone d'étude.  
+Le deuxième problème rend cette méthode invalide. En effet, les requêtes sur les
+flux WFS sont paginées et limitées à 5000 éléments : la fonction ne renvoie donc
+que les 5000 premières SUP de la liste, mais pas les autres.   
+La méthode utilisant le service de téléchargement de flux WFS du géoportail de 
+l'urbanisme ne sera donc pas utilisée.
