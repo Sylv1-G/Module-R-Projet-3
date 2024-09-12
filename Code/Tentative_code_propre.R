@@ -1,34 +1,33 @@
 # A propos du code -----
 
-# Titre du code : 
-# But du code : 
-# Auteur : 
-# Contact :
-# Dernière mise à jour :
+# Titre du code : gpuachercher
+# But du code : Recuperation des donnees relatives a la gestion forestiere sur le geoportail de l'urbanisme
+# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel
+# Contact : sylvain.giraudo13@gmail.com
+# Dernière mise à jour : 12/09/2024
 
 # Installation des Packages ----
 
-# permet de lancer la ligne de code suivante
-#install.packages("rstudioapi","librarian")
+# Ce code necessite l'installation des packages rstudioapi et librarian
 
-# installation des packages non installés et chargement des packages
+# Installation et chargement des packages
 librarian::shelf(happign,dplyr,sf,tidyverse,tmap)
-# parametrage de tmap
+# Parametrage de tmap
 tmap_mode("view"); tmap_options(check.and.fix = TRUE)
 
 # Repertoire de travail -----
 
-# Répertoire de travail relatif a la source du fichier 
+# Repertoire de travail relatif a la source du fichier 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-
-# Nettoyage de l'environement R ----
+# Nettoyage de l'environnement R ----
 rm(list=ls())
 
 # Importation des données ----
 
+# Codes et libelles des prescriptions relatives a la gestion forestiere 
 code_prescription_general <- c("01", "07", "18", "19", "25", "31", "34", "35",
-                       "43", "46", "99")
+                               "43", "46", "99")
 libelle_prescription_general <- c(
   "Espace boisé classé",
   "Patrimoine bâti, paysager ou éléments de paysages à protéger",
@@ -42,6 +41,7 @@ libelle_prescription_general <- c(
   "Constructibilité espace boisé antérieur au 20ème siècle",
   "Autre")
 
+# Codes et libelles des prescriptions relatives aux enjeux patrimoniaux
 code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
                                    "46", "99")
 libelle_prescription_patrimonial <- c(
@@ -55,7 +55,7 @@ libelle_prescription_patrimonial <- c(
   "Constructibilité espace boisé antérieur au 20ème siècle",
   "Autre")
 
-
+# Codes et libelles des prescriptions relatives aux enjeux ecologiques
 code_prescription_ecologique <- c("01","18", "25", "34", "43", "99")
 libelle_prescription_ecologique <- c(
   "Espace boisé classé",
@@ -65,7 +65,7 @@ libelle_prescription_ecologique <- c(
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
   "Autre")
 
-
+# Codes et libelles des informations relatives a la gestion forestiere 
 code_info_general <- c("03", "08", "16", "21", "22","25", "37", "40", "99")
 libelle_info_general <- c(
   "Zone de préemption dans un espace naturel et sensible",
@@ -78,6 +78,7 @@ libelle_info_general <- c(
   "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
   "Autre")
 
+# Codes et libelles des informations relatives aux enjeux patrimoniaux
 code_info_patrimonial <- c("16", "25", "40", "99")
 libelle_info_patrimonial <- c(
   "Site archéologique",
@@ -85,13 +86,14 @@ libelle_info_patrimonial <- c(
   "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
   "Autre")
 
+# Codes et libelles des informations relatives aux enjeux ecologiques 
 code_info_ecologique <- c("03", "22", "99")
 libelle_info_ecologique <- c(
   "Zone de préemption dans un espace naturel et sensible",
   "Protection des rives des plans d'eau en zone de montagne",
   "Autre")
                   
-
+# Codes et libelles des SUP relatives a la gestion forestiere 
 code_sup_general <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
                 "ac1","ac4","ac2","pm1","el2","pm2","pm4","pm5",
                 "pm6","pm7","pm8","pm9")
@@ -119,6 +121,7 @@ libelle_sup_general <- c(
   "Servitudes relatives à la création, la continuité,la pérennité et l’entretien des équipements de défense des forêts contre les incendies (DFCI)",
   "Servitudes relatives aux zones de danger")
 
+# Codes et libelles des SUP relatives aux enjeux patrimoniaux 
 code_sup_patrimonial <- c("a10","ac1","ac4","ac2")
 
 libelle_sup_patrimonial <- c(
@@ -127,6 +130,7 @@ libelle_sup_patrimonial <- c(
    "Sites patrimoniaux remarquables, zones de protection et de valorisation du patrimoine architectural, urbain et paysager",
    "Servitudes relatives aux sites inscrits et classés")
 
+# Codes et libelles des SUP relatives aux enjeux ecologiques 
 code_sup_ecologique <- c("a8","a4","as1","ac3","el10","a10")
 libelle_sup_ecologique <- c(
   "Servitures résultant de la mise en défens des terrains et pâturages en montagnes et dunes du Pas-de-Calais",
@@ -136,15 +140,17 @@ libelle_sup_ecologique <- c(
    "Coeur de parc national",
    "Zones de protection naturelle, agricole et forestière du plateau de Saclay")
 
-
-
+# Selection des colonnes utiles dans les tableaux des generateurs et assiettes de SUP
 col_utiles_gen <- c("gid","suptype","partition","fichier","nomgen","typegen",
                    "nomsuplitt","geometry")
 col_utiles_ass <- c("gid","suptype","partition","fichier","nomass","typeass",
                    "nomsuplitt","geometry")
+
+# Uniformisation des noms de colonnes des tableaux des SUP
 noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
               "nomsuplitt","geometry")
 
+# Rassemblement de toutes les listes dans un seul repertoire
 dico <- list(code_prescription_general = code_prescription_general,
              libelle_prescription_general = libelle_prescription_general,
              code_prescription_patrimonial = code_prescription_patrimonial,
@@ -167,51 +173,51 @@ dico <- list(code_prescription_general = code_prescription_general,
              col_utiles_gen = col_utiles_gen,
              noms_def = noms_def)
 
-# Fonctions de récupération des données ----
+# Fonctions de recuperation des données ----
 
-
+# Recuperation des prescriptions sur le GPU
 get.gpu.prescription <- function(x, dico){
   
+  # Recuperation des surfaces, lignes et points
   prescription_surf <- get_apicarto_gpu(x,
                                         ressource = c("prescription-surf"))
-  
   prescription_lin <- get_apicarto_gpu(x,
                                        ressource = c("prescription-lin"))
-  
   prescription_pct <- get_apicarto_gpu(x,
                                        ressource = c("prescription-pct"))
-  prescription_pct <- prescription_pct[ , !(names(prescription_pct) %in% "angle")]
-  
+  prescription_pct <- prescription_pct[ ,
+                                        !(names(prescription_pct) %in% "angle")]
+
+  # Creation d'un seul tableau avec les donnee surfacique, lineaire et ponctuel
   prescription <- rbind(prescription_surf, prescription_lin, prescription_pct)
-  
+
+  # Trie des prescriptions grace au liste definie en debut de code 
   if (!is.null(prescription)){
     prescription <- filter(prescription, typepsc %in% dico[["code_prescription"]])
     
   }
   return(prescription)
-  
 }
 
 get.gpu.info <- function(x, dico){
-  
+
+  # Recuperation des surfaces, lignes et points
   info_surf <- get_apicarto_gpu(x,
                                 ressource = c("info-surf"))
-  
   info_lin <- get_apicarto_gpu(x,
                                ressource = c("info-lin"))
-  
   info_pct <- get_apicarto_gpu(x,
                                ressource = c("info-pct"))
   
+  # Creation d'un seul tableau avec les donnee surfacique, lineaire et ponctuel
   info <- rbind(info_surf, info_lin, info_pct)
   
+  # Trie des prescriptions grace au liste definie en debut de code 
   if (!is.null(info)){
     info <- filter(info, typeinf %in% dico[["code_info"]])
     
   }
-  
   return(info)
-  
 }
 
 get.sup.gen <- function(x, dico){
@@ -284,9 +290,10 @@ get.sup.ass <- function(x, dico){
   
 }
 
-
+# Creation d'une liste des tableaux de donnee extrait du GPU
 get.gpu.all <- function(x, dico){
-  
+
+  # Extraction des prescription, des informations, des generateur et assiette de SUP
   prescription <- get.gpu.prescription(x, dico)
   cat("\nprescription ok\n")
   info <- get.gpu.info(x, dico)
@@ -295,7 +302,6 @@ get.gpu.all <- function(x, dico){
   cat("\nSUP generateur ok\n")
   sup_ass <- get.sup.ass(x, dico)
   cat("\nSUP assiette ok\n")
-  
   all_gpu <- list("prescriptions" = prescription,
                   "informations" = info,
                   "generateurs_sup" = sup_gen,
@@ -304,67 +310,69 @@ get.gpu.all <- function(x, dico){
   return(all_gpu)
 }
 
-# zonne <- mapedit::drawFeatures()
-# x <- zonne
-# 
-# tes_all_gpu <- get.gpu.all(zonne)
 
-# Fonctions de post-filtrage des données ----
+# Fonctions de post-filtrage des donnees ----
 
 # Fonction qui donne les differents libelles des documents d'urbanisme
 libelle.urba <- function(df){
+  
   if (!is.null(df)){
     info_df <- unique(df$libelle)
   }else {
     info_df <- c()
   }
+  
   return(info_df)
 }
 
 # Fonction qui renvoie une liste des libelles voulus
 select.libelle.urba <- function(df){
   
-  info_df <- libelle.urba(df)
-  
+  # Recuperation et affichage des libelles 
+  info_df <- libelle.urba(df) 
   cat("\nles libelles présents sont: \n\n")
   for (i in seq_along(info_df)) {
     cat(paste(i, info_df[i]), sep = "\n")
   }
   
-  cat("\nVeuillez entrer une liste des numéros de ligne des libelles voulus séparés par des virgules \n(ex : 1,2,3) :")
+  # Demande des libelles a l'utilisateur
+  cat("\nVeuillez entrer une liste des numéros de ligne des libelles voulus
+      séparés par des virgules \n(ex : 1,2,3) :")
   entree <- readline(prompt = "")
   
-  #  Diviser la chaîne en éléments en utilisant la virgule comme séparateur
+  #  Division des chaines en elements en utilisant la virgule comme separateur
   elements <- strsplit(entree, split = ",")[[1]] 
   numeros <- as.numeric(elements)
   liste_libelle <- info_df[numeros]
-  
+
+  # Affichage des choix de l'utilisateur
   cat("\nVous avez choisi les libelles suivant:\n")
   print(liste_libelle)
+  
   return(liste_libelle)
 }
 
 # Fonction qui filtre un dataframe.
 filtre.libelle.urba <- function(df){
-  liste_libelle <- select.libelle.urba(df)
   
+  liste_libelle <- select.libelle.urba(df)
   df_filter <- dplyr::filter(df,
                              libelle %in% liste_libelle)
   
   return(df_filter)
 }
 
-# Fonction pour filtrer tous les dataframe.
+# Fonction pour filtrer tous les dataframe
 post.filter <- function(all_gpu){
-  
+
   all_gpu_filtered <- list()
   names_all_gpu <- names(all_gpu)
   
+  # filtre des dataframes contenue dans une liste un par un 
   for (i in seq_along(all_gpu)){
     
     df <- all_gpu[[i]]
     name_df <- names_all_gpu[i]
-    
     if (is.null(df)){
       all_gpu_filtered <- c(all_gpu_filtered, 
                             list(df))
@@ -476,8 +484,7 @@ affichage.interactif <- function (area, gpu_all) {
 
 # Fonction d'exportation sous forme de geopackage ----
 
-# Exporte une liste de data frame sous forme de geopackage 
-
+# Exportation d'une liste de data frame sous forme de geopackage 
 export.list.to.gpkg <- function(gpu_all, gpkg_path) {
   
   layer_names <- c("prescriptions", 
@@ -485,7 +492,7 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
                    "generateur", 
                    "assiette")
   
-  # Chaque obejt de la liste est nommé puis exporté sous forme de fichier dans 
+  # Chaque objets de la liste est nomme puis exporte sous forme de fichier dans 
   # un unique geopackage
   for (i in seq_along(gpu_all)) {
     df <- gpu_all[[i]]
@@ -495,19 +502,25 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
 }
 
 # Fonction finale ----
-final.function <- function(area, 
-                           dico,
-                           filter = "General", 
-                           post_filter = FALSE, 
-                           working_dir = NULL, 
-                           preview = FALSE,
-                           buffer = 300,
-                           display = F,
-                           export_gpkg = T){
+final.function <- function(area,  # Geometrie
+                           dico,  # Repertoir de liste
+                           filter = "Patrimoine",  # Patrimoine,General ou Ecologique
+                           post_filter = FALSE,  # FALSE ou TRUE
+                           working_dir = NULL,  # NULL ou repertoir de travail
+                           buffer = 300,  # Numeric en metre
+                           display = FALSE,  # FALSE ou TRUE
+                           export_gpkg = TRUE)  # TRUE ou FALSE
+  {
   
   # area doit etre une geometrie de type sf ou sfc 
   if (!inherits(area, c("sf", "sfc"))) {
     stop("x must be of class sf or sfc.")
+  }
+  
+  filter_ok <- c("Patrimoine", "General", "Ecologique")
+  
+  if (!filter %in% filter_ok){
+    stop ("Type must be 'Patrimoine', 'General', 'Ecologique'")
   }
   
   # Transformation du systeme de projection de area vers Lambert 93
