@@ -476,7 +476,7 @@ affichage.interactif <- function (area, gpu_all) {
 
 # Fonction d'exportation sous forme de geopackage ----
 
-# Export a list of data frames to GPKG 
+# Exporte une liste de data frame sous forme de geopackage 
 
 export.list.to.gpkg <- function(gpu_all, gpkg_path) {
   
@@ -485,7 +485,8 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
                    "generateur", 
                    "assiette")
   
-  # Loop on each item in the list with layer names
+  # Chaque obejt de la liste est nommé puis exporté sous forme de fichier dans 
+  # un unique geopackage
   for (i in seq_along(gpu_all)) {
     df <- gpu_all[[i]]
     layer_name <- layer_names[i]
