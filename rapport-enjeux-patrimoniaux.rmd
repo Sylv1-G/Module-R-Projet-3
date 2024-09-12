@@ -1447,10 +1447,11 @@ La fonction finale.fuction prend en entrée 8 arguments :
 
 La sortie de la fonction contient une liste des quatres tableau de données (prescriptions, informations, générateurs de SUP et assiettes des SUP).
 
-
-
-
 # Discussion-Conclusion
+
+## Possibilité d’amélioration complémentaire ayant trait aux améliorations législatives
+
+En outre, il serait envisageable d’inclure aux résultats une synthèse des articles de loi et règlements liés aux prescriptions, informations et SUP présentes sur la zone d’étude. Cela permettrait d’afficher directement les conséquences de ces enjeux patrimoniaux pour la gestion forestière, ce qui est le but de leur inclusion dans les documents d’aménagement. 
 
 ## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
@@ -1494,8 +1495,11 @@ De la même manière, les libellés pourraient être regroupés par catégorie a
 
 Enfin, il est possible d’établir une interface entre QGIS et R permettant d’accéder aux fonctionnalités de QGIS à partir de R grâce à certains packages comme RQGIS. Utiliser ce package permettrait d’ouvrir directement les geopackage créés dans notre fonction et de faire une mise en page de carte propre. Cette carte pourrait être directement intégrée à un document d’aménagement
 
-
 # Conclusion
+
+En concluon, ce projet aboutit à une fonction permettant de récupérer les données ayant trait aux enjeux patrimoniaux depuis le géoportail de l’urbanisme et les différents documents qui y sont hébergés. Cette fonction permet également de trier les informations récupérées pour              s’adapter aux besoins de l’utilisateur, mais aussi de récupérer des informations plus générales sur un massif, essentielles pour rédiger un document d’aménagement forestier. 
+Enfin, la fonction créée contient aussi une fonctionnalité d’affichage d’une carte sur R, mais également une exportation de geopackages utilisables ensuite sur QGIS. 
+Il est à noter que cette fonction est néanmoins améliorable sur quelques aspects, notamment pour intégrer plus facilement les données récupérées à un document d’aménagement. 
 
 # Bibliographie
 
