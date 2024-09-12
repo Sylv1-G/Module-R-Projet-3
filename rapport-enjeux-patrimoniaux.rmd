@@ -443,7 +443,7 @@ knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Am
 
 ## Fonction finale
 
-```{r, EVAL=FALSE}
+```{r, eval=FALSE}
 final.function <- function(area,  # Geometrie
                            dico,  # Repertoire de listes
                            filter = "Patrimoine",  # Patrimoine,General ou 
