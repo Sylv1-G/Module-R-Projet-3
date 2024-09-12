@@ -515,7 +515,7 @@ affichage <- function(area, gpu_all, type = "Prescriptions"){
 # Affichage des trois types de cartes 
 affichage.interactif <- function (area, gpu_all) {
   
-  cat("\nLes trois carte vont s'afficher au fur et à mesure.\n")
+  cat("\nLes trois cartes vont s'afficher au fur et à mesure.\n")
   
   for (type in c("Prescriptions", "Informations", "SUP")){
     
