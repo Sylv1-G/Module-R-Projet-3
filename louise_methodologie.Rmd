@@ -1,0 +1,26 @@
+---
+title: "louise_methodologie"
+author: "Louise ROVEL"
+date: "2024-09-12"
+output: html_document
+---
+
+## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
+
+L'objectif de la fonction finale est de partir d'une zone d'étude et d'extraire les données associées au enjeux patrimoniaux trouvées dans les documents d'urbanisme et les SUP. Cette fonction doit avoir plusieures propriétés. Elle doit permettre d'importer et de filtrer seulement les informations utiles à l'utilisateur. Elle doit pouvoir afficher ces informations sur une carte mais aussi les exporter sous forme de géopackage (.gpkg). C'est pourquoi la fonction se divise en plusieures étapes :
+
+-   Tout d'abord, la zone d'étude, entrée sous format sf ou sfc, doit être tranformée dans un système de projection Lambert 93 et légèrement élargie grâce à un buffer. Ces deux étapes facilitent ensuite l'affichage et la lisibilité sur des cartes françaises.
+
+-   Les données du géoportail de l'urbanisme se superposant à la zone d'étude peuvent ensuite être importées en quatre catégories : les prescriptions et les informations issues des documents d'urbanisme (PLU, PLUi, PSMV, CC), et les générateurs et les assiettes des SUP. Pour chacune de ces quatres catégories, un filtre est réalisé pour ne garder que les enjeux liés au patrimoine.
+
+-   Ces quatres dataframe doivent ensuite être fusionnés dans une liste qui, après transformation du système de projection en Lambert 93, deviendra l'argument de sortie de la fonction.
+
+Afin de rajouter des propriétés utiles à la fonction finale, un choix est laissé à l'utilisateur:
+
+-   De réaliser un second filtre à la main après l'importation des données afin de diminuer la quantité d'information extraites et de simplifier l'analyse des données.
+
+-   D'afficher une carte primaire des informations extraites avec le package tmap et de pouvoir explorer les facilement les données.
+
+-   D'exporter les données sous un format géopackage utilisable avec des logiciels SIG.
+
+Cette fonction doit donc faire appel à de nombreuses petites fonctions permettant de réaliser tour à tour les tâches souhaitées.
