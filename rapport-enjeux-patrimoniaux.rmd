@@ -64,7 +64,10 @@ Ces différents documents et concepts jouent un rôle clé dans l'aménagement d
 Puisqu'il est nécessaire de s'intéresser aux enjeux patrimoniaux et que les 
 informations qui y sont relatives sont regroupées sur le géoportail de 
 l'urbanisme, il est possible et souhaitable d'automatiser la recherche de ces 
-informations. 
+informations. Pour cela, il faudra tout d'abord identifier quels documents 
+d'urbanisme, SCOT ou SCUP, existent pour notre zone d'étude, puis récupérer 
+les données dans ces documents et les trier en fonction de leur utilité. 
+
 
 # Matériel et Méthode
 
@@ -113,6 +116,7 @@ enjeux patrimoniaux.
 # Résultats
 
 ## Liste finale des données utiles dans les documents d'aménagement
+## Identification des documents d'urbanisme existant dans une zone 
 ## Les différentes fonctions réalisées selon la source de données
 ## Fonction finale et choix de l'utilisateur
 ## Les dyfonctionnement de la récupération par flux WFS
