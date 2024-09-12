@@ -1,6 +1,8 @@
 # **Rapport du projet enjeux patrimoniaux**
 
-# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel # Date : 13/09/2024
+# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel 
+
+# Date : 13/09/2024
 
 # Introduction
 
@@ -271,8 +273,6 @@ Cette fonction va parcourir la liste contenant les 4 tableaux. Elle attribue un 
 Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée contiendra 4 fichiers que l'on pourra afficher sur un logiciel de SIG.
 
 # Discussion-Conclusion
-
-## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
 ## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
