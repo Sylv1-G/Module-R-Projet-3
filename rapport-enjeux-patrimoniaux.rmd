@@ -190,7 +190,6 @@ que les 5000 premières SUP de la liste, mais pas les autres.
 La méthode utilisant le service de téléchargement de flux WFS du géoportail de 
 l'urbanisme ne sera donc pas utilisée.
 
-
 ## Affichage des données récupérées
 
 Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans des tableaux contenant chacun une des informations suivantes : prescriptions, informations, générateurs et assiettes. Ces 4 tableaux ont été regroupés dans une liste NomDeLaListe. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
