@@ -213,7 +213,7 @@ Ci-dessous l'exemple de la fonction permettant d'importer les prescriptions :
 ```{r, echo = F}
 library(librarian)
 shelf(sf, httr,happign,dplyr,tmap)
-library(tmap);ttm()
+library(tmap);tmap_mode("view")
 
 code_prescription_general <- c("01", "07", "18", "19", "25", "31", "34", "35",
                                "43", "46", "99")
@@ -441,17 +441,16 @@ knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Am
 En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
 permettant de récupérer les SUP d'une zone d'étude est écrite : 
 
-```{r, eval=F, include=T}
+```{r include=FALSE}
   # Ouverture des packages
   library(librarian)
   shelf(sf, httr,happign,dplyr,tmap)
-  library(tmap);ttm()
+  tmap_options(check.and.fix = TRUE)
+  library(tmap);tmap_mode("view")
 ```
 
 ```{r, eval=T, include=T}
-knitr::opts_chunk$set(echo = F)
-
-Briancon <- get_apicarto_gpu("05023", ressource = "municipality")
+knitr::opts_chunk$set(echo = T)
 
 get.sup <- function(x){
 
@@ -486,7 +485,7 @@ get.sup <- function(x){
   
 }
 
-resultat <- get.sup(Briancon)
+resultat <- get.sup("80021") # Amiens
 qtm(resultat[[1]])
 ```
 
