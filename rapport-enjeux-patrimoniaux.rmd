@@ -73,7 +73,7 @@ les données dans ces documents et les trier en fonction de leur utilité.
 
 # Matériel et Méthode
 
-## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilese
+## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilisées
 
 Comme dit précedemment, l'ensemble des données provenant des documents 
 d'urbanisme, SCOT et SUP sont rassemblées sur le géoportail de l'urbanisme. 
@@ -105,7 +105,7 @@ pas, c'est qu'il existe d'autres documents d'urbanisme. Pour les PLUi, c'est
 plus compliqué, mais le package happign et la fonction get_apicarto_gpu permet
 de les retrouver.
 
-Pour savoir s'il existe des SUP, c'est beaucoupmoins aisé, il est donc 
+Pour savoir s'il existe des SUP, c'est beaucoup moins aisé, il est donc 
 nécessaire d'utiliser plutôt leur localisation. Ce sera la méthode utilisée 
 également pour récupérer toutes les données utiles au sein des documents 
 d'urbanisme et des SUP, une fois que l'on sait qu'ils existent. 
@@ -126,7 +126,7 @@ Un certain nombre de packages ont été utilisés pour réaliser notre projet:
 l’IGN. Ce package nous a permis de récupérer un grand nombre de données du 
 géoportail de l’urbanisme (GPU) et de les intersecter facilement avec une 
 zone d'étude, en particulier grâce à la fonction get_apicarto_gpu().  
-**tmap**, un package permettant d’éditer des données spatiales nous a quant' à 
+**tmap**, un package permettant d’éditer des données spatiales nous a quant à 
 lui permis de visualiser nos résultats ainsi que de récupérer des emprises pour 
 tester nos fonctions.  
 **sf**, qui est un package permettant de manipuler, importer et exporter des 
@@ -159,27 +159,7 @@ l'intersection avec notre zone d'étude et trier les informations ayant trait au
 enjeux patrimoniaux.
 
 ## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
-
-L'objectif de la fonction finale est de partir d'une zone d'étude et d'extraire les données associées au enjeux patrimoniaux trouvées dans les documents d'urbanisme et les SUP. Cette fonction doit avoir plusieures propriétés. Elle doit permettre d'importer et de filtrer seulement les informations utiles à l'utilisateur. Elle doit pouvoir afficher ces informations sur une carte mais aussi les exporter sous forme de géopackage (.gpkg). C'est pourquoi la fonction se divise en plusieures étapes :
-
--   Tout d'abord, la zone d'étude, entrée sous format sf ou sfc, doit être tranformée dans un système de projection Lambert 93 et légèrement élargie grâce à un buffer. Ces deux étapes facilitent ensuite l'affichage et la lisibilité sur des cartes françaises.
-
--   Les données du géoportail de l'urbanisme se superposant à la zone d'étude peuvent ensuite être importées en quatre catégories : les prescriptions et les informations issues des documents d'urbanisme (PLU, PLUi, PSMV, CC), et les générateurs et les assiettes des SUP. Pour chacune de ces quatres catégories, un filtre est réalisé pour ne garder que les enjeux liés au patrimoine.
-
--   Ces quatres dataframe doivent ensuite être fusionnés dans une liste qui, après transformation du système de projection en Lambert 93, deviendra l'argument de sortie de la fonction.
-
-Afin de rajouter des propriétés utiles à la fonction finale, un choix est laissé à l'utilisateur:
-
--   De réaliser un second filtre à la main après l'importation des données afin de diminuer la quantité d'information extraites et de simplifier l'analyse des données.
-
--   D'afficher une carte primaire des informations extraites avec le package tmap et de pouvoir explorer les facilement les données.
-
--   D'exporter les données sous un format géopackage utilisable avec des logiciels SIG.
-
-Cette fonction doit donc faire appel à de nombreuses petites fonctions permettant de réaliser tour à tour les tâches souhaitées.
-
-
-
+ 
 # Résultats
 
 ## Liste finale des données utiles dans les documents d'aménagement
@@ -247,7 +227,7 @@ qtm(resultat[[1]])
 
 Cela fonctionne malgré quelques problèmes rencontrés.  
 Le premier est que la fonction recherche des intersections afin de savoir s'il 
-y a des SUP dans la zone d'étude, ce qui présupose que les géometries sont 
+y a des SUP dans la zone d'étude, ce qui présupose que les géometries soient 
 valides. Or les géometries des assiettes des SUP ne sont pas toutes valides. Il 
 faut donc séparer les SUP à géometries valides et invalides. Pour les géometries 
 invalides, au lieu de rechercher une intersection, la fonction recherche le code 
@@ -296,36 +276,9 @@ Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée con
 
 ## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
-Dans un premier temps, seules les données relatives aux enjeux patrimoniaux ont 
-été sélectionnées au sein des documents d'urbanisme et des SUP. Seulement, il 
-existe de nombreuses données dans ces documents qui ne concernent pas les 
-enjeux patrimoniaux mais qui peuvent tout de même être intéressantes pour la 
-gestion forestière et la rédaction des documents d'aménagement.  
-
-Ainsi, les données extraites des documents d'urbanisme et des SUP ont été triées 
-selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué 
-toujours de la manière la plus précise possible, à l'aide des lois et 
-règlements rattachés aux prescriptions, informations et SUP. Ensuite, une 
-variable **filter** a été ajoutée à la fonction finale, permettant de choisir
-quelle catégorie de donnée l'on souhaite récupérer.  
-
-Néanmoins, il demeure possible que certains éléments se retrouvent dans une 
-catégorie inadaptée, en particulier parce que certaines prescriptions sont 
-très larges. En effet, la dénomination des éléments (prescriptions, 
-informations, SUP) se retrouvant dans la variable filter repose sur un 
-code indiquant la nature de ces éléments. Or, il existe également des 
-sous-codes plus précis. Cependant, ce sous-code n'a pas été pris en compte 
-lors de la création de la variable filter. Par exemple, les prescriptions 99
-s'intitulent : "Autre : zones naturelles, agricoles ou forestières". On y trouve
-les prescriptions 99-02 intitulés "Autre : zones naturelles, agricoles ou 
-forestières", pouvant être importantes pour la gestion forestière, mais aussi 
-les prescriptions 99-03 intitulés "Autre : mixité sociale et fonctionnelle en 
-zones urbaines ou à urbaniser", ne concernant aucunement la forêt. L'utilisateur
-doit donc lui-même faire un dernier tri.
-
+Les données extraites des documents d'urbanisme et des SUP ont été triées dans une variable filter selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué de manière subjective. Ainsi, certains éléments que d'autres personnes peuvent considérer comme faisant partie des enjeux patrimoniaux impactant la gestion forestière peuvent se retrouver dans une catégorie inadaptée, ou être tout simplement absents. Par ailleurs, la dénomination des éléments se retouvant dans la variable filter repose sur un code indiquant la nature de ces éléments. Or, ces éléments sont eux-mêmes codés par un sous-code précisant leur nature. Cependant, ce sous-code n'a pas été pris en compte lors de la création de la variable filter.  Enfin, ce projet porte sur les enjeux patrimoniaux en lien avec la gestion forestière mais, d'autres données peuvent être extraites du GPU, comme la richesse des sols par exemple.
 
 ## Possibilité de meilleur affichage des données récupérées
-
 
 
 # Conclusion
