@@ -402,7 +402,7 @@ dico <- list(code_prescription_general = code_prescription_general,
 
 ```{r , eval=T, include=T}
 
-amiens <- get_apicarto_gpu("80021", ressource = "municipality")
+amiens <- get_apicarto_gpu("05183", ressource = "municipality")
 
 # Recuperation des prescriptions sur le GPU
 get.gpu.prescription <- function(x, dico){
@@ -430,7 +430,7 @@ get.gpu.prescription <- function(x, dico){
   return(prescription)
 }
 
-resultat = get.gpu.prescription(amiens, dico)
+resultat <- get.gpu.prescription(amiens, dico)
 ```
 
 ```{r, echo = F}
