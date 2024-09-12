@@ -164,8 +164,6 @@ enjeux patrimoniaux.
 
 ## Liste finale des données utiles dans les documents d'aménagement
 
-## Liste finale des données utiles dans les documents d'aménagement
-
 ```{r , echo = FALSE }
 code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
                                    "46", "99")
