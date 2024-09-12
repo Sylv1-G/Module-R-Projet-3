@@ -163,6 +163,57 @@ enjeux patrimoniaux.
 # Résultats
 
 ## Liste finale des données utiles dans les documents d'aménagement
+
+## Liste finale des données utiles dans les documents d'aménagement
+
+```{r , echo = FALSE }
+code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
+                                   "46", "99")
+libelle_prescription_patrimonial <- c(
+  "Espace boisé classé",
+  "Patrimoine bâti, paysager ou éléments de paysages à protéger",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Espaces remarquables du littoral",
+  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
+  "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
+  "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
+  "Constructibilité espace boisé antérieur au 20ème siècle",
+  "Autre")
+
+prescription_patrimoniale <- data.frame(code_prescription_patrimonial,libelle_prescription_patrimonial)
+
+code_info_patrimonial <- c("16", "25", "40", "99")
+libelle_info_patrimonial <- c(
+  "Site archéologique",
+  "Périmètre de protection des espaces agricoles et naturels périurbain",
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
+  "Autre"
+  )
+
+info_patrimoniale <- data.frame(code_info_patrimonial,libelle_info_patrimonial)
+
+code_sup_patrimonial <- c("a10","ac1","ac4","ac2")
+
+libelle_sup_patrimonial <- c(
+  "Zones de protection naturelle, agricole et forestière du plateau de Saclay",
+   "Servitudes relatives aux monuments historiques",
+   "Sites patrimoniaux remarquables, zones de protection et de valorisation du patrimoine architectural, urbain et paysager",
+   "Servitudes relatives aux sites inscrits et classés")
+
+
+sup_patrimoniale <- data.frame(code_sup_patrimonial,libelle_sup_patrimonial)
+
+
+
+```
+En utilisant les standards utilisés pour les documents d'urbanisme ainsi que les articles de loi qui s'y ratachent nous avons pue mettre en place la liste des enjeux patrimoniaux suivant :
+
+```{r, echo = FALSE}
+knitr::kable(prescription_patrimoniale, caption = "liste des prescriptions patrimoniale retenue")
+knitr::kable(info_patrimoniale, caption = "liste des informations patrimoniale retenue")
+knitr::kable(sup_patrimoniale, caption = "liste des SUP patrimoniale retenue")
+```
+
 ## Identification des documents d'urbanisme existant dans une zone 
 ## Les différentes fonctions réalisées selon la source de données
 ## Fonction finale et choix de l'utilisateur
