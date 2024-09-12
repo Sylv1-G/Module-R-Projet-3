@@ -162,7 +162,7 @@ Cette fonction doit donc faire appel à de nombreuses petites fonctions permetta
 
 ## Liste finale des données utiles dans les documents d'aménagement
 
-```{r , echo = FALSE }
+```{r, echo = FALSE }
 code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
                                    "46", "99")
 libelle_prescription_patrimonial <- c(
@@ -220,7 +220,7 @@ SUP, soit quatre fonctions au total.
 
 Ci-dessous l'exemple de la fonction permettant d'importer les prescriptions : 
 
-```{r librairies, echo = F}
+```{r, echo = F}
 library(librarian)
 shelf(sf, httr,happign,dplyr,tmap)
 library(tmap);ttm()
@@ -408,7 +408,7 @@ dico <- list(code_prescription_general = code_prescription_general,
 
 ```{r, eval=T, include=T}
 
-x <- get_apicarto_gpu("80021", ressource = "municipality")
+Amiens <- get_apicarto_gpu("80021", ressource = "municipality")
 
 # Recuperation des prescriptions sur le GPU
 get.gpu.prescription <- function(x, dico){
@@ -436,7 +436,12 @@ get.gpu.prescription <- function(x, dico){
   return(prescription)
 }
 
-print(get.gpu.prescription(x, dico))
+resultat = get.gpu.prescription(Amiens, dico)
+```
+
+```{r, echo = F}
+
+knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Amiens")
 
 ```
 
