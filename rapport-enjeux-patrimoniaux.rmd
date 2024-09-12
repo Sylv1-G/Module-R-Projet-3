@@ -11,8 +11,8 @@ est nécessaire de s'intéresser au contexte de ce massif, dont les enjeux
 patrimoniaux qui y sont présents.
 Ces informations (telles que les monuments historiques, les sites inscrits et 
 classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme 
-(PLU, PLUi, CC, PSMV) ainsi que dans les SUP (servitudes d'utilité 
-publique) et les SCOT (Schémas de Cohérence Territoriale), et sont regroupées 
+(PLU, PLUi, CC, PSMV) ainsi que dans les SUP (Servitudes d'Utilité 
+Publique) et les SCOT (Schémas de Cohérence Territoriale), et sont regroupées 
 sur le géoportail de l'urbanisme. 
 
 ## Justification du besoin des données relatives aux enjeux patrimoniaux
