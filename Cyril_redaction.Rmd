@@ -38,9 +38,9 @@ Ces différents documents et concepts jouent un rôle clé dans l'aménagement d
 
 # Discussion-Conclusion
 
-## Autres données utiles récupérables par le geoportail, non relatives aux enjeux patrimoniaux (enjeux ecologiques => code de sylvain, mais aussi autres : ex richesse du sol, + possibilité de meilleur tri avec les sous codes)
+## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
-
+Les données extraites des documents d'urbanisme et des SUP ont été triées dans une variable filter selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué de manière subjective. Ainsi, certains éléments que d'autres personnes peuvent considérer comme faisant partie des enjeux patrimoniaux impactant la gestion forestière peuvent se retrouver dans une catégorie inadaptée, ou être tout simplement absents. Par ailleurs, la dénomination des éléments se retouvant dans la variable filter repose sur un code indiquant la nature de ces éléments. Or, ces éléments sont eux-mêmes codés par un sous-code précisant leur nature. Cependant, ce sous-code n'a pas été pris en compte lors de la création de la variable filter.  Enfin, ce projet porte sur les enjeux patrimoniaux en lien avec la gestion forestière mais, d'autres données peuvent être extraites du GPU, comme la richesse des sols par exemple.
 
 ## Possibilité de meilleur affichage des données récupérées
 
