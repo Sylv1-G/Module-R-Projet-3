@@ -40,8 +40,6 @@ informations qui y sont relatives sont regroupées sur le géoportail de
 l'urbanisme, il est possible et souhaitable d'automatiser la recherche de ces 
 informations. 
 
-
-
 # Matériel et Méthode
 
 ## Utilisation du géoportail de l'urbanisme et tri des données utiles
