@@ -4,17 +4,17 @@
 
 # Date : 13/09/2024
 
-# Introduction
+# I. Introduction
 
-## Présentation globale du projet
+## 1. Présentation globale du projet
 
 La gestion d'un massif forestier et l'écriture de documents d'aménagement nécessitent de s'intéresser aux enjeux environnants dont les enjeux patrimoniaux. Ces informations (telles que les monuments historiques, les sites inscrits et classés, les aligements d'arbres etc...) se trouvent dans des documents d'urbanisme (PLU, PLUi, CC, PSMV) ainsi que dans des SUP (Servitudes d'Utilité Publique) et des SCOT (Schémas de Cohérence Territoriale). Elles sont regroupées sur le géoportail de l'urbanisme.
 
-## Justification du besoin des données relatives aux enjeux patrimoniaux
+## 2. Justification du besoin des données relatives aux enjeux patrimoniaux
 
 Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier car il en découle des contraintes voire des interdictions. Chaque prescription ou information de document d'urbanisme et chaque SUP est liée à un article de loi ou à un réglement des codes forestier, de l'urbanisme, du patrimoine ou de l'environnement, qui en stipule les conséquences. Par exemple, une prescription ayant trait au patrimoine bâti ou paysager à protéger est liée à l'article L151-19 du code de l'urbanisme, qui stipule qu'il est obligatoire d'assurer leur préservation, leur conservation ou leur restauration.
 
-## Description des documents d'aménagements (et SUP)
+## 3. Description des documents d'aménagements (et SUP)
 
 Le géoportail de l'urbanisme (GPU) permet d'acceder aux informations de différents documents d'urbanisme :
 
@@ -39,7 +39,7 @@ Le géoportail de l'urbanisme (GPU) permet d'acceder aux informations de différ
 -   SUP (Servitudes d’Utilité Publique) :\
     Les SUP sont des contraintes administratives imposées à certaines propriétés privées dans l'intérêt général. Elles sont liées à la présence d’infrastructures, de protections environnementales, ou de risques naturels, et limitent les droits d'usage et de construction sur les terrains concernés.
 
-Ces différents documents jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669>). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (<https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/>).
+Ces différents documents jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (Legifrance, 2024). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (Legifrance, 2020).
 
 ![](documents_d_urbanisme.png)
 <center><u>Documents d'urbanisme</u></center>
@@ -49,14 +49,14 @@ Ces différents documents jouent un rôle clé dans l'aménagement du territoire
 ![](sup.png)
 <center><u>Servitude d'Utilité Publique</u></center>
 
-## Problématique
+## 4. Problématique
 
 La nécessité de s'intéresser aux enjeux patrimoniaux pousse à automatiser l'importation des données regroupées sur le géoportail de l'urbanisme. Pour cela, il faudra d'abord identifier les documents d'urbanisme, SCOT ou SUP existant sur notre zone d'étude, puis récupérer les données utiles dans ces documents. 
 
 
-# Matériel et Méthode
+# II. Matériel et Méthode
 
-## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilisées
+## 1. Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilisées
 
 Afin de récupérer les données sur le géoportail de l'urbanisme, il est nécessaire
 de comprendre ce qui identifie les documents, mais aussi comment les données y 
@@ -64,7 +64,7 @@ sont organisées. Cela permet de trier ces données en fonction de leur utilité
 
 Les documents d'urbanisme, les SCOT et les SUP sont identifiés par deux éléments :  
 une partition et une localisation. 
-La manière dont sont construites ces partitions, ainsi que la composition standard de chaque document, est disponible ici pour les documents d'urbanisme :  
+La manière dont sont construites ces partitions, ainsi que la composition standard de chaque document, est disponible ici pour les documents d'urbanisme :   
 https://cnig.gouv.fr/ressources-dematerialisation-documents-d-urbanisme-a2732.html.   
 et ici pour les SUP :   
 https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf?arg=177836385&cle=0ef0d333b5d4e35418b5f3b71d2d3849a002c26f&file=pdf%2Ftableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf. 
@@ -92,24 +92,25 @@ identifier si elles correspondent à des enjeux patrimoniaux. Pour cela, il est
 souvent nécessaire de se référer aux articles de loi ou réglements qu'elles
 appliquent. 
 
-## Packages R : happign, tmap, sf, dplyr 
+## 2. Packages R : happign, tmap, sf, dplyr 
 
-Un certain nombre de packages ont été utilisés pour réaliser notre projet:  
+Un certain nombre de packages ont été utilisés pour réaliser notre projet :  
 **happign**, un package permettant de faciliter l’accès au service web et API de 
 l’IGN. Ce package nous a permis de récupérer un grand nombre de données du 
 géoportail de l’urbanisme (GPU) et de les intersecter facilement avec une 
 zone d'étude, en particulier grâce à la fonction get_apicarto_gpu().  
-**tmap**, un package permettant d’éditer des données spatiales nous a quant à 
-lui permis de visualiser nos résultats ainsi que de récupérer des emprises pour 
+**tmap**, un package permettant d’éditer des données spatiales nous a, quant à 
+lui, permis de visualiser nos résultats ainsi que de récupérer des emprises pour 
 tester nos fonctions.  
-**sf**, qui est un package permettant de manipuler, importer et exporter des 
+**sf**, un package permettant de manipuler, importer et exporter des 
 données spatiales.  
-**dplyr**, permettant de manipuler facilement des tableau de données dans R.  
+**dplyr**, un package permettant de manipuler facilement des tableaux de données 
+dans R.  
 
-## Autre methode : flux WFS du geoportail de l'urbanisme
+## 3. Autre méthode : flux WFS du géoportail de l'urbanisme
 
 En dehors du package happign, il est également possible de récupérer directement
-les flux WFS mis à disposition par le géoportail de l'urbanisme.  
+les flux WFS mis à disposition par le géoportail de l'urbanisme.    
 Cette méthode a été explorée pour les SUP pour deux raisons.
 La première raison est la complexité des partitions des SUP. En effet, 
 contrairement aux partitions des documents d'urbanisme qui sont une combinaison 
@@ -117,8 +118,8 @@ de l'abrévation du document et du code INSEE des communes (par exemple, les
 partitions des PLU sont sous la forme DU_INSEE), les partitions des SUP 
 prennent en compte la date de décision de la SUP et le type de SUP, deux 
 informations qu'on ne peut obtenir sans connaitre la SUP au préalable. 
-La deuxième raison est que, contrairement aux PLUi par exemple, il est impossible de 
-récupérer les partitions des SUP grâce à la fonction happign::get_apicarto_gpu.  
+La deuxième raison est que, il est impossible de récupérer les partitions des 
+SUP grâce à la fonction happign::get_apicarto_gpu, comme c'est le cas pour les PLUi par exemple.
 La méthode utilisant directement les flux WFS s'appliquerait uniquement dans le 
 cas où l'on ne souhaite travailler qu'avec des codes INSEE et non avec un vecteur
 de surface correspondant à notre zone d'étude.  
@@ -132,7 +133,7 @@ l'intersection avec notre zone d'étude et trier les informations ayant trait au
 enjeux patrimoniaux.
 
 
-## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
+## 4. Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
 
 L'objectif de la fonction finale est de partir d'une zone d'étude et d'extraire les données associées aux enjeux patrimoniaux trouvées dans les documents d'urbanisme et les SUP. Cette fonction doit avoir plusieures propriétés. Elle doit permettre d'importer et de filtrer seulement les informations utiles à l'utilisateur. Elle doit pouvoir afficher ces informations sur une carte mais aussi les exporter sous forme de geopackage (.gpkg). C'est pourquoi la fonction se divise en plusieures étapes :
 
@@ -152,9 +153,9 @@ Afin de rajouter des propriétés utiles à la fonction finale, un choix est lai
 
 Cette fonction doit donc faire appel à de nombreuses petites fonctions permettant de réaliser tour à tour les tâches souhaitées.
  
-# Résultats
+# III. Résultats
 
-## Liste finale des données utiles dans les documents d'aménagement
+## 1. Liste finale des données utiles dans les documents d'aménagement
 
 ```{r, echo = FALSE, results = 'hide',message=FALSE, warning=FALSE  }
 library(librarian)
@@ -203,18 +204,18 @@ sup_patrimonial <- data.frame(code_sup_patrimonial,libelle_sup_patrimonial)
 
 
 ```
-En utilisant les standards utilisés pour les documents d'urbanisme ainsi que les articles de loi qui s'y rattachent nous avons pu mettre en place la liste des enjeux patrimoniaux suivante :
+En utilisant les standards utilisés pour les documents d'urbanisme ainsi que les articles de loi qui s'y rattachent, nous avons pu mettre en place la liste des enjeux patrimoniaux suivante :
 
 ```{r, echo = FALSE}
 knitr::kable(prescription_patrimonial, caption = "liste des prescriptions retenues ayant trait aux enjeux patrimoniaux")
 knitr::kable(info_patrimonial, caption = "liste des informations retenues ayant trait aux enjeux patrimoniaux")
 knitr::kable(sup_patrimonial, caption = "liste des SUP retenues ayant trait aux enjeux patrimoniaux")
 ```
-Il ne semble y avoir aucune donnée importante dans les SCOT. 
+Il ne semble y avoir aucune donnée pertinente dans les SCOT. 
 
-## Identification des documents d'urbanisme existant dans une zone
+## 2. Identification des documents d'urbanisme existant dans une zone
 
-À partir d'une géométrie de base, il est possible de trouver les partitions des documents d'urbanismes en passant par les codes INSEE de toutes les communes présentes dans la zone.
+À partir d'une géométrie de base, il est possible de trouver les partitions des documents d'urbanisme en passant par les codes INSEE de toutes les communes présentes dans la zone.
 
 La fonction *get.code.insee* permet d'obtenir les codes INSEE des communes localisées sur la zone d'étude. La fonction *insee.to.document* permet d'afficher les communes possédant des RNU ou non ainsi que les documents d'urbanisme (PLU, PLUi, PSMV et CC) associés à ces communes.
 
@@ -307,7 +308,7 @@ resultats <- insee.to.documents(c("05023","05183","05109"))
 Ici, seuls Briançon et Villar-Saint-Pancrace possèdent des PLU tandis que Puy-Saint-Pierre est soumis à un RNU.
 
 
-## Les différentes fonctions d'importation utilisées selon la source de données
+## 3. Les différentes fonctions d'importation utilisées selon la source de données
 
 Une fonction d'importation est réalisée par source de données : prescriptions et
 informations provenant des documents d'urbanisme, générateurs et assiettes des 
@@ -499,7 +500,7 @@ dico <- list(code_prescription_general = code_prescription_general,
 
 ```{r , eval=T, include=T}
 
-amiens <- get_apicarto_gpu("05183", ressource = "municipality")
+villar <- get_apicarto_gpu("05183", ressource = "municipality")
 
 # Recuperation des prescriptions sur le GPU
 get.gpu.prescription <- function(x, dico){
@@ -527,61 +528,16 @@ get.gpu.prescription <- function(x, dico){
   return(prescription)
 }
 
-resultat <- get.gpu.prescription(amiens, dico)
+resultat <- get.gpu.prescription(villar, dico)
 ```
 
 ```{r, echo = F}
 
-knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Amiens")
+knitr::kable(head(resultat[,"libelle"]), caption = "Prescriptions retenues à Villar Saint Pancrace")
 
 ```
 
-## Choix de l'utilisateur
-
-Un filtre a déja été effectué selon les enjeux patrimoniaux, cependant tout ces enjeux ne sont pas forcément shouaités par l'utilisateur. Une fonction permet de filtrer à la main le type de données à extraire. Un exemple de saisie ci-dessous :  
-
-```{r}
-# Dans prescriptions
-# les libelles présents sont: 
-# 
-# 1 Secteur remarquable à préserver. Fermes de la Reconstruction - Hameau de Soubeyran
-# 2 Secteur remarquable à préserver. Fermes de la Reconstruction - Hameau Le Paquier
-# 3 Périmètre d'application des OAP
-# 4 Espace naturel à protéger : Bois des Ayes
-# 5 Secteur remarquable à préserver. Fermes de la Reconstruction - Chef-Lieu
-# 6 Secteur remarquable à préserver. Bâtis traditionnels formant le tissu ancien du bourg
-# 7 Canaux à préserver
-# 8 Elément patrimonial à préserver. Cadran solaire
-# 9 Elément patrimonial à préserver. Moulin
-#
-# Veuillez entrer une liste des numéros de ligne des libelles voulus
-#       séparés par des virgules 
-# (ex : 1,2,3) :
-# 8,9
-# 
-# Vous avez choisi les libelles suivant:
-# [1] "Elément patrimonial à préserver. Cadran solaire"
-# [2] "Elément patrimonial à préserver. Moulin"        
-# 
-#  Dans assiettes_sup
-# les libelles présents sont: 
-# 
-# 1 Périmètre des abords
-# 2 Monument historique
-# 
-# Veuillez entrer une liste des numéros de ligne des libelles voulus
-#       séparés par des virgules 
-# (ex : 1,2,3) :
-# 2
-# 
-# Vous avez choisi les libelles suivant:
-# [1] "Monument historique"
-
-
-```
-
-
-## Les dyfonctionnement de la récupération par flux WFS
+## 4. Les dyfonctionnements de la récupération par flux WFS
 
 En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
 permettant de récupérer les SUP d'une zone d'étude est écrite : 
@@ -626,23 +582,70 @@ resultat <- get.sup("80021") # Amiens
 qtm(resultat[[1]])
 ```
 
-Cela fonctionne malgré quelques problèmes rencontrés.  
+La fonction renvoie des résultats concluants, mais incomplets, du fait de deux problèmes.   
 Le premier est que la fonction recherche des intersections afin de savoir s'il 
-y a des SUP dans la zone d'étude, ce qui présupose que les géometries soient 
-valides. Or les géometries des assiettes des SUP ne sont pas toutes valides. Il 
+y a des SUP dans la zone d'étude, ce qui présuppose que les géometries soient 
+valides. Or les géometries des assiettes des SUP ne le sont pas toutes. Il 
 faut donc séparer les SUP à géometries valides et invalides. Pour les géometries 
 invalides, au lieu de rechercher une intersection, la fonction recherche le code 
 INSEE de la commune dans les partitions des SUP, voire le code département. 
 Cette recherche est donc laborieuse puisque si la fonction renvoie toutes les 
-SUP du département, il faut ensuite les afficher toutes et chercher visuellement 
-celles dans la zone d'étude.  
+SUP du département. Il faut ensuite les afficher toutes et chercher visuellement 
+celles dans la zone d'étude.    
+
 Le deuxième problème rend cette méthode invalide. En effet, les requêtes sur les
 flux WFS sont paginées et limitées à 5000 éléments : la fonction ne renvoie donc
-que les 5000 premières SUP de la liste, mais pas les autres.   
+que les 5000 premières SUP de la liste.    
+
 La méthode utilisant le service de téléchargement de flux WFS du géoportail de 
 l'urbanisme ne sera donc pas utilisée.
 
-## Affichage brut des données récupérées
+## 5.Choix de l'utilisateur
+
+Un filtre a déja été effectué selon les enjeux patrimoniaux, cependant tout ces enjeux ne sont pas forcément souhaités par l'utilisateur. Une fonction permet de filtrer à la main le type de données à extraire a été implementée. Elle est composée de trois fonctions : la première permettant de récupérer les différents libellés présents sur l'emprise; la deuxième, faisant office d'interface utilisateur, affichnt les libellés présents dans la zone et récupèrant les choix de l'utilisateur; la troisième permettant d'appliquer ces filtres.  
+Un exemple de saisie ci-dessous :  
+
+```{r}
+# Dans prescriptions
+# les libelles présents sont: 
+# 
+# 1 Secteur remarquable à préserver. Fermes de la Reconstruction - Hameau de Soubeyran
+# 2 Secteur remarquable à préserver. Fermes de la Reconstruction - Hameau Le Paquier
+# 3 Périmètre d'application des OAP
+# 4 Espace naturel à protéger : Bois des Ayes
+# 5 Secteur remarquable à préserver. Fermes de la Reconstruction - Chef-Lieu
+# 6 Secteur remarquable à préserver. Bâtis traditionnels formant le tissu ancien du bourg
+# 7 Canaux à préserver
+# 8 Elément patrimonial à préserver. Cadran solaire
+# 9 Elément patrimonial à préserver. Moulin
+#
+# Veuillez entrer une liste des numéros de ligne des libelles voulus
+#       séparés par des virgules 
+# (ex : 1,2,3) :
+# 8,9
+# 
+# Vous avez choisi les libelles suivant:
+# [1] "Elément patrimonial à préserver. Cadran solaire"
+# [2] "Elément patrimonial à préserver. Moulin"        
+# 
+#  Dans assiettes_sup
+# les libelles présents sont: 
+# 
+# 1 Périmètre des abords
+# 2 Monument historique
+# 
+# Veuillez entrer une liste des numéros de ligne des libelles voulus
+#       séparés par des virgules 
+# (ex : 1,2,3) :
+# 2
+# 
+# Vous avez choisi les libelles suivant:
+# [1] "Monument historique"
+
+
+```
+
+## 6. Affichage brut des données récupérées
 
 ```{r, echo = FALSE, results = 'hide',message=FALSE, warning=FALSE}
 
@@ -1291,12 +1294,12 @@ gpu_all <- final.function(area,
 
 ```
 
-La fonction *affichage* permet d'afficher une carte intéractives des prescirptions, des informations ou des SUP. La légende et l'affichage commence par
-séparer les vecteurs surfaciques, linéaires et ponctuels pour les afficher un par un s'il en existe.
+La fonction *affichage* permet d'afficher une carte interactive des prescriptions, des informations ou des SUP. La légende et l'affichage commencent par
+séparer les vecteurs surfaciques, linéaires et ponctuels pour les afficher un par un, s'il en existe.
 
 La fonction *affichage.interactive* appelle trois fois la fonction affichage pour les prescriptions, les informations et les SUP.
 
-L'exemple ci-dessous affiche les prescriptions.
+L'exemple ci-dessous affiche les prescriptions à Villar Saint Pancrace.
 
 ```{r, echo = FALSE, results = 'hide',message=FALSE, warning=FALSE}
 
@@ -1389,11 +1392,11 @@ affichage(area, gpu_all, type = "Prescriptions")
 
 ```
 
-## Exportation en geopackage
+## 7. Exportation en geopackage
 
-Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans des tableaux contenant chacun une des informations suivantes : prescriptions, informations, générateurs et assiettes. Ces 4 tableaux ont été regroupés dans une liste NomDeLaListe. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
+Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans une liste contenant quatre tableaux : prescriptions, informations, générateurs et assiettes. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
 
-Pour cela, une fonction export.list.to.gpkg a été crée. Elle prend en entrée la liste des 4 tableaux de données ainsi qu'un chemin d'accès à cette future couche. 
+Pour cela, une fonction export.list.to.gpkg a été crée. Elle prend en entrée la liste des quatre tableaux de données ainsi qu'un chemin d'accès à cette future couche. 
 
 ```{r}
 # Exporte une liste de data frame sous forme de geopackage 
@@ -1405,7 +1408,7 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
                    "generateur", 
                    "assiette")
   
-  # Chaque obejt de la liste est nommé puis exporté sous forme de fichier dans 
+  # Chaque objet de la liste est nommé puis exporté sous forme de fichier dans 
   # un unique geopackage
   for (i in seq_along(gpu_all)) {
     df <- gpu_all[[i]]
@@ -1416,13 +1419,9 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
 
 ```
 
-Cette fonction va parcourir la liste contenant les 4 tableaux. Elle attribue un nom à chaque tableau (prescriptions, infos, générateurs ou assiettes) et convertit ses données en fichier gpkg. Chaque fichier ainsi créé sera ajouté à une unique couche gpkg.
+Cette fonction va parcourir la liste, elle attribue un nom à chaque tableau (prescriptions, infos, générateurs ou assiettes) et convertit ses données en fichier gpkg. Chaque fichier ainsi créé sera ajouté à une unique couche gpkg que l'on pourra afficher sur un logiciel de SIG.
 
-Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée contiendra 4 fichiers que l'on pourra afficher sur un logiciel de SIG.
-
-
-
-## Fonction finale
+## 8. Fonction finale
 
 ```{r, eval=FALSE}
 final.function <- function(area,  # Geometrie
@@ -1436,54 +1435,46 @@ final.function <- function(area,  # Geometrie
                            export_gpkg = TRUE)  # TRUE ou FALSE
 ```
 
-La fonction finale.fuction prend en entrée 8 arguments :  
-- *area* qui correspond à la géométrie de la zone étudiée.
-- *dico* qui contient codes permettant de filtrer l'ensemble des prescriptions, informations et SUP en lien avec les enjeux patrimoniaux. 
-- *filter* qui vaut Patrimoine, General ou Ecologique afin de filtrer les données en sortie. 
-- *post_filter* qui vaut TRUE ou FALSE pour laisser ou non le choix à l'utilisateur d'un filtre plus personnalisé.  
-- *working_dir* qui correspond au dossier dans lequel le geopackage sera créé.
-- Une valeur de *buffer*.  
-- *display* et *export_gpkg* qui valent chacun TRUE ou FALSE pour lancer ou non les fonctions d'affichage des cartes sur R et de création du geopackage.
+La fonction *final.fuction* prend en entrée huit arguments :  
+-   *area* qui correspond à la géométrie de la zone étudiée.
+-   *dico* qui contient les codes permettant de filtrer l'ensemble des prescriptions, informations et SUP.
+-   *filter* qui vaut Patrimoine, General ou Ecologique afin de filtrer les données en sortie. 
+-   *post_filter* qui vaut TRUE ou FALSE pour laisser le choix à l'utilisateur d'un filtre plus personnalisé.  
+-   *working_dir* qui correspond au dossier dans lequel le geopackage sera créé.
+-   Une valeur de *buffer*.  
+-   *display* et *export_gpkg* qui valent chacun TRUE ou FALSE pour lancer ou non les fonctions d'affichage des cartes sur R et de création du geopackage.
 
-La sortie de la fonction contient une liste des quatres tableau de données (prescriptions, informations, générateurs de SUP et assiettes des SUP).
+La sortie de la fonction contient une liste des quatre tableaux de données (prescriptions, informations, générateurs de SUP et assiettes des SUP).
 
-# Discussion-Conclusion
+# IV. Discussion-Conclusion
 
-## Possibilité d’amélioration complémentaire ayant trait aux améliorations législatives
+## 1. Possibilité d’amélioration complémentaire ayant trait à la legislation
 
-En outre, il serait envisageable d’inclure aux résultats une synthèse des articles de loi et règlements liés aux prescriptions, informations et SUP présentes sur la zone d’étude. Cela permettrait d’afficher directement les conséquences de ces enjeux patrimoniaux pour la gestion forestière, ce qui est le but de leur inclusion dans les documents d’aménagement. 
+Il est envisageable d’inclure aux résultats une synthèse des articles de loi et règlements liés aux prescriptions, informations et SUP présentes sur la zone d’étude. Cela permettrait d’afficher directement les conséquences de ces enjeux patrimoniaux pour la gestion forestière, ce qui est le but de leur inclusion dans les documents d’aménagement. 
 
-## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
+## 2. Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
 Dans un premier temps, seules les données relatives aux enjeux patrimoniaux ont 
 été sélectionnées au sein des documents d'urbanisme et des SUP. Seulement, il 
 existe de nombreuses données dans ces documents qui ne concernent pas les 
-enjeux patrimoniaux mais qui peuvent tout de même être intéressantes pour la 
+enjeux patrimoniaux mais qui restent intéressantes pour la 
 gestion forestière et la rédaction des documents d'aménagement.  
 
 Ainsi, les données extraites des documents d'urbanisme et des SUP ont été triées 
-selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué 
-toujours de la manière la plus précise possible, à l'aide des lois et 
+selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué
+de la manière la plus précise possible, à l'aide des lois et 
 règlements rattachés aux prescriptions, informations et SUP. Ensuite, une 
 variable **filter** a été ajoutée à la fonction finale, permettant de choisir
-quelle catégorie de donnée l'on souhaite récupérer.  
+quelle catégorie de données l'on souhaite récupérer.  
 
 Néanmoins, il demeure possible que certains éléments se retrouvent dans une 
 catégorie inadaptée, en particulier parce que certaines prescriptions sont 
 très larges. En effet, la dénomination des éléments (prescriptions, 
-informations, SUP) se retrouvant dans la variable filter repose sur un 
+informations, SUP) se retrouvent dans la variable filter et repose sur un 
 code indiquant la nature de ces éléments. Or, il existe également des 
-sous-codes plus précis. Cependant, ce sous-code n'a pas été pris en compte 
-lors de la création de la variable filter. Par exemple, les prescriptions 99
-s'intitulent : "Autre : zones naturelles, agricoles ou forestières". On y trouve
-les prescriptions 99-02 intitulés "Autre : zones naturelles, agricoles ou 
-forestières", pouvant être importantes pour la gestion forestière, mais aussi 
-les prescriptions 99-03 intitulés "Autre : mixité sociale et fonctionnelle en 
-zones urbaines ou à urbaniser", ne concernant aucunement la forêt. L'utilisateur
-doit donc lui-même faire un dernier tri.
+sous-codes plus préci qui n'ont pas été pris en compte lors de la création de la variable filter. Par exemple, les prescriptions 99 s'intitulent : "Autre : zones naturelles, agricoles ou forestières". On y trouve les prescriptions 99-02 intitulés "Autre : zones naturelles, agricoles ou forestières", pouvant être importantes pour la gestion forestière, mais aussi les prescriptions 99-03 intitulés "Autre : mixité sociale et fonctionnelle en zones urbaines ou à urbaniser", ne concernant aucunement la forêt. L'utilisateur doit donc lui-même faire un dernier tri (source : Conseil national de l’information géolocalisée, 2014).
 
-
-## Possibilité de meilleur affichage des données récupérées
+## 3. Possibilité d'amélioration de l'affichage des données récupérées
 
 La fonction affichage permet d’afficher une carte interactive des prescriptions, 
 des informations et des SUP voulues. Néanmoins, cet affichage pourrait être optimisé 
@@ -1495,9 +1486,10 @@ De la même manière, les libellés pourraient être regroupés par catégorie a
 
 Enfin, il est possible d’établir une interface entre QGIS et R permettant d’accéder aux fonctionnalités de QGIS à partir de R grâce à certains packages comme RQGIS. Utiliser ce package permettrait d’ouvrir directement les geopackage créés dans notre fonction et de faire une mise en page de carte propre. Cette carte pourrait être directement intégrée à un document d’aménagement
 
-# Conclusion
+# V. Conclusion
 
-En concluon, ce projet aboutit à une fonction permettant de récupérer les données ayant trait aux enjeux patrimoniaux depuis le géoportail de l’urbanisme et les différents documents qui y sont hébergés. Cette fonction permet également de trier les informations récupérées pour              s’adapter aux besoins de l’utilisateur, mais aussi de récupérer des informations plus générales sur un massif, essentielles pour rédiger un document d’aménagement forestier. 
+En conclusion, ce projet aboutit à une fonction permettant de récupérer les données ayant trait aux enjeux patrimoniaux depuis le géoportail de l’urbanisme et les différents documents qui y sont hébergés. Cette fonction permet également de trier les informations récupérées pour s’adapter aux besoins de l’utilisateur, de récupérer des informations plus générales sur un massif. Ces informations sont essentielles pour rédiger un document d’aménagement forestier.  
+
 Enfin, la fonction créée contient aussi une fonctionnalité d’affichage d’une carte sur R, mais également une exportation de geopackages utilisables ensuite sur QGIS. 
 Il est à noter que cette fonction est néanmoins améliorable sur quelques aspects, notamment pour intégrer plus facilement les données récupérées à un document d’aménagement. 
 
