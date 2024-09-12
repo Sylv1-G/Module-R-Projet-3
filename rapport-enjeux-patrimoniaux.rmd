@@ -441,20 +441,20 @@ knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Am
 En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
 permettant de récupérer les SUP d'une zone d'étude est écrite : 
 
-
-```{r setup, eval=F, include=T}
-knitr::opts_chunk$set(echo = F)
-x <- mapedit::drawFeatures()
-
-# x est un code INSEE
-# Exemple : 05023, Briançon
-
-get.sup <- function(x){
+```{r, eval=F, include=T}
   # Ouverture des packages
   library(librarian)
   shelf(sf, httr,happign,dplyr,tmap)
   library(tmap);ttm()
-  
+```
+
+```{r, eval=T, include=T}
+knitr::opts_chunk$set(echo = F)
+
+Briancon <- get_apicarto_gpu("05023", ressource = "municipality")
+
+get.sup <- function(x){
+
   # Recuperation des SUP
   wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
   SUP_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
@@ -486,7 +486,7 @@ get.sup <- function(x){
   
 }
 
-resultat <- get.sup(x)
+resultat <- get.sup(Briancon)
 qtm(resultat[[1]])
 ```
 
