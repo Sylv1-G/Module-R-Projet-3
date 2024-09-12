@@ -6,69 +6,48 @@
 
 # Introduction
 
-## Présentation globale du projet 
+## Présentation globale du projet
 
-Afin de gérer un massif forestier et d'écrire les documents d'aménagement, il
-est nécessaire de s'intéresser au contexte de ce massif, dont les enjeux 
-patrimoniaux qui y sont présents.
-Ces informations (telles que les monuments historiques, les sites inscrits et 
-classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme 
-(PLU, PLUi, CC, PSMV) ainsi que dans les SUP (Servitudes d'Utilité 
-Publique) et les SCOT (Schémas de Cohérence Territoriale), et sont regroupées 
-sur le géoportail de l'urbanisme. 
+La gestion d'un massif forestier et l'écriture de documents d'aménagement nécessitent de s'intéresser aux enjeux environnants dont les enjeux patrimoniaux. Ces informations (telles que les monuments historiques, les sites inscrits et classés, les aligements d'arbres etc...) se trouvent dans des documents d'urbanisme (PLU, PLUi, CC, PSMV) ainsi que dans des SUP (Servitudes d'Utilité Publique) et des SCOT (Schémas de Cohérence Territoriale). Elles sont regroupées sur le géoportail de l'urbanisme.
 
 ## Justification du besoin des données relatives aux enjeux patrimoniaux
 
-Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier 
-car il en découle des contraintes voire des interdictions.
-En effet, chaque prescription ou information de document d'urbanisme et chaque
-servitude d'utilité publique est liée à un article de loi ou à un réglement des
-codes forestier, de l'urbanisme, du patrimoine ou de l'environnement, qui en 
-stipule les conséquences. 
-Par exemple, une prescription ayant trait au patrimoine bâti ou paysager à 
-protéger est liée à l'article L151-19 du code de l'urbanisme, qui stipule qu'il 
-est obligatoire d'assurer leur préservation, leur conservation ou leur 
-restauration. 
+Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier car il en découle des contraintes voire des interdictions. Chaque prescription ou information de document d'urbanisme et chaque SUP est liée à un article de loi ou à un réglement des codes forestier, de l'urbanisme, du patrimoine ou de l'environnement, qui en stipule les conséquences. Par exemple, une prescription ayant trait au patrimoine bâti ou paysager à protéger est liée à l'article L151-19 du code de l'urbanisme, qui stipule qu'il est obligatoire d'assurer leur préservation, leur conservation ou leur restauration.
 
 ## Description des documents d'aménagements (et SUP)
 
-Le géoportail de l'urbanisme (GPU) permet d'afficher les informations de différents documents d'organisme :    
+Le géoportail de l'urbanisme (GPU) permet d'acceder aux informations de différents documents d'urbanisme :
 
-- SCOT (Schéma de Cohérence Territoriale) :  
-Le SCOT est un document de planification stratégique qui fixe les grandes orientations de l’aménagement du territoire à l'échelle de plusieurs communes ou d'une intercommunalité. Il couvre des domaines comme l'urbanisme, le logement, les transports, et l'environnement.    
+-   PLU (Plan Local d’Urbanisme) :\
+    Le PLU est un document d'urbanisme à l'échelle communale qui définit les règles de construction et d'aménagement pour l'ensemble du territoire de la commune. Il détermine notamment l'affectation des sols, les zones constructibles, les hauteurs maximales des constructions, etc.
 
-- RNU (Règlement National d’Urbanisme) :  
-Le RNU est un ensemble de règles d'urbanisme qui s'appliquent dans les communes qui ne disposent pas de documents d'urbanisme locaux (comme un PLU). Ces règles définissent les conditions de construction et d'aménagement du territoire au niveau national.    
+-   CC (Carte Communale) :\
+    La Carte Communale est un document d'urbanisme simplifié qui délimite les zones constructibles et non constructibles sur le territoire d'une commune. Elle est utilisée principalement dans les petites communes qui ne disposent pas d'un PLU.
 
-- CC (Carte Communale) :  
-La Carte Communale est un document d'urbanisme simplifié qui délimite les zones constructibles et non constructibles sur le territoire d'une commune. Elle est utilisée principalement dans les petites communes qui ne disposent pas d'un PLU.    
+-   PSMV (Plan de Sauvegarde et de Mise en Valeur) :\
+    Le PSMV est un document d'urbanisme spécifique aux secteurs sauvegardés, généralement des centres historiques, où il fixe des règles précises de préservation et de mise en valeur du patrimoine bâti. Il régit les travaux de construction, de rénovation, ou de démolition dans ces secteurs.
 
-- PLU (Plan Local d’Urbanisme) :  
-Le PLU est un document d'urbanisme à l'échelle communale qui définit les règles de construction et d'aménagement pour l'ensemble du territoire de la commune. Il détermine notamment l'affectation des sols, les zones constructibles, les hauteurs maximales des constructions, etc.    
+-   PLUi (Plan Local d’Urbanisme intercommunal) :\
+    Le PLUi est un PLU qui s'applique non pas à une seule commune, mais à un ensemble de communes (intercommunalité). Il permet une planification cohérente et concertée à l'échelle de plusieurs communes.
 
-- PLUi (Plan Local d’Urbanisme intercommunal) :  
-Le PLUi est un PLU qui s'applique non pas à une seule commune, mais à un ensemble de communes (intercommunalité). Il permet une planification cohérente et concertée à l'échelle de plusieurs communes.    
+-   SCOT (Schéma de Cohérence Territoriale) :\
+    Le SCOT est un document de planification stratégique qui fixe les grandes orientations de l’aménagement du territoire à l'échelle de plusieurs communes ou d'une intercommunalité. Il couvre des domaines comme l'urbanisme, le logement, les transports, et l'environnement.
 
-- PSMV (Plan de Sauvegarde et de Mise en Valeur) :  
-Le PSMV est un document d'urbanisme spécifique aux secteurs sauvegardés, généralement des centres historiques, où il fixe des règles précises de préservation et de mise en valeur du patrimoine bâti. Il régit les travaux de construction, de rénovation, ou de démolition dans ces secteurs.    
+-   RNU (Règlement National d’Urbanisme) :\
+    Le RNU est un ensemble de règles d'urbanisme qui s'appliquent dans les communes qui ne disposent pas de documents d'urbanisme locaux (comme un PLU). Ces règles définissent les conditions de construction et d'aménagement du territoire au niveau national.
 
-- SUP (Servitudes d’Utilité Publique) :  
-Les SUP sont des contraintes administratives imposées à certaines propriétés privées dans l'intérêt général. Elles sont liées à la présence d’infrastructures, de protections environnementales, ou de risques naturels, et limitent les droits d'usage et de construction sur les terrains concernés.    
+-   SUP (Servitudes d’Utilité Publique) :\
+    Les SUP sont des contraintes administratives imposées à certaines propriétés privées dans l'intérêt général. Elles sont liées à la présence d’infrastructures, de protections environnementales, ou de risques naturels, et limitent les droits d'usage et de construction sur les terrains concernés.
 
-Ces différents documents et concepts jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/).
+Ces différents documents jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669>). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (<https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/>).
 
 ![Documents d'urbanisme](1.png)
 
 ![Servitude d'Utilité Publique](2.png)
 
-## Problématique 
+## Problématique
 
-Puisqu'il est nécessaire de s'intéresser aux enjeux patrimoniaux et que les 
-informations qui y sont relatives sont regroupées sur le géoportail de 
-l'urbanisme, il est possible et souhaitable d'automatiser la recherche de ces 
-informations. Pour cela, il faudra tout d'abord identifier quels documents 
-d'urbanisme, SCOT ou SUP, existent pour notre zone d'étude, puis récupérer 
-les données dans ces documents et les trier en fonction de leur utilité. 
+La nécessité de s'intéresser aux enjeux patrimoniaux pousse à automatiser l'importation des données regroupées sur le géoportail de l'urbanisme. Pour cela, il faudra d'abord identifier les documents d'urbanisme, SCOT ou SUP existant sur notre zone d'étude, puis récupérer les données utiles dans ces documents. 
 
 
 # Matériel et Méthode
@@ -158,7 +137,26 @@ et ponctuels. Puis il faut manipuler les tableaux de données afin de faire
 l'intersection avec notre zone d'étude et trier les informations ayant trait aux
 enjeux patrimoniaux.
 
+
 ## Méthode de réalisation de la fonction : plusieurs fonctions puis aggrégation
+
+L'objectif de la fonction finale est de partir d'une zone d'étude et d'extraire les données associées aux enjeux patrimoniaux trouvées dans les documents d'urbanisme et les SUP. Cette fonction doit avoir plusieures propriétés. Elle doit permettre d'importer et de filtrer seulement les informations utiles à l'utilisateur. Elle doit pouvoir afficher ces informations sur une carte mais aussi les exporter sous forme de geopackage (.gpkg). C'est pourquoi la fonction se divise en plusieures étapes :
+
+-   Tout d'abord, la zone d'étude, entrée sous format sf ou sfc, doit être tranformée dans un système de projection Lambert 93 et légèrement élargie grâce à un buffer. Ces deux étapes facilitent ensuite l'affichage et la lisibilité sur des cartes françaises. Le buffer permet également de récupérer des données sur une zone plus large.
+
+-   Les données du géoportail de l'urbanisme se superposant à la zone d'étude peuvent ensuite être importées en quatre catégories : les prescriptions et les informations issues des documents d'urbanisme (PLU, PLUi, PSMV, CC), et les générateurs et les assiettes des SUP. Pour chacune de ces quatres catégories, un filtre est réalisé pour ne garder que les données liés aux enjeux patrimoniaux.
+
+-   Ces quatres dataframe doivent ensuite être fusionnés dans une liste qui, après transformation du système de projection en Lambert 93, deviendra le resultat en sortie de la fonction.
+
+Afin de rajouter des propriétés utiles à la fonction finale, un choix est laissé à l'utilisateur :
+
+-   De réaliser un second filtre à la main après l'importation des données afin de diminuer la quantité d'informations extraites et de simplifier l'analyse des données.
+
+-   D'afficher une carte brute des informations extraites avec le package tmap et de pouvoir explorer facilement les données.
+
+-   D'exporter les données sous un format geopackage utilisable avec des logiciels SIG.
+
+Cette fonction doit donc faire appel à de nombreuses petites fonctions permettant de réaliser tour à tour les tâches souhaitées.
  
 # Résultats
 
