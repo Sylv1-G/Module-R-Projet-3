@@ -176,7 +176,7 @@ libelle_prescription_patrimonial <- c(
   "Constructibilité espace boisé antérieur au 20ème siècle",
   "Autre")
 
-prescription_patrimoniale <- data.frame(code_prescription_patrimonial,libelle_prescription_patrimonial)
+prescription_patrimonial <- data.frame(code_prescription_patrimonial,libelle_prescription_patrimonial)
 
 code_info_patrimonial <- c("16", "25", "40", "99")
 libelle_info_patrimonial <- c(
@@ -186,7 +186,7 @@ libelle_info_patrimonial <- c(
   "Autre"
   )
 
-info_patrimoniale <- data.frame(code_info_patrimonial,libelle_info_patrimonial)
+info_patrimonial <- data.frame(code_info_patrimonial,libelle_info_patrimonial)
 
 code_sup_patrimonial <- c("a10","ac1","ac4","ac2")
 
@@ -197,7 +197,7 @@ libelle_sup_patrimonial <- c(
    "Servitudes relatives aux sites inscrits et classés")
 
 
-sup_patrimoniale <- data.frame(code_sup_patrimonial,libelle_sup_patrimonial)
+sup_patrimonial <- data.frame(code_sup_patrimonial,libelle_sup_patrimonial)
 
 
 
@@ -212,18 +212,99 @@ knitr::kable(sup_patrimoniale, caption = "liste des SUP retenues ayant trait aux
 Il ne semble y avoir aucune donnée importante dans les SCOT. 
 
 ## Identification des documents d'urbanisme existant dans une zone 
-## Les différentes fonctions réalisées selon la source de données
+## Les différentes fonctions d'importation utilisées selon la source de données
+
+Une fonction d'importation est réalisée par source de données : prescriptions et
+informations provenant des documents d'urbanisme, générateurs et assiettes des 
+SUP, soit quatre fonctions au total. 
+
+Ci-dessous l'exemple de la fonction permettant d'importer les prescriptions : 
+
+```{r librairies, echo = F}
+library(librarian)
+shelf(sf, httr,happign,dplyr,tmap)
+library(tmap);ttm()
+```
+
+```{r setup, echo = F}
+ Selection des colonnes utiles dans les tableaux des generateurs et assiettes 
+# de SUP
+col_utiles_gen <- c("gid","suptype","partition","fichier","nomgen","typegen",
+                   "nomsuplitt","geometry")
+col_utiles_ass <- c("gid","suptype","partition","fichier","nomass","typeass",
+                   "nomsuplitt","geometry")
+
+# Uniformisation des noms de colonnes des tableaux des generateurs et assiettes 
+# de SUP
+noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
+              "nomsuplitt","geometry")
+
+# Rassemblement de toutes les listes dans un seul repertoire
+dico <- list(code_prescription_general = code_prescription_general,
+             libelle_prescription_general = libelle_prescription_general,
+             code_prescription_patrimonial = code_prescription_patrimonial,
+             libelle_prescription_patrimonial = 
+               libelle_prescription_patrimonial,
+             code_prescription_ecologique = code_prescription_ecologique,
+             libelle_prescription_ecologique = libelle_prescription_ecologique,
+             code_info_general = code_info_general,
+             libelle_info_general = libelle_info_general,
+             code_info_patrimonial = code_info_patrimonial,
+             libelle_info_patrimonial = libelle_info_patrimonial,
+             code_info_ecologique = code_info_ecologique,
+             libelle_info_ecologique = libelle_info_ecologique,
+             code_sup_general = code_sup_general,
+             libelle_sup_general = libelle_sup_general,
+             code_sup_patrimonial = code_sup_patrimonial,
+             libelle_sup_patrimonial = libelle_sup_patrimonial,
+             code_sup_ecologique = code_sup_ecologique,
+             libelle_sup_ecologique = libelle_sup_ecologique,
+             col_utiles_ass =  col_utiles_ass,
+             col_utiles_gen = col_utiles_gen,
+             noms_def = noms_def)
+
+```
+
+```{r setup, eval=T, include=T}
+
+x <- get_wfs("O5O23", layer = "ADMINEXPRESS-COG.LATEST:commune")
+
+# Recuperation des prescriptions sur le GPU
+get.gpu.prescription <- function(x, dico){
+  
+  # Recuperation des surfaces, lignes et points
+  prescription_surf <- get_apicarto_gpu(x,
+                                        ressource = c("prescription-surf"))
+  prescription_lin <- get_apicarto_gpu(x,
+                                       ressource = c("prescription-lin"))
+  prescription_pct <- get_apicarto_gpu(x,
+                                       ressource = c("prescription-pct"))
+  prescription_pct <- prescription_pct[ ,
+                                        !(names(prescription_pct) %in% "angle")]
+
+  # Creation d'un seul tableau avec les donnees surfaciques, lineaires et 
+  # ponctuelles
+  prescription <- rbind(prescription_surf, prescription_lin, prescription_pct)
+
+  # Tri des prescriptions grace aux listes definies en debut de code 
+  if (!is.null(prescription)){
+    prescription <- 
+      filter(prescription, typepsc %in% dico[["code_prescription"]])
+    
+  }
+  return(prescription)
+}
+
+print(get.gpu.prescription(x, dico))
+
+```
+
 ## Fonction finale et choix de l'utilisateur
 ## Les dyfonctionnement de la récupération par flux WFS
 
 En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
 permettant de récupérer les SUP d'une zone d'étude est écrite : 
 
-```{r librairies, eval=FALSE, include=FALSE}
-library(librarian)
-shelf(sf, httr,happign,dplyr,tmap)
-library(tmap);ttm()
-```
 
 ```{r setup, eval=F, include=T}
 knitr::opts_chunk$set(echo = F)
