@@ -232,7 +232,7 @@ Ainsi, lorsque les 4 tableaux auront été convertis, la couche gpkg créée con
 
 ## Autres données utiles récupérables par le geoportail, non relatives aux enjeux patrimoniaux (enjeux ecologiques => code de sylvain, mais aussi autres : ex richesse du sol, + possibilité de meilleur tri avec les sous codes)
 ## Possibilité de meilleur affichage des données récupérées
-## Conclusion
+# Conclusion
 
 # Bibliographie
 # Module-R-Projet-3
