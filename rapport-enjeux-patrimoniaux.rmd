@@ -30,8 +30,55 @@ restauration.
 
 ## Description des documents d'aménagements (et SUP)
 
+Afin de gérer un massif forestier et d'écrire les documents d'aménagement, il
+est nécessaire de s'intéresser au contexte de ce massif, dont aux enjeux 
+patrimoniaux qui y sont présents. 
+Ces informations (telles que les monuments historiques, les sites inscrits et 
+classés, les aligements d'arbres...) se trouvent dans les documents d'urbanisme 
+(PLU, PLUi, CC, PSMV) ainsi que dans les SUP (servitudes d'utilité 
+publique) et les SCOT (Schémas de Cohérence Territoriale), et sont regroupées 
+sur le géoportail de l'urbanisme. 
+
+## Justification du besoin des données relatives aux enjeux patrimoniaux
+
+Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier 
+car il en découle des contraintes voire des interdictions.
+Par exemple, l'existance d'une SUP dans un massif forestier peut entrainer 
+l'interdiction de l'engagement ou de la poursuite de travaux. 
+(source : https://www.geoportail-urbanisme.gouv.fr/info-general/ 
+Il est de même avec la présence d'une presciption du Plan Local d'Urbanisme (PLU). 
+
+## Description des documents d'aménagements (et SUP)
+
+Le GPU permet d'afficher les informations de différents documents d'organisme :
+
+- SCOT (Schéma de Cohérence Territoriale) :  
+Le SCOT est un document de planification stratégique qui fixe les grandes orientations de l’aménagement du territoire à l'échelle de plusieurs communes ou d'une intercommunalité. Il couvre des domaines comme l'urbanisme, le logement, les transports, et l'environnement.
+
+- RNU (Règlement National d’Urbanisme) :  
+Le RNU est un ensemble de règles d'urbanisme qui s'appliquent dans les communes qui ne disposent pas de documents d'urbanisme locaux (comme un PLU). Ces règles définissent les conditions de construction et d'aménagement du territoire au niveau national.
+
+- CC (Carte Communale) :  
+La Carte Communale est un document d'urbanisme simplifié qui délimite les zones constructibles et non constructibles sur le territoire d'une commune. Elle est utilisée principalement dans les petites communes qui ne disposent pas d'un PLU.
+
+- PLU (Plan Local d’Urbanisme) :  
+Le PLU est un document d'urbanisme à l'échelle communale qui définit les règles de construction et d'aménagement pour l'ensemble du territoire de la commune. Il détermine notamment l'affectation des sols, les zones constructibles, les hauteurs maximales des constructions, etc.
+
+- PLUi (Plan Local d’Urbanisme intercommunal) :  
+Le PLUi est un PLU qui s'applique non pas à une seule commune, mais à un ensemble de communes (intercommunalité). Il permet une planification cohérente et concertée à l'échelle de plusieurs communes.
+
+- PSMV (Plan de Sauvegarde et de Mise en Valeur) :  
+Le PSMV est un document d'urbanisme spécifique aux secteurs sauvegardés, généralement des centres historiques, où il fixe des règles précises de préservation et de mise en valeur du patrimoine bâti. Il régit les travaux de construction, de rénovation, ou de démolition dans ces secteurs.
+
+- SUP (Servitudes d’Utilité Publique) :  
+Les SUP sont des contraintes administratives imposées à certaines propriétés privées dans l'intérêt général. Elles sont liées à la présence d’infrastructures, de protections environnementales, ou de risques naturels, et limitent les droits d'usage et de construction sur les terrains concernés.
+
+Ces différents documents et concepts jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/).
+
 ![Documents d'urbanisme](1.png)
+
 ![Servitude d'Utilité Publique](2.png)
+
 
 ## Problématique 
 
