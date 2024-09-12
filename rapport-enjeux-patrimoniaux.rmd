@@ -1,8 +1,14 @@
-# **Rapport du projet enjeux patrimoniaux**
 
-# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel 
-
-# Date : 13/09/2024
+---
+title: "Rapport du projet enjeux patrimoniaux"
+output:
+  html_document:
+    toc: true          # Active le sommaire
+    toc_float: true    # Rendre le sommaire flottant et interactif
+    toc_depth: 2       # Définir le niveau de profondeur (par défaut, 2)
+date: '2024-09-13'
+author: Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel
+---
 
 # I. Introduction
 
