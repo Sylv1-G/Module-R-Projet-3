@@ -32,9 +32,11 @@ Les SUP sont des contraintes administratives imposées à certaines propriétés
 
 Ces différents documents et concepts jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/).
 
-![Documents d'urbanisme](1.png)
+![](1.png)
+<center><u>Documents d'urbanisme</u></center>
 
-![Servitude d'Utilité Publique](2.png)
+![](2.png)
+<center><u>Servitude d'Utilité Publique</u></center>
 
 # Discussion-Conclusion
 
@@ -44,4 +46,25 @@ Les données extraites des documents d'urbanisme et des SUP ont été triées da
 
 ## Possibilité de meilleur affichage des données récupérées
 
+## Fonction finale
 
+```{r}
+final.function <- function(area,  # Geometrie
+                           dico,  # Repertoire de listes
+                           filter = "Patrimoine",  # Patrimoine,General ou 
+                                                   # Ecologique
+                           post_filter = FALSE,  # FALSE ou TRUE
+                           working_dir = NULL,  # NULL ou repertoire de travail
+                           buffer = 300,  # Entier en metres
+                           display = FALSE,  # FALSE ou TRUE
+                           export_gpkg = TRUE)  # TRUE ou FALSE
+```
+
+La fonction finale.fuction prend en entrée 8 arguments :  
+- area qui correspond à la géométrie de la zone étudiée  
+- dico qui contient les libellés de l'ensembles des prescriptions, informations et SUP en lien avec le sujet  
+- filter qui vaut Patrimoine, General ou Ecologique afin de filtrer les données en sortie  
+- post_filter qui vaut TRUE ou FALSE pour laisser ou non le choix à l'utilisateur d'un filtre plus personnalisé  
+- working_dir qui correspond au dossier dans lequel le geopackage sera créé  
+- une valeur de buffer  
+- display et export_gpkg qui valent chacun TRUE ou FALSE pour lancer ou non les fonctions d'affichage des cartes sur R et de création du geopackage

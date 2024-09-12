@@ -41,9 +41,13 @@ Le géoportail de l'urbanisme (GPU) permet d'acceder aux informations de différ
 
 Ces différents documents jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669>). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (<https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/>).
 
-![Documents d'urbanisme](1.png)
+![](1.png)
+<center><u>Documents d'urbanisme</u></center>
 
-![Servitude d'Utilité Publique](2.png)
+
+
+![](2.png)
+<center><u>Servitude d'Utilité Publique</u></center>
 
 ## Problématique
 
@@ -213,7 +217,7 @@ Ci-dessous l'exemple de la fonction permettant d'importer les prescriptions :
 ```{r, echo = F}
 library(librarian)
 shelf(sf, httr,happign,dplyr,tmap)
-library(tmap);ttm()
+library(tmap);tmap_mode("view")
 
 code_prescription_general <- c("01", "07", "18", "19", "25", "31", "34", "35",
                                "43", "46", "99")
@@ -435,26 +439,53 @@ knitr::kable(head(resultat[,"libelle"]), caption = "prescriptions retenues à Am
 
 ```
 
-## Fonction finale et choix de l'utilisateur
+## Choix de l'utilisateur
+
+## Fonction finale
+
+```{r}
+final.function <- function(area,  # Geometrie
+                           dico,  # Repertoire de listes
+                           filter = "Patrimoine",  # Patrimoine,General ou 
+                                                   # Ecologique
+                           post_filter = FALSE,  # FALSE ou TRUE
+                           working_dir = NULL,  # NULL ou repertoire de travail
+                           buffer = 300,  # Entier en metres
+                           display = FALSE,  # FALSE ou TRUE
+                           export_gpkg = TRUE)  # TRUE ou FALSE
+```
+
+La fonction finale.fuction prend en entrée 8 arguments :  
+- area qui correspond à la géométrie de la zone étudiée  
+- dico qui contient les libellés de l'ensembles des prescriptions, informations et SUP en lien avec le sujet  
+- filter qui vaut Patrimoine, General ou Ecologique afin de filtrer les données en sortie  
+- post_filter qui vaut TRUE ou FALSE pour laisser ou non le choix à l'utilisateur d'un filtre plus personnalisé  
+- working_dir qui correspond au dossier dans lequel le geopackage sera créé  
+- une valeur de buffer  
+- display et export_gpkg qui valent chacun TRUE ou FALSE pour lancer ou non les fonctions d'affichage des cartes sur R et de création du geopackage
+
+
+
+
+
 ## Les dyfonctionnement de la récupération par flux WFS
 
 En utilisant les flux WFS du géoportail de l'urbanisme, une fonction 
 permettant de récupérer les SUP d'une zone d'étude est écrite : 
 
-
-```{r setup, eval=F, include=T}
-knitr::opts_chunk$set(echo = F)
-x <- mapedit::drawFeatures()
-
-# x est un code INSEE
-# Exemple : 05023, Briançon
-
-get.sup <- function(x){
+```{r include=FALSE}
   # Ouverture des packages
   library(librarian)
   shelf(sf, httr,happign,dplyr,tmap)
-  library(tmap);ttm()
-  
+  tmap_options(check.and.fix = TRUE)
+  library(tmap);tmap_mode("view")
+```
+
+```{r, eval=T, include=T}
+knitr::opts_chunk$set(echo = T)
+
+get.sup <- function(x){
+
   # Recuperation des SUP
   wfs_url <- "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetCapabilities"
   SUP_s <- st_read(wfs_url, layer = "wfs_sup:assiette_sup_s") 
@@ -486,7 +517,7 @@ get.sup <- function(x){
   
 }
 
-resultat <- get.sup(x)
+resultat <- get.sup("80021") # Amiens
 qtm(resultat[[1]])
 ```
 
@@ -507,6 +538,103 @@ La méthode utilisant le service de téléchargement de flux WFS du géoportail 
 l'urbanisme ne sera donc pas utilisée.
 
 ## Affichage des données récupérées
+
+```{r}
+# Fonction d'affichage interactif ----
+
+# Fonction pour afficher une carte interactive
+affichage <- function(area, gpu_all, type = "Prescriptions"){
+  
+  # On peut afficher trois types de cartes 
+  types <- c("Prescriptions", "Informations", "SUP")
+  
+  if (!type %in% types){
+    stop ("Type must be 'Prescriptions', 'Informations' or 'SUP'")
+  }
+  
+  # Utilisation de tmap en mode interactif
+  tmap_mode("view")
+  
+  # Definition de l'affichage
+  x <- 1  # Pour aller chercher le premier element de la liste gpu_all
+  n <- 1  # Nombre iteration de la boucle for 
+  if (type == "Informations"){
+    x <- 2
+  } else if (type == "SUP") {
+    x <- 4
+    n <- 2
+  }
+  
+  # Creation de la carte interactive
+  map <- tm_shape(area) +
+    tm_borders(col = "black", lwd = 2) +
+    tm_view(view.legend.position = c("right", "bottom"))
+  
+  
+  for (i in 1:n){
+    # Separation des types de geometries
+    geometry_type <- st_geometry_type(gpu_all[[x]])
+    
+    polygones <- st_make_valid(gpu_all[[x]][geometry_type == "MULTIPOLYGON", ])
+    lignes <- st_make_valid(gpu_all[[x]][geometry_type == "MULTILINESTRING", ])
+    points <- st_make_valid(gpu_all[[x]][geometry_type == "MULTIPOINT", ])
+    
+    # Affichage des polygones
+    if (nrow(polygones) > 0) {
+      map <- map +
+        tm_shape(polygones, group = "Polygones") +
+        tm_fill(col = "libelle",
+                alpha = ifelse(x == 4, 0.1, 0.9),
+                palette = "Spectral",
+                title = ifelse(x == 4, 
+                               "Assiette SUP", 
+                               paste(type, "surfaciques")), 
+                legend.show = TRUE) +  
+        tm_borders()
+    }
+    
+    # Affichage des lignes
+    if (nrow(lignes) > 0) {
+      map <- map +
+        tm_shape(lignes, group = "Lignes") +
+        tm_lines(col = "libelle", 
+                 palette = "Accent", 
+                 title.col = ifelse(x == 4, 
+                                    "Assiette SUP", 
+                                    paste(type, "lineaires")),
+                 legend.show = TRUE)
+    }
+    
+    # Affichage des points
+    if (nrow(points) > 0) {
+      map <- map +
+        tm_shape(points, group = "points") +
+        tm_symbols(col = "libelle",
+                   palette = "Paired",
+                   shape = 21,
+                   size = 0.2,
+                   title.col = paste(type, "ponctuelles"))
+    }
+    x <- x - 1  # Pour passer de l'affichage des assiettes a l'affichage des 
+                # generateurs
+  }
+  print(map)
+  
+}
+
+# Affichage des trois types de cartes 
+affichage.interactif <- function (area, gpu_all) {
+  
+  cat("\nLes trois cartes vont s'afficher au fur et à mesure.\n")
+  
+  for (type in c("Prescriptions", "Informations", "SUP")){
+    
+    cat(paste("\nAffichage des", type))
+    
+    affichage(area, gpu_all, type)
+  }
+}
+```
 
 Les fonctions précédentes permettent d'extraire les données des différents documents d'urbanisme et des SUP. Elles ont été regroupées dans des tableaux contenant chacun une des informations suivantes : prescriptions, informations, générateurs et assiettes. Ces 4 tableaux ont été regroupés dans une liste NomDeLaListe. A présent, le but est d'exporter ces données sous la forme d'un géopackage afin de pouvoir les afficher sur un SIG.
 
