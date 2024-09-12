@@ -1,12 +1,14 @@
 # A propos du code -----
 
 # Titre du code : gpuachercher
-# But du code : Recuperation des donnees relatives a la gestion forestiere sur le geoportail de l'urbanisme
-# Auteurs : Ninon Delattre, Adèle Desaint, Sylvain Giraudo, Cyril Guillaumant, Louise Rovel
+# But du code : Recuperation des donnees relatives a la gestion forestiere sur 
+# le geoportail de l'urbanisme
+# Auteurs : Ninon Delattre, Adele Desaint, Sylvain Giraudo, Cyril Guillaumant, 
+# Louise Rovel
 # Contact : sylvain.giraudo13@gmail.com
-# Dernière mise à jour : 12/09/2024
+# Derniere mise a jour : 12/09/2024
 
-# Installation des Packages ----
+# Installation des packages ----
 
 # Ce code necessite l'installation des packages rstudioapi et librarian
 
@@ -31,12 +33,15 @@ code_prescription_general <- c("01", "07", "18", "19", "25", "31", "34", "35",
 libelle_prescription_general <- c(
   "Espace boisé classé",
   "Patrimoine bâti, paysager ou éléments de paysages à protéger",
-  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation 
+  (OAP)",
   "Secteur protégé en raison de la richesse du sol et du sous-sol",
   "Eléments de continuité écologique et trame verte et bleue",
   "Espaces remarquables du littoral",
-  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
-  "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
+  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et 
+  culturel montagnard à préserver",
+  "Terres nécessaires au maintien et au développement des activités agricoles, 
+  pastorales et forestières à préserver",
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
   "Constructibilité espace boisé antérieur au 20ème siècle",
   "Autre")
@@ -47,10 +52,13 @@ code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
 libelle_prescription_patrimonial <- c(
   "Espace boisé classé",
   "Patrimoine bâti, paysager ou éléments de paysages à protéger",
-  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation 
+  (OAP)",
   "Espaces remarquables du littoral",
-  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
-  "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
+  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et 
+  culturel montagnard à préserver",
+  "Terres nécessaires au maintien et au développement des activités agricoles, 
+  pastorales et forestières à préserver",
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
   "Constructibilité espace boisé antérieur au 20ème siècle",
   "Autre")
@@ -59,9 +67,11 @@ libelle_prescription_patrimonial <- c(
 code_prescription_ecologique <- c("01","18", "25", "34", "43", "99")
 libelle_prescription_ecologique <- c(
   "Espace boisé classé",
-  "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
+  "Périmètre comportant des orientations d’aménagement et deprogrammation 
+  (OAP)",
   "Eléments de continuité écologique et trame verte et bleue",
-  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
+  "Espaces, paysage et milieux caractéristiques du patrimoine naturel et 
+  culturel montagnard à préserver",
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
   "Autre")
 
@@ -69,13 +79,16 @@ libelle_prescription_ecologique <- c(
 code_info_general <- c("03", "08", "16", "21", "22","25", "37", "40", "99")
 libelle_info_general <- c(
   "Zone de préemption dans un espace naturel et sensible",
-  "Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière",
+  "Périmètre forestier : interdiction ou réglementation des plantations (code 
+  rural et de la pêche maritime), plantations à réaliser et semis d'essence 
+  forestière",
   "Site archéologique",
   "Projet de plan de prévention des risques",
   "Protection des rives des plans d'eau en zone de montagne",
   "Périmètre de protection des espaces agricoles et naturels périurbain",
   "Bois ou forêts relevant du régime forestier",
-  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien 
+  inscrit au patrimoine mondial",
   "Autre")
 
 # Codes et libelles des informations relatives aux enjeux patrimoniaux
@@ -83,7 +96,8 @@ code_info_patrimonial <- c("16", "25", "40", "99")
 libelle_info_patrimonial <- c(
   "Site archéologique",
   "Périmètre de protection des espaces agricoles et naturels périurbain",
-  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien 
+  inscrit au patrimoine mondial",
   "Autre")
 
 # Codes et libelles des informations relatives aux enjeux ecologiques 
@@ -98,55 +112,74 @@ code_sup_general <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
                 "ac1","ac4","ac2","pm1","el2","pm2","pm4","pm5",
                 "pm6","pm7","pm8","pm9")
 libelle_sup_general <- c(
-  "Serviture de protection des bois et forêts relevant du régime forestier à Mayotte",
+  "Serviture de protection des bois et forêts relevant du régime forestier à 
+  Mayotte",
   "Servitude relative aux forêts dites de protection",
-  "Servitures résultant de la mise en défens des terrains et pâturages en montagnes et dunes du Pas-de-Calais",
+  "Servitures résultant de la mise en défens des terrains et pâturages en 
+  montagnes et dunes du Pas-de-Calais",
   "Servitudes de passage sur le littoral",
   "Servitudes de passage dans le lit ou sur les berges d'un cours d'eau",
-  "Servitudes résultant de l'instauration de périmètres de protection autour des captaux d'eaux et des sources minérales naturelles",
-  "Réserves naturelles et périmètres de protection autour des réserves naturelles",
+  "Servitudes résultant de l'instauration de périmètres de protection autour 
+  des captaux d'eaux et des sources minérales naturelles",
+  "Réserves naturelles et périmètres de protection autour des réserves 
+  naturelles",
   "Coeur de parc national",
   "Zones de protection naturelle, agricole et forestière du plateau de Saclay",
   "Servitudes relatives aux monuments historiques",
-  "Sites patrimoniaux remarquables, zones de protection et de valorisation du patrimoine architectural, urbain et paysager",
+  "Sites patrimoniaux remarquables, zones de protection et de valorisation du 
+  patrimoine architectural, urbain et paysager",
   "Servitudes relatives aux sites inscrits et classés",
-  "Plans de prévention des risques naturels prévisibles (PPRNP) et plans de prévention de risques miniers (PPRM) et documents valant PPRNP",
+  "Plans de prévention des risques naturels prévisibles (PPRNP) et plans de 
+  prévention de risques miniers (PPRM) et documents valant PPRNP",
   "Servitude qui concerne la Loire et ses affluents",
   "Servitudes d'inondation pour la rétention des crues du Rhin",
-  "Servitudes autour des installations classées pour la protection de l’environnement et sur des sites pollués, de stockage de déchets ou d’anciennes carrières",
-  "Servitude relative aux zones de rétention d’eau et aux zones dites 'stratégiques pour la gestion de l’eau'",
-  "Servitudes visant à ne pas aggraver les risques pour la sécurité publique en présence d’un ouvrages hydraulique",
+  "Servitudes autour des installations classées pour la protection de 
+  l’environnement et sur des sites pollués, de stockage de déchets ou 
+  d’anciennes carrières",
+  "Servitude relative aux zones de rétention d’eau et aux zones dites 
+  'stratégiques pour la gestion de l’eau'",
+  "Servitudes visant à ne pas aggraver les risques pour la sécurité publique en 
+  présence d’un ouvrages hydraulique",
   "Servitudes autour des installations nucléaires de base",
-  "Servitudes relatives aux ouvrages ou infrastructures permettant de prévenir les inondations ou les submersions",
-  "Servitudes relatives à la création, la continuité,la pérennité et l’entretien des équipements de défense des forêts contre les incendies (DFCI)",
+  "Servitudes relatives aux ouvrages ou infrastructures permettant de prévenir 
+  les inondations ou les submersions",
+  "Servitudes relatives à la création, la continuité,la pérennité et 
+  l’entretien des équipements de défense des forêts contre les incendies 
+  (DFCI)",
   "Servitudes relatives aux zones de danger")
 
 # Codes et libelles des SUP relatives aux enjeux patrimoniaux 
 code_sup_patrimonial <- c("a10","ac1","ac4","ac2")
 
 libelle_sup_patrimonial <- c(
-  "Zones de protection naturelle, agricole et forestière du plateau de Saclay",
+   "Zones de protection naturelle, agricole et forestière du plateau de Saclay",
    "Servitudes relatives aux monuments historiques",
-   "Sites patrimoniaux remarquables, zones de protection et de valorisation du patrimoine architectural, urbain et paysager",
+   "Sites patrimoniaux remarquables, zones de protection et de valorisation du 
+   patrimoine architectural, urbain et paysager",
    "Servitudes relatives aux sites inscrits et classés")
 
 # Codes et libelles des SUP relatives aux enjeux ecologiques 
 code_sup_ecologique <- c("a8","a4","as1","ac3","el10","a10")
 libelle_sup_ecologique <- c(
-  "Servitures résultant de la mise en défens des terrains et pâturages en montagnes et dunes du Pas-de-Calais",
+   "Servitures résultant de la mise en défens des terrains et pâturages en 
+   montagnes et dunes du Pas-de-Calais",
    "Servitudes de passage dans le lit ou sur les berges d'un cours d'eau",
-   "Servitudes résultant de l'instauration de périmètres de protection autour des captaux d'eaux et des sources minérales naturelles",
-   "Réserves naturelles et périmètres de protection autour des réserves naturelles",
+   "Servitudes résultant de l'instauration de périmètres de protection autour 
+   des captaux d'eaux et des sources minérales naturelles",
+   "Réserves naturelles et périmètres de protection autour des réserves 
+   naturelles",
    "Coeur de parc national",
    "Zones de protection naturelle, agricole et forestière du plateau de Saclay")
 
-# Selection des colonnes utiles dans les tableaux des generateurs et assiettes de SUP
+# Selection des colonnes utiles dans les tableaux des generateurs et assiettes 
+# de SUP
 col_utiles_gen <- c("gid","suptype","partition","fichier","nomgen","typegen",
                    "nomsuplitt","geometry")
 col_utiles_ass <- c("gid","suptype","partition","fichier","nomass","typeass",
                    "nomsuplitt","geometry")
 
-# Uniformisation des noms de colonnes des tableaux des SUP
+# Uniformisation des noms de colonnes des tableaux des generateurs et assiettes 
+# de SUP
 noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
               "nomsuplitt","geometry")
 
@@ -154,7 +187,8 @@ noms_def <- c("gid","suptype","partition","fichier","nom","libelle",
 dico <- list(code_prescription_general = code_prescription_general,
              libelle_prescription_general = libelle_prescription_general,
              code_prescription_patrimonial = code_prescription_patrimonial,
-             libelle_prescription_patrimonial = libelle_prescription_patrimonial,
+             libelle_prescription_patrimonial = 
+               libelle_prescription_patrimonial,
              code_prescription_ecologique = code_prescription_ecologique,
              libelle_prescription_ecologique = libelle_prescription_ecologique,
              code_info_general = code_info_general,
@@ -188,12 +222,14 @@ get.gpu.prescription <- function(x, dico){
   prescription_pct <- prescription_pct[ ,
                                         !(names(prescription_pct) %in% "angle")]
 
-  # Creation d'un seul tableau avec les donnee surfacique, lineaire et ponctuel
+  # Creation d'un seul tableau avec les donnees surfaciques, lineaires et 
+  # ponctuelles
   prescription <- rbind(prescription_surf, prescription_lin, prescription_pct)
 
-  # Trie des prescriptions grace au liste definie en debut de code 
+  # Tri des prescriptions grace aux listes definies en debut de code 
   if (!is.null(prescription)){
-    prescription <- filter(prescription, typepsc %in% dico[["code_prescription"]])
+    prescription <- 
+      filter(prescription, typepsc %in% dico[["code_prescription"]])
     
   }
   return(prescription)
@@ -209,10 +245,11 @@ get.gpu.info <- function(x, dico){
   info_pct <- get_apicarto_gpu(x,
                                ressource = c("info-pct"))
   
-  # Creation d'un seul tableau avec les donnee surfacique, lineaire et ponctuel
+  # Creation d'un seul tableau avec les donnees surfaciques, lineaires et 
+  # ponctuelles
   info <- rbind(info_surf, info_lin, info_pct)
   
-  # Trie des prescriptions grace au liste definie en debut de code 
+  # Tri des prescriptions grace aux liste definies en debut de code 
   if (!is.null(info)){
     info <- filter(info, typeinf %in% dico[["code_info"]])
     
@@ -220,10 +257,11 @@ get.gpu.info <- function(x, dico){
   return(info)
 }
 
+# Recuperation des informations relatives aux SUP
 get.sup.gen <- function(x, dico){
   
-  # Recuperation de toutes les informations utiles
-  
+  # Recuperation de tous les generateurs surfaciques, lineaires et ponctuelles 
+  # de SUP utiles
   generateur_sup_s <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-s",
                                        dTolerance = 10,
@@ -238,16 +276,17 @@ get.sup.gen <- function(x, dico){
   generateur_sup_p <- get_apicarto_gpu(x,
                                        ressource = "generateur-sup-p",
                                        dTolerance = 10,
-                                       categorie = dico[["code_sup"]])  # aucune donnee
+                                       categorie = dico[["code_sup"]])  
   
-  # Rassemblement des donnees 
+  # Rassemblement des donnees surfaciques, lineaires et ponctuelles
+  # Selection des colonnes utiles uniquement
   generateur <- rbind(
     generateur_sup_s[ ,dico[["col_utiles_gen"]]],
     generateur_sup_l[ ,dico[["col_utiles_gen"]]],
     generateur_sup_p[ ,dico[["col_utiles_gen"]]]
   )
   
-  
+  # Uniformisation des noms des colonnes 
   if(!is.null(generateur)){
     colnames(generateur) <- dico[["noms_def"]]
   }
@@ -258,8 +297,8 @@ get.sup.gen <- function(x, dico){
 
 get.sup.ass <- function(x, dico){
   
-  # Recuperation de toutes les informations utiles
-  
+  # Recuperation de toutes les assiettes surfaciques, lineaires et ponctuelles 
+  # de SUP utiles
   assiette_sup_s <- get_apicarto_gpu(x,
                                      ressource = "assiette-sup-s",
                                      dTolerance = 10,
@@ -276,12 +315,15 @@ get.sup.ass <- function(x, dico){
                                      dTolerance = 10,
                                      categorie = dico[["code_sup"]])
   
+  # Rassemblement des donnees surfaciques, lineaires et ponctuelles
+  # Selection des colonnes utiles uniquement
   assiette <- rbind(
     assiette_sup_s[ ,dico[["col_utiles_ass"]]],
     assiette_sup_l[ ,dico[["col_utiles_ass"]]],
     assiette_sup_p[ ,dico[["col_utiles_ass"]]]
   )
   
+  # Uniformisation des noms des colonnes 
   if(!is.null(assiette)){
     colnames(assiette) <- dico[["noms_def"]]
   }
@@ -290,10 +332,10 @@ get.sup.ass <- function(x, dico){
   
 }
 
-# Creation d'une liste des tableaux de donnee extrait du GPU
+# Creation d'une liste des tableaux de donnees extraits du GPU
 get.gpu.all <- function(x, dico){
 
-  # Extraction des prescription, des informations, des generateur et assiette de SUP
+  # Extraction des prescriptions, informations, generateurs et assiettes de SUP
   prescription <- get.gpu.prescription(x, dico)
   cat("\nprescription ok\n")
   info <- get.gpu.info(x, dico)
@@ -352,7 +394,7 @@ select.libelle.urba <- function(df){
   return(liste_libelle)
 }
 
-# Fonction qui filtre un dataframe.
+# Fonction qui filtre un dataframe
 filtre.libelle.urba <- function(df){
   
   liste_libelle <- select.libelle.urba(df)
@@ -368,7 +410,7 @@ post.filter <- function(all_gpu){
   all_gpu_filtered <- list()
   names_all_gpu <- names(all_gpu)
   
-  # filtre des dataframes contenue dans une liste un par un 
+  # Filtre des dataframe contenus dans une liste un par un 
   for (i in seq_along(all_gpu)){
     
     df <- all_gpu[[i]]
@@ -463,7 +505,8 @@ affichage <- function(area, gpu_all, type = "Prescriptions"){
                    size = 0.2,
                    title.col = paste(type, "ponctuelles"))
     }
-    x <- x - 1  # Pour passer de l'affichage des assiettes a l'affichage des générateurs
+    x <- x - 1  # Pour passer de l'affichage des assiettes a l'affichage des 
+                # generateurs
   }
   print(map)
   
@@ -484,7 +527,7 @@ affichage.interactif <- function (area, gpu_all) {
 
 # Fonction d'exportation sous forme de geopackage ----
 
-# Exportation d'une liste de data frame sous forme de geopackage 
+# Exportation d'une liste de dataframe sous forme de geopackage 
 export.list.to.gpkg <- function(gpu_all, gpkg_path) {
   
   layer_names <- c("prescriptions", 
@@ -492,7 +535,7 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
                    "generateur", 
                    "assiette")
   
-  # Chaque objets de la liste est nomme puis exporte sous forme de fichier dans 
+  # Chaque objet de la liste est nomme puis exporte sous forme de fichier dans 
   # un unique geopackage
   for (i in seq_along(gpu_all)) {
     df <- gpu_all[[i]]
@@ -503,11 +546,12 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
 
 # Fonction finale ----
 final.function <- function(area,  # Geometrie
-                           dico,  # Repertoir de liste
-                           filter = "Patrimoine",  # Patrimoine,General ou Ecologique
+                           dico,  # Repertoire de listes
+                           filter = "Patrimoine",  # Patrimoine,General ou 
+                                                   # Ecologique
                            post_filter = FALSE,  # FALSE ou TRUE
-                           working_dir = NULL,  # NULL ou repertoir de travail
-                           buffer = 300,  # Numeric en metre
+                           working_dir = NULL,  # NULL ou repertoire de travail
+                           buffer = 300,  # Entier en metres
                            display = FALSE,  # FALSE ou TRUE
                            export_gpkg = TRUE)  # TRUE ou FALSE
   {
@@ -529,7 +573,7 @@ final.function <- function(area,  # Geometrie
   # Ajout d'un buffer 
   area_2154_buffer <- st_buffer(area_2154, dist = buffer)
   
-  # Recuperation des donnees dans les documents d'urbanismes
+  # Recuperation des donnees dans les documents d'urbanisme
   # Definition du filtre
   if (filter == "General"){
     old_names <- c("code_prescription_general", 
