@@ -30,7 +30,7 @@ restauration.
 
 ## Description des documents d'aménagements (et SUP)
 
-Le GPU permet d'afficher les informations de différents documents d'organisme :    
+Le géoportail de l'urbanisme (GPU) permet d'afficher les informations de différents documents d'organisme :    
 
 - SCOT (Schéma de Cohérence Territoriale) :  
 Le SCOT est un document de planification stratégique qui fixe les grandes orientations de l’aménagement du territoire à l'échelle de plusieurs communes ou d'une intercommunalité. Il couvre des domaines comme l'urbanisme, le logement, les transports, et l'environnement.    
@@ -65,13 +65,13 @@ Puisqu'il est nécessaire de s'intéresser aux enjeux patrimoniaux et que les
 informations qui y sont relatives sont regroupées sur le géoportail de 
 l'urbanisme, il est possible et souhaitable d'automatiser la recherche de ces 
 informations. Pour cela, il faudra tout d'abord identifier quels documents 
-d'urbanisme, SCOT ou SCUP, existent pour notre zone d'étude, puis récupérer 
+d'urbanisme, SCOT ou SUP, existent pour notre zone d'étude, puis récupérer 
 les données dans ces documents et les trier en fonction de leur utilité. 
 
 
 # Matériel et Méthode
 
-## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilese
+## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utilisées
 
 Comme dit précedemment, l'ensemble des données provenant des documents 
 d'urbanisme, SCOT et SUP sont rassemblées sur le géoportail de l'urbanisme. 
@@ -103,7 +103,7 @@ pas, c'est qu'il existe d'autres documents d'urbanisme. Pour les PLUi, c'est
 plus compliqué, mais le package happign et la fonction get_apicarto_gpu permet
 de les retrouver.
 
-Pour savoir s'il existe des SUP, c'est beaucoupmoins aisé, il est donc 
+Pour savoir s'il existe des SUP, c'est beaucoup moins aisé, il est donc 
 nécessaire d'utiliser plutôt leur localisation. Ce sera la méthode utilisée 
 également pour récupérer toutes les données utiles au sein des documents 
 d'urbanisme et des SUP, une fois que l'on sait qu'ils existent. 
@@ -124,7 +124,7 @@ Un certain nombre de packages ont été utilisés pour réaliser notre projet:
 l’IGN. Ce package nous a permis de récupérer un grand nombre de données du 
 géoportail de l’urbanisme (GPU) et de les intersecter facilement avec une 
 zone d'étude, en particulier grâce à la fonction get_apicarto_gpu().  
-**tmap**, un package permettant d’éditer des données spatiales nous a quant' à 
+**tmap**, un package permettant d’éditer des données spatiales nous a quant à 
 lui permis de visualiser nos résultats ainsi que de récupérer des emprises pour 
 tester nos fonctions.  
 **sf**, qui est un package permettant de manipuler, importer et exporter des 
@@ -225,7 +225,7 @@ qtm(resultat[[1]])
 
 Cela fonctionne malgré quelques problèmes rencontrés.  
 Le premier est que la fonction recherche des intersections afin de savoir s'il 
-y a des SUP dans la zone d'étude, ce qui présupose que les géometries sont 
+y a des SUP dans la zone d'étude, ce qui présupose que les géometries soient 
 valides. Or les géometries des assiettes des SUP ne sont pas toutes valides. Il 
 faut donc séparer les SUP à géometries valides et invalides. Pour les géometries 
 invalides, au lieu de rechercher une intersection, la fonction recherche le code 
