@@ -1,1 +1,52 @@
+# Matériel et Méthode
+
+## Utilisation du géoportail de l'urbanisme : identification des documents d'urbanisme et tri des données utiles
+
+Comme dit précedemment, l'ensemble des données provenant des documents 
+d'urbanisme, SCOT et SUP sont rassemblées sur le géoportail de l'urbanisme. 
+Notre projet consiste à récupérer ces données. Il est donc nécessaire
+de comprendre ce qui identifie les documents, et aussi comment les données y 
+sont organisées, afin de trier ces données en fonction de si elles ont trait aux 
+enjeux patrimoniaux voire, de manière plus large, si elles permettent d'écrire 
+un document d'aménagement.   
+
+Les documents d'urbanisme, les SCOT et les SUP sont identifiés par deux éléments :  
+une partition et une localisation. 
+La manière dont sont construites ces partitions, ainsi que ce que
+contient chaque document, est disponible ici pour les documents d'urbanisme :  
+https://cnig.gouv.fr/ressources-dematerialisation-documents-d-urbanisme-a2732.html.   
+et ici pour les SUP :   
+https://www.geoinformations.developpement-durable.gouv.fr/fichier/pdf/tableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf?arg=177836385&cle=0ef0d333b5d4e35418b5f3b71d2d3849a002c26f&file=pdf%2Ftableau_alpha-numerique_des_supet_base_legale_maj_20_06_24_2_cle7dbc5e.pdf. 
+
+Les partitions des documents d'urbanisme sont faciles à trouver
+car elles ne prennent en compte que le type de document et le code INSEE des
+communes, à l'exception des PLUi et des SUP. Les partitions des PLUi 
+comprennent les codes des communautés de commune, tandis que les SUP, qui ne 
+sont pas par définition des documents d'urbanisme, ont une partition 
+complètement différente. 
+
+Ainsi, afin de savoir s'il existe des documents d'urbanisme en un 
+endroit donné, on récupère les codes INSEE des communes correspondantes, qui
+sont nécessaire pour savoir si la commune est soumise à un RNU. Si elle ne l'est
+pas, c'est qu'il existe d'autres documents d'urbanisme. Pour les PLUi, c'est 
+plus compliqué, mais le package happign et la fonction get_apicarto_gpu permet
+de les retrouver.
+
+Pour savoir s'il existe des SUP, c'est beaucoupmoins aisé, il est donc 
+nécessaire d'utiliser plutôt leur localisation. Ce sera la méthode utilisée 
+également pour récupérer toutes les données utiles au sein des documents 
+d'urbanisme et des SUP, une fois que l'on sait qu'ils existent. 
+
+Ensuite, il est nécessaire d'utiliser ces standards pour trier 
+les données utiles aux forestiers, pour identifier les enjeux patrimoniaux par 
+exemple, mais l'on verra par la suite que d'autres données intéressantes sont 
+aussi disponibles. On prend donc une à une chacune des prescriptions et 
+informations des documents d'urbanisme, et chacun des types de SUP, pour
+identifier si elles correspondent à des enjeux patrimoniaux. Pour cela, il est
+souvent nécessaire de se référer aux articles de loi ou réglements qu'elles
+appliquent. 
+ 
+
+
+
 
