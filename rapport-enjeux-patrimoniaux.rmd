@@ -41,12 +41,12 @@ Le géoportail de l'urbanisme (GPU) permet d'acceder aux informations de différ
 
 Ces différents documents jouent un rôle clé dans l'aménagement du territoire en France, en encadrant les projets d'urbanisme et en garantissant une cohérence entre les différents niveaux de planification (source : <https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074075/LEGISCTA000031210062/#LEGISCTA000031212669>). Cependant, ils ne sont pas équivalents. Certains servent de substitution en l'absence de certains documents et d'autres prévalent sur le reste (<https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000042007747/>).
 
-![](1.png)
+![](documents_d_urbanisme.png)
 <center><u>Documents d'urbanisme</u></center>
 
 
 
-![](2.png)
+![](sup.png)
 <center><u>Servitude d'Utilité Publique</u></center>
 
 ## Problématique
@@ -1452,6 +1452,10 @@ La sortie de la fonction contient une liste des quatres tableau de données (pre
 
 # Discussion-Conclusion
 
+# Possibilité d’amélioration complémentaire ayant trait aux améliorations législatives
+
+En outre, il serait envisageable d’inclure aux résultats une synthèse des articles de loi et règlements liés aux prescriptions, informations et SUP présentes sur la zone d’étude. Cela permettrait d’afficher directement les conséquences de ces enjeux patrimoniaux pour la gestion forestière, ce qui est le but de leur inclusion dans les documents d’aménagement. 
+
 ## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
 
 Dans un premier temps, seules les données relatives aux enjeux patrimoniaux ont 
@@ -1481,7 +1485,6 @@ les prescriptions 99-03 intitulés "Autre : mixité sociale et fonctionnelle en
 zones urbaines ou à urbaniser", ne concernant aucunement la forêt. L'utilisateur
 doit donc lui-même faire un dernier tri.
 
-
 ## Possibilité de meilleur affichage des données récupérées
 
 La fonction affichage permet d’afficher une carte interactive des prescriptions, 
@@ -1497,7 +1500,14 @@ Enfin, il est possible d’établir une interface entre QGIS et R permettant d�
 
 # Conclusion
 
+En conclusion, ce projet aboutit à une fonction permettant de récupérer les données ayant trait aux enjeux patrimoniaux depuis le géoportail de l’urbanisme et les différents documents qui y sont hébergés. Cette fonction permet également de trier les informations récupérées pour        s’adapter aux besoins de l’utilisateur, mais aussi de récupérer des informations plus générales sur un massif, essentielles pour rédiger un document d’aménagement forestier. 
+Enfin, la fonction créée contient aussi une fonctionnalité d’affichage d’une carte sur R, mais également une exportation de geopackages utilisables ensuite sur QGIS. 
+Il est à noter que cette fonction est néanmoins améliorable sur quelques aspects, notamment pour intégrer plus facilement les données récupérées à un document d’aménagement. 
+
+
 # Bibliographie
+
+
 # Module-R-Projet-3
 
 Lien des standard des différents documents d'urbanisme :
