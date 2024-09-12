@@ -202,13 +202,14 @@ sup_patrimoniale <- data.frame(code_sup_patrimonial,libelle_sup_patrimonial)
 
 
 ```
-En utilisant les standards utilisés pour les documents d'urbanisme ainsi que les articles de loi qui s'y ratachent nous avons pue mettre en place la liste des enjeux patrimoniaux suivant :
+En utilisant les standards utilisés pour les documents d'urbanisme ainsi que les articles de loi qui s'y rattachent nous avons pu mettre en place la liste des enjeux patrimoniaux suivante :
 
 ```{r, echo = FALSE}
-knitr::kable(prescription_patrimoniale, caption = "liste des prescriptions patrimoniale retenue")
-knitr::kable(info_patrimoniale, caption = "liste des informations patrimoniale retenue")
-knitr::kable(sup_patrimoniale, caption = "liste des SUP patrimoniale retenue")
+knitr::kable(prescription_patrimoniale, caption = "liste des prescriptions retenues ayant trait aux enjeux patrimoniaux")
+knitr::kable(info_patrimoniale, caption = "liste des informations retenues ayant trait aux enjeux patrimoniaux")
+knitr::kable(sup_patrimoniale, caption = "liste des SUP retenues ayant trait aux enjeux patrimoniaux")
 ```
+Il ne semble y avoir aucune donnée importante dans les SCOT. 
 
 ## Identification des documents d'urbanisme existant dans une zone 
 ## Les différentes fonctions réalisées selon la source de données
