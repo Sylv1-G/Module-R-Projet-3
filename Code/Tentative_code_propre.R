@@ -376,7 +376,7 @@ post.filter <- function(all_gpu){
 
 # Export a list of data frames to GPKG 
 
-export_list_to_gpkg <- function(gpu_all, gpkg_path) {
+export.list.to.gpkg <- function(gpu_all, gpkg_path) {
   
   layer_names <- c("prescriptions", 
                    "infos", 
@@ -448,7 +448,7 @@ final.function <- function(shp,
   
   gpkg_path <- file.path(getwd(),"gpuachercher.gpkg")
   
-  export_list_to_gpkg(gpu_all_2154, gpkg_path)
+  export.list.to.gpkg(gpu_all_2154, gpkg_path)
   
   return(gpu_all_2154)
 }
