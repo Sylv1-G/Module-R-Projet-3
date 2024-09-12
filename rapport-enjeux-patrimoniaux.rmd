@@ -280,7 +280,6 @@ Les données extraites des documents d'urbanisme et des SUP ont été triées da
 
 ## Possibilité de meilleur affichage des données récupérées
 
-
 # Conclusion
 
 # Bibliographie
