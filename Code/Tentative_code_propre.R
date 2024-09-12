@@ -39,7 +39,8 @@ libelle_prescription_general <- c(
   "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
   "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
-  "Constructibilité espace boisé antérieur au 20ème siècle")
+  "Constructibilité espace boisé antérieur au 20ème siècle",
+  "Autre")
 
 code_prescription_patrimonial <- c("01", "07", "18", "31", "34", "35", "43",
                                    "46", "99")
@@ -51,7 +52,8 @@ libelle_prescription_patrimonial <- c(
   "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
   "Terres nécessaires au maintien et au développement des activités agricoles, pastorales et forestières à préserver",
   "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
-  "Constructibilité espace boisé antérieur au 20ème siècle")
+  "Constructibilité espace boisé antérieur au 20ème siècle",
+  "Autre")
 
 
 code_prescription_ecologique <- c("01","18", "25", "34", "43", "99")
@@ -60,10 +62,11 @@ libelle_prescription_ecologique <- c(
   "Périmètre comportant des orientations d’aménagement et deprogrammation (OAP)",
   "Eléments de continuité écologique et trame verte et bleue",
   "Espaces, paysage et milieux caractéristiques du patrimoine naturel et culturel montagnard à préserver",
-  "Réalisation d’espaces libres, plantations, aires de jeux et de loisir")
+  "Réalisation d’espaces libres, plantations, aires de jeux et de loisir",
+  "Autre")
 
 
-code_info_general <- c("03", "08", "16", "21", "22","25", "37", "40")
+code_info_general <- c("03", "08", "16", "21", "22","25", "37", "40", "99")
 libelle_info_general <- c(
   "Zone de préemption dans un espace naturel et sensible",
   "Périmètre forestier : interdiction ou réglementation des plantations (code rural et de la pêche maritime), plantations à réaliser et semis d'essence forestière",
@@ -72,18 +75,21 @@ libelle_info_general <- c(
   "Protection des rives des plans d'eau en zone de montagne",
   "Périmètre de protection des espaces agricoles et naturels périurbain",
   "Bois ou forêts relevant du régime forestier",
-  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial")
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
+  "Autre")
 
-code_info_patrimonial <- c("16", "25", "40")
+code_info_patrimonial <- c("16", "25", "40", "99")
 libelle_info_patrimonial <- c(
   "Site archéologique",
   "Périmètre de protection des espaces agricoles et naturels périurbain",
-  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial")
+  "Périmètre d’un bien inscrit au patrimoine mondial ou Zone tampon d’un bien inscrit au patrimoine mondial",
+  "Autre")
 
-code_info_ecologique <- c("03", "22")
+code_info_ecologique <- c("03", "22", "99")
 libelle_info_ecologique <- c(
   "Zone de préemption dans un espace naturel et sensible",
-  "Protection des rives des plans d'eau en zone de montagne")
+  "Protection des rives des plans d'eau en zone de montagne",
+  "Autre")
                   
 
 code_sup_general <- c("a1","a7","a8","el9","a4","as1","ac3","el10","a10",
@@ -321,7 +327,9 @@ select.libelle.urba <- function(df){
   info_df <- libelle.urba(df)
   
   cat("\nles libelles présents sont: \n\n")
-  print (info_df)
+  for (i in seq_along(info_df)) {
+    cat(paste(i, info_df[i]), sep = "\n")
+  }
   
   cat("\nVeuillez entrer une liste des numéros de ligne des libelles voulus séparés par des virgules \n(ex : 1,2,3) :")
   entree <- readline(prompt = "")
@@ -370,7 +378,101 @@ post.filter <- function(all_gpu){
   return(all_gpu_filtered)
 }
 
-# exemple <- filtre.libelle.urba(prescription)
+
+
+# Fonction d'affichage interactif ----
+
+# Fonction pour afficher une carte interactive
+affichage <- function(area, gpu_all, type = "Prescriptions"){
+  
+  # On peut afficher trois types de cartes 
+  types <- c("Prescriptions", "Informations", "SUP")
+  
+  if (!type %in% types){
+    stop ("Type must be 'Prescriptions', 'Informations' or 'SUP'")
+  }
+  
+  # Utilisation de tmap en mode interactif
+  tmap_mode("view")
+  
+  # Definition de l'affichage
+  x <- 1  # Pour aller chercher le premier element de la liste gpu_all
+  n <- 1  # Nombre iteration de la boucle for 
+  if (type == "Informations"){
+    x <- 2
+  } else if (type == "SUP") {
+    x <- 4
+    n <- 2
+  }
+  
+  # Creation de la carte interactive
+  map <- tm_shape(area) +
+    tm_borders(col = "black", lwd = 2) +
+    tm_view(view.legend.position = c("right", "bottom"))
+  
+  
+  for (i in 1:n){
+    # Separation des types de geometries
+    geometry_type <- st_geometry_type(gpu_all[[x]])
+    
+    polygones <- st_make_valid(gpu_all[[x]][geometry_type == "MULTIPOLYGON", ])
+    lignes <- st_make_valid(gpu_all[[x]][geometry_type == "MULTILINESTRING", ])
+    points <- st_make_valid(gpu_all[[x]][geometry_type == "MULTIPOINT", ])
+    
+    # Affichage des polygones
+    if (nrow(polygones) > 0) {
+      map <- map +
+        tm_shape(polygones, group = "Polygones") +
+        tm_fill(col = "libelle",
+                alpha = ifelse(x == 4, 0.1, 0.9),
+                palette = "Spectral",
+                title = ifelse(x == 4, 
+                               "Assiette SUP", 
+                               paste(type, "surfaciques")), 
+                legend.show = TRUE) +  
+        tm_borders()
+    }
+    
+    # Affichage des lignes
+    if (nrow(lignes) > 0) {
+      map <- map +
+        tm_shape(lignes, group = "Lignes") +
+        tm_lines(col = "libelle", 
+                 palette = "Accent", 
+                 title.col = ifelse(x == 4, 
+                                    "Assiette SUP", 
+                                    paste(type, "lineaires")),
+                 legend.show = TRUE)
+    }
+    
+    # Affichage des points
+    if (nrow(points) > 0) {
+      map <- map +
+        tm_shape(points, group = "points") +
+        tm_symbols(col = "libelle",
+                   palette = "Paired",
+                   shape = 21,
+                   size = 0.2,
+                   title.col = paste(type, "ponctuelles"))
+    }
+    x <- x - 1  # Pour passer de l'affichage des assiettes a l'affichage des générateurs
+  }
+  print(map)
+  
+}
+
+# Affichage des trois types de cartes 
+affichage.interactif <- function (area, gpu_all) {
+  
+  cat("\nLes trois carte vont s'afficher au fur et à mesure.\n")
+  
+  for (type in c("Prescriptions", "Informations", "SUP")){
+    
+    cat(paste("\nAffichage des", type))
+    
+    affichage(area, gpu_all, type)
+  }
+}
 
 # Fonction d'exportation sous forme de geopackage ----
 
@@ -392,37 +494,47 @@ export.list.to.gpkg <- function(gpu_all, gpkg_path) {
 }
 
 # Fonction finale ----
-final.function <- function(shp, 
+final.function <- function(area, 
                            dico,
                            filter = "General", 
                            post_filter = FALSE, 
                            working_dir = NULL, 
                            preview = FALSE,
-                           buffer = 300){
+                           buffer = 300,
+                           display = F,
+                           export_gpkg = T){
   
-  # shp doit etre une geometrie de type sf ou sfc 
-  if (!inherits(shp, c("sf", "sfc"))) {
+  # area doit etre une geometrie de type sf ou sfc 
+  if (!inherits(area, c("sf", "sfc"))) {
     stop("x must be of class sf or sfc.")
   }
   
-  # Transformation du systeme de projection de shp
-  shp_2154 <- st_transform(shp, 2154)
+  # Transformation du systeme de projection de area vers Lambert 93
+  area_2154 <- st_transform(area, 2154)
   
   # Ajout d'un buffer 
-  shp_2154_buffer <- st_buffer(shp_2154, dist = buffer)
+  area_2154_buffer <- st_buffer(area_2154, dist = buffer)
   
   # Recuperation des donnees dans les documents d'urbanismes
+  # Definition du filtre
   if (filter == "General"){
-    old_names <- c("code_prescription_general", "code_info_general", "code_sup_general")
+    old_names <- c("code_prescription_general", 
+                   "code_info_general", 
+                   "code_sup_general")
   } else if(filter == "Patrimoine"){
-    old_names <- c("code_prescription_patrimonial", "code_info_patrimonial", "code_sup_patrimonial")
+    old_names <- c("code_prescription_patrimonial", 
+                   "code_info_patrimonial", 
+                   "code_sup_patrimonial")
   } else if (filter == "Ecologique"){
-    old_names <- c("code_prescription_ecologique", "code_info_ecologique", "code_sup_ecologique")
+    old_names <- c("code_prescription_ecologique", 
+                   "code_info_ecologique", 
+                   "code_sup_ecologique")
   }
   new_names <- c("code_prescription", "code_info", "code_sup")
   names(dico)[names(dico) %in% old_names] <- new_names
   
-  gpu_all <- get.gpu.all(shp, dico)
+  # Importation des donnees
+  gpu_all <- get.gpu.all(area, dico)
   
   # Filtrage des donnees a posteriori
   if (post_filter == TRUE){
@@ -440,21 +552,32 @@ final.function <- function(shp,
       gpu_all_2154 <- c(gpu_all_2154, list(st_transform(df, 2154)))
     }
   }
-  
-  # Exportation sous format geopackage 'gpkg'
-  if(!is.null(working_dir)){
-    setwd (working_dir) 
+  # Pre-affichage interactif
+  if (display == TRUE){
+    affichage.interactif(area, gpu_all_2154)
   }
   
-  gpkg_path <- file.path(getwd(),"gpuachercher.gpkg")
-  
-  export.list.to.gpkg(gpu_all_2154, gpkg_path)
+  # Exportation sous format geopackage 'gpkg'
+  if(export_gpkg == TRUE) {
+    if(!is.null(working_dir)){
+      setwd (working_dir) 
+    }
+    
+    gpkg_path <- file.path(getwd(),"gpuachercher.gpkg")
+    
+    export.list.to.gpkg(gpu_all_2154, gpkg_path)
+  }
   
   return(gpu_all_2154)
 }
 
 # TEST ----
 
-shp <- mapedit::drawFeatures()
+area <- mapedit::drawFeatures()
 
-gpu_all <- final.function(shp, dico, filter = "Patrimoine", post_filter = F)
+gpu_all <- final.function(area, 
+                          dico, 
+                          filter = "Patrimoine", 
+                          post_filter = F, 
+                          display = T,
+                          export_gpkg = F)
