@@ -48,5 +48,33 @@ appliquent.
  
 
 
+## Autres données utiles récupérables via le GPU, non relatives aux enjeux patrimoniaux
+
+Dans un premier temps, seules les données relatives aux enjeux patrimoniaux ont 
+été sélectionnées au sein des documents d'urbanisme et des SUP. Seulement, il 
+existe de nombreuses données dans ces documents qui ne concernent pas les 
+enjeux patrimoniaux mais qui peuvent tout de même être intéressantes pour la 
+gestion forestière et la rédaction des documents d'aménagement.  
+
+Ainsi, les données extraites des documents d'urbanisme et des SUP ont été triées 
+selon leur catégorie : général, patrimonial et écologique. Ce tri a été effectué 
+toujours de la manière la plus précise possible, à l'aide des lois et 
+règlements rattachés aux prescriptions, informations et SUP. Ensuite, une 
+variable **filter** a été ajoutée à la fonction finale, permettant de choisir
+quelle catégorie de donnée l'on souhaite récupérer.  
+
+Néanmoins, il demeure possible que certains éléments se retrouvent dans une 
+catégorie inadaptée, en particulier parce que certaines prescriptions sont 
+très larges. En effet, la dénomination des éléments (prescriptions, 
+informations, SUP) se retrouvant dans la variable filter repose sur un 
+code indiquant la nature de ces éléments. Or, il existe également des 
+sous-codes plus précis. Cependant, ce sous-code n'a pas été pris en compte 
+lors de la création de la variable filter. Par exemple, les prescriptions 99
+s'intitulent : "Autre : zones naturelles, agricoles ou forestières". On y trouve
+les prescriptions 99-02 intitulés "Autre : zones naturelles, agricoles ou 
+forestières", pouvant être importantes pour la gestion forestière, mais aussi 
+les prescriptions 99-03 intitulés "Autre : mixité sociale et fonctionnelle en 
+zones urbaines ou à urbaniser", ne concernant aucunement la forêt. L'utilisateur
+doit donc lui-même faire un dernier tri.
 
 
