@@ -44,4 +44,25 @@ Les données extraites des documents d'urbanisme et des SUP ont été triées da
 
 ## Possibilité de meilleur affichage des données récupérées
 
+## Fonction finale
 
+```{r}
+final.function <- function(area,  # Geometrie
+                           dico,  # Repertoire de listes
+                           filter = "Patrimoine",  # Patrimoine,General ou 
+                                                   # Ecologique
+                           post_filter = FALSE,  # FALSE ou TRUE
+                           working_dir = NULL,  # NULL ou repertoire de travail
+                           buffer = 300,  # Entier en metres
+                           display = FALSE,  # FALSE ou TRUE
+                           export_gpkg = TRUE)  # TRUE ou FALSE
+```
+
+La fonction finale.fuction prend en entrée 8 arguments :  
+- area qui correspond à la géométrie de la zone étudiée  
+- dico qui contient les libellés de l'ensembles des prescriptions, informations et SUP en lien avec le sujet  
+- filter qui vaut Patrimoine, General ou Ecologique afin de filtrer les données en sortie  
+- post_filter qui vaut TRUE ou FALSE pour laisser ou non le choix à l'utilisateur d'un filtre plus personnalisé  
+- working_dir qui correspond au dossier dans lequel le geopackage sera créé  
+- une valeur de buffer  
+- display et export_gpkg qui valent chacun TRUE ou FALSE pour lancer ou non les fonctions d'affichage des cartes sur R et de création du geopackage
