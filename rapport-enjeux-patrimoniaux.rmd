@@ -22,7 +22,7 @@ sur le géoportail de l'urbanisme.
 Il est nécessaire de s'intéresser aux enjeux patrimoniaux d'un massif forestier 
 car il en découle des contraintes voire des interdictions.
 En effet, chaque prescription ou information de document d'urbanisme et chaque
-servitude d'utilité publique est lié à un article de loi ou à un réglement des
+servitude d'utilité publique est liée à un article de loi ou à un réglement des
 codes forestier, de l'urbanisme, du patrimoine ou de l'environnement, qui en 
 stipule les conséquences. 
 Par exemple, une prescription ayant trait au patrimoine bâti ou paysager à 
@@ -32,7 +32,7 @@ restauration.
 
 ## Description des documents d'aménagements (et SUP)
 
-Le GPU permet d'afficher les informations de différents documents d'organisme :    
+Le géoportail de l'urbanisme (GPU) permet d'afficher les informations de différents documents d'organisme :    
 
 - SCOT (Schéma de Cohérence Territoriale) :  
 Le SCOT est un document de planification stratégique qui fixe les grandes orientations de l’aménagement du territoire à l'échelle de plusieurs communes ou d'une intercommunalité. Il couvre des domaines comme l'urbanisme, le logement, les transports, et l'environnement.    
@@ -67,7 +67,7 @@ Puisqu'il est nécessaire de s'intéresser aux enjeux patrimoniaux et que les
 informations qui y sont relatives sont regroupées sur le géoportail de 
 l'urbanisme, il est possible et souhaitable d'automatiser la recherche de ces 
 informations. Pour cela, il faudra tout d'abord identifier quels documents 
-d'urbanisme, SCOT ou SCUP, existent pour notre zone d'étude, puis récupérer 
+d'urbanisme, SCOT ou SUP, existent pour notre zone d'étude, puis récupérer 
 les données dans ces documents et les trier en fonction de leur utilité. 
 
 
