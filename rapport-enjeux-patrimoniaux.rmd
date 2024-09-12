@@ -1391,6 +1391,17 @@ doit donc lui-même faire un dernier tri.
 
 ## Possibilité de meilleur affichage des données récupérées
 
+La fonction affichage permet d’afficher une carte interactive des prescriptions, 
+des informations et des SUP voulues. Néanmoins, cet affichage pourrait être optimisé 
+de trois manières différentes. 
+
+Tout d’abord, aucune symbologie n’est définie. Des symboles différents et significatifs pourraient être utilisés, par exemple ceux de la typologie standard utilisée par le géoportail de l’urbanisme. 
+
+De la même manière, les libellés pourraient être regroupés par catégorie afin d’éviter une surplus d’information dans la légende et de distinguer facilement les différentes données. Cette modification conduirait à un affichage plus clair et concis. 
+
+Enfin, il est possible d’établir une interface entre QGIS et R permettant d’accéder aux fonctionnalités de QGIS à partir de R grâce à certains packages comme RQGIS. Utiliser ce package permettrait d’ouvrir directement les geopackage créés dans notre fonction et de faire une mise en page de carte propre. Cette carte pourrait être directement intégrée à un document d’aménagement
+
+
 # Conclusion
 
 # Bibliographie
